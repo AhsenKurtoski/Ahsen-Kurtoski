@@ -33,7 +33,7 @@ export const site = {
 
   // Dettagli rapidi (hero / chi sono)
   location: "Italia",
-  email: process.env.CONTACT_EMAIL ?? "axsen.kurtoski@financier.com",
+  email: process.env.CONTACT_EMAIL ?? "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
 
   // Social (usa URL completi; lascia "" per nascondere l'icona)

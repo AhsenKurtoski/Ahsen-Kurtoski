@@ -12,8 +12,9 @@ npm run dev       # sviluppo → http://localhost:3000
 npm run build     # build di produzione
 npm start         # avvia la build di produzione
 npm run seo:check # controlla che ogni pagina abbia i dati che Google legge
-npm run seo:live  # controlla il sito PUBBLICATO (indicizzabilità reale)
-npm run indexnow  # segnala gli URL a Bing/DuckDuckGo/Yandex
+npm run seo:live   # controlla il sito PUBBLICATO (indicizzabilità reale)
+npm run indexnow   # segnala gli URL a Bing/DuckDuckGo/Yandex
+npm run email:test # prova l'invio del form di contatto
 npm run icons     # rigenera favicon e icone PNG
 ```
 
@@ -115,23 +116,41 @@ Il sito è già ottimizzato per la query **"Axsen Kurtoski"**:
 
 ## 📬 Far funzionare il form di contatto
 
-Il form invia i messaggi tramite [Resend](https://resend.com) (piano gratuito) e non
-salva nulla sul sito. Per attivarlo:
+Il form invia i messaggi tramite [FormSubmit](https://formsubmit.co): **nessun account,
+nessuna API key, nessun costo**. La chiamata parte dal server del sito, quindi il tuo
+indirizzo email non compare mai nell'HTML e i bot che leggono la pagina non lo trovano.
 
-1. Crea un account su [resend.com](https://resend.com) e una **API key**.
-2. Aggiungi la chiave al file `.env.local` (o alle Environment Variables del hosting):
+### 1. Imposta l'indirizzo che riceve i messaggi
 
-   ```bash
-   RESEND_API_KEY=re_xxxxxxxxxxxx
-   CONTACT_EMAIL=la-tua-email@esempio.com
-   CONTACT_FROM="Sito Axsen <no-reply@tuo-dominio.com>"
-   ```
+| Dove | Come |
+| --- | --- |
+| In locale | crea il file `.env.local` con la riga qui sotto |
+| Su Vercel | **Settings → Environment Variables**, poi **Redeploy** |
 
-3. Se hai un dominio tuo, verificalo su Resend e usa quell'indirizzo in
-   `CONTACT_FROM`. Senza dominio verificato puoi inviare solo verso l'email del
-   tuo account.
+```bash
+CONTACT_EMAIL=cshop0784@gmail.com
+```
 
-Senza chiave configurata il form non si rompe: mostra un avviso chiaro e propone
+Lo stesso indirizzo è anche quello mostrato nella pagina Contatti e nel footer: quello
+che scrivi qui è quello che i visitatori vedono.
+
+### 2. Attiva l'indirizzo (una volta sola)
+
+Alla **prima** richiesta FormSubmit manda un'email di conferma all'indirizzo indicato:
+aprila e clicca il link di attivazione. Finché non lo fai, i messaggi non vengono
+recapitati. È una protezione loro contro l'uso dell'indirizzo da parte di terzi.
+
+### 3. Prova che funzioni
+
+```bash
+npm run email:test                     # invia a CONTACT_EMAIL
+npm run email:test -- altra@email.com   # oppure a un indirizzo preciso
+```
+
+Il comando invia un messaggio di prova con la stessa configurazione del form e ti dice
+in chiaro se serve ancora l'attivazione, mostrando la risposta di FormSubmit così com'è.
+
+Senza account configurato il form non si rompe: mostra un avviso chiaro e propone
 il link `mailto:` come alternativa. L'endpoint è in `src/app/api/contatti/route.ts`
 e include validazione dei campi, limite di 5 invii ogni 10 minuti per IP e un campo
 nascosto anti-spam.
@@ -181,7 +200,7 @@ src/
 │  ├─ blog/page.tsx         # indice articoli
 │  ├─ blog/[slug]/page.tsx  # singolo articolo + BlogPosting
 │  ├─ contatti/page.tsx     # contatti + form + FAQ
-│  ├─ api/contatti/route.ts # invio email del form (Resend)
+│  ├─ api/contatti/route.ts # invio messaggi del form (FormSubmit)
 │  ├─ og/route.tsx          # immagine social generata per le pagine interne
 │  ├─ sitemap.ts robots.ts manifest.ts opengraph-image.tsx icon.svg
 │  └─ globals.css           # tema e utility CSS

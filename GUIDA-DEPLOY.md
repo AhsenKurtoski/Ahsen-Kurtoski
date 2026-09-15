@@ -17,12 +17,13 @@ Questo progetto è già pronto per essere pubblicato su **Vercel** (piano Hobby,
    - **Install Command**: `npm install`.
 5. Nella sezione **Environment Variables**, aggiungi **obbligatoriamente**:
 
-   | Name                    | Example                                        |
-   | ----------------------- | -------------------------------------------- |
-   | `NEXT_PUBLIC_SITE_URL` | `https://axsenkurtoski.vercel.app` — lo sostituiamo dopo, oppure lascia vuoto per ora e lo imposti DOPO che ti darà l'URL |
-   | `CONTACT_EMAIL`        | `axsen.kurtoski@financier.com` (già pronta) |
-   | `RESEND_API_KEY`       | _(opzionale: lasciala vuota)_                 |
-   | `CONTACT_FROM`         | _(opzionale: lasciala vuota)_                 |
+   | Name                   | Value                                                       |
+   | ---------------------- | ----------------------------------------------------------- |
+   | `NEXT_PUBLIC_SITE_URL` | `https://axsenkurtoski.vercel.app` (è già il valore predefinito nel codice, ma mettilo per chiarezza) |
+   | `CONTACT_EMAIL`        | `cshop0784@gmail.com` — indirizzo che riceve i messaggi del form |
+
+> Il form usa **FormSubmit** e non richiede chiavi API: ricordati solo di cliccare il
+> link di conferma che ti arriva alla prima richiesta (vedi README).
 
 6. Clicca **Deploy**. Entro 1-2 minuti il sito è online!
 

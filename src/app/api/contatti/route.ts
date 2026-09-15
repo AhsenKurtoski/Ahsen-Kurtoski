@@ -69,44 +69,70 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_EMAIL ?? site.email;
-
-  if (!apiKey) {
-    // Nessun servizio email configurato: il form lo dice chiaramente e resta il mailto
-    return NextResponse.json(
-      { ok: false, error: `Invio non ancora configurato. Scrivimi a ${to}.` },
-      { status: 503 },
-    );
-  }
+  /**
+   * L'invio passa da FormSubmit (https://formsubmit.co), che inoltra il messaggio
+   * via email senza bisogno di API key. La chiamata parte dal server, quindi
+   * l'indirizzo di destinazione non compare mai nell'HTML del sito: i bot che
+   * leggono la pagina non lo trovano.
+   */
+  const to = process.env.CONTACT_EMAIL || site.email;
+  // L'endpoint è sovrascrivibile per poter collaudare il codice senza chiamare
+  // il servizio esterno (vedi scripts/test-email.mjs e README).
+  const base = process.env.FORMSUBMIT_ENDPOINT ?? "https://formsubmit.co/ajax";
+  const endpoint = `${base.replace(/\/+$/, "")}/${encodeURIComponent(to)}`;
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
-        from: process.env.CONTACT_FROM ?? "Sito Axsen Kurtoski <onboarding@resend.dev>",
-        to: [to],
-        reply_to: email,
-        subject: `Nuovo messaggio dal sito — ${name}`,
-        text: `Nome: ${name}\nEmail: ${email}\n\n${message}`,
+        name,
+        email,
+        _replyto: email,
+        message,
+        _subject: `Nuovo messaggio dal sito — ${name}`,
+        _template: "table",
+        _captcha: "false",
       }),
     });
 
-    if (!response.ok) {
-      console.error("Invio email fallito:", response.status, await response.text());
+    const raw = await response.text();
+    let body: { success?: string | boolean; message?: string } = {};
+    try {
+      body = JSON.parse(raw) as typeof body;
+    } catch {
+      // FormSubmit può rispondere in testo semplice: lo teniamo nei log
+    }
+
+    // FormSubmit chiede di confermare l'indirizzo alla prima richiesta: finché
+    // l'attivazione non è completata i messaggi non vengono recapitati.
+    const needsActivation = /confirm|activat/i.test(body.message ?? raw ?? "");
+
+    if (!response.ok || body.success === "false") {
+      console.error("Invio FormSubmit fallito:", response.status, raw);
       return NextResponse.json(
-        { ok: false, error: `Invio non riuscito. Scrivimi a ${to}.` },
-        { status: 502 },
+        {
+          ok: false,
+          error: needsActivation
+            ? `Invio in attesa di attivazione: controlla la posta di ${to} e clicca il link di conferma di FormSubmit.`
+            : `Invio non riuscito. Scrivimi a ${to}.`,
+        },
+        { status: needsActivation ? 503 : 502 },
+      );
+    }
+
+    if (needsActivation) {
+      console.warn(
+        `FormSubmit chiede l'attivazione dell'indirizzo ${to}: il messaggio non è stato recapitato.`,
       );
     }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Errore di rete nell'invio email:", error);
+    console.error("Errore di rete nell'invio FormSubmit:", error);
     return NextResponse.json(
       { ok: false, error: `Invio non riuscito. Scrivimi a ${to}.` },
       { status: 502 },
