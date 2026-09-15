@@ -1,0 +1,9 @@
+# Normalizza i fine-riga nel repository: così il progetto si comporta allo stesso
+# modo su Windows (dove lo modifichi) e su Linux (dove Vercel lo costruisce).
+* text=auto eol=lf
+
+# File binari: nessuna conversione
+*.png binary
+*.ico binary
+*.jpg binary
+*.woff2 binary

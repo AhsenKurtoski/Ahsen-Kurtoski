@@ -1,0 +1,206 @@
+# Axsen Kurtoski — Sito personale
+
+Sito personale ufficiale di **Axsen Kurtoski**: chi sono, competenze, progetti e blog.
+Costruito con Next.js + Tailwind CSS, ottimizzato per farsi trovare su Google
+(SEO completa, dati strutturati, sitemap, Open Graph).
+
+## 🚀 Avviare il sito
+
+```bash
+npm install     # solo la prima volta
+npm run dev       # sviluppo → http://localhost:3000
+npm run build     # build di produzione
+npm start         # avvia la build di produzione
+npm run seo:check # controlla che ogni pagina abbia i dati che Google legge
+npm run seo:live  # controlla il sito PUBBLICATO (indicizzabilità reale)
+npm run indexnow  # segnala gli URL a Bing/DuckDuckGo/Yandex
+npm run icons     # rigenera favicon e icone PNG
+```
+
+Prima di tutto: **[PREREQUISITI.md](PREREQUISITI.md)** — cosa serve davvero per essere
+trovato su Google, in che ordine, con quali tempi realistici e quali pratiche sono
+inutili (spoiler: il "ping" della sitemap è morto dal 2023 e Google ignora IndexNow).
+
+### Controllo SEO automatico
+
+Dopo `npm run build`, lancia `npm run seo:check`: esamina le pagine generate e dice,
+per ognuna, se mancano title, description, canonical, Open Graph, immagine social
+o dati strutturati. Segnala anche i contenuti ancora segnaposto e gli URL non
+presenti nella sitemap. Se trova un errore blocca il comando (esce con codice 1),
+quindi puoi usarlo anche in una pipeline di deploy.
+
+## ✏️ Cosa personalizzare (in ordine)
+
+### 1. I tuoi dati → `src/lib/site.ts`
+
+Qui c'è tutto quello che riguarda te:
+
+- `name`, `firstName`, `initials` — nome e monogramma
+- `roles` — i ruoli che appaiono con l'effetto typing nella home
+- `shortBio` / `longBio` — biografia breve e completa
+- `email` — **⚠️ sostituisci `axsen@example.com` con la tua email vera**
+- `location`, `availability`
+- `socials` — GitHub, LinkedIn, Instagram, X, YouTube (lascia `""` per nascondere un'icona)
+- `skills` — competenze e percentuali
+- `timeline` — le tappe del tuo percorso
+- `url` — il dominio del sito (vedi "Pubblicare online")
+
+### 2. Progetti e servizi → `src/app/page.tsx`
+
+In cima al file trovi gli array `projects` (progetti in evidenza) e `services`
+(cosa sai fare). Modifica titoli, descrizioni, tag e link.
+
+### 3. Articoli del blog → `src/content/posts/*.md`
+
+Ogni articolo è un file markdown. Per pubblicarne uno nuovo, crea
+`src/content/posts/titolo-articolo.md`:
+
+```md
+---
+title: Il titolo dell'articolo
+excerpt: Una frase di riassunto che appare nelle card e su Google.
+date: 2026-10-01
+tags: Web, Tutorial
+---
+
+Qui scrivi il testo in **markdown**: paragrafi, liste, link, titoli con `##`,
+citazioni con `>` e blocchi di codice con tre backtick.
+```
+
+Il file viene indicizzato automaticamente in `/blog`, nella home, nella sitemap
+e nell'articolo correlato. Per modificare un articolo esistente è sufficiente
+aprire il suo file.
+
+### 4. Immagine social (Open Graph)
+
+Le immagini che appaiono condividendo il sito su WhatsApp/Instagram/LinkedIn sono
+generate automaticamente, 1200×630, una per pagina:
+
+- home → `src/app/opengraph-image.tsx`
+- ogni articolo → `src/app/blog/[slug]/opengraph-image.tsx` (con il titolo dell'articolo)
+- chi-sono, contatti, blog e archivi tag → `src/app/og/route.tsx`, richiamato
+dall'helper `ogImage()` di `src/lib/seo.ts`
+
+Il disegno è unico e sta in `src/lib/og-template.tsx`: cambia qui colori o testo
+per aggiornare tutte le immagini in una volta. Se preferisci una tua foto,
+caricala in `public/` e indicala nelle `metadata` di `src/app/layout.tsx`.
+
+Le icone del sito sono in `public/` (`icon.svg`, `favicon.ico`, `icon-192.png`,
+`icon-512.png`, `apple-touch-icon.png`) e mostrano il monogramma AK con gradiente.
+Per rigenerarle dopo aver cambiato colori o iniziali:
+
+```bash
+node scripts/generate-icons.mjs
+```
+
+## 🔍 SEO: cosa è già pronto
+
+Il sito è già ottimizzato per la query **"Axsen Kurtoski"**:
+
+| Cosa | Dove |
+| --- | --- |
+| Titoli e descrizioni unici per ogni pagina | `metadata` in ogni `page.tsx` |
+| Dati strutturati `Person` (chi è Axsen Kurtoski) | `src/app/layout.tsx` |
+| Dati strutturati `BlogPosting` per gli articoli | `src/app/blog/[slug]/page.tsx` |
+| Sitemap XML (pagine, articoli e archivi tag) | `src/app/sitemap.ts` → `/sitemap.xml` |
+| Feed RSS del blog | `src/app/feed.xml/route.ts` → `/feed.xml` |
+| Archivi per tag (`/blog/tag/...`) | `src/app/blog/tag/[tag]/page.tsx` |
+| Breadcrumb con dati strutturati `BreadcrumbList` | `src/components/breadcrumbs.tsx` |
+| FAQ con dati strutturati `FAQPage` | `src/app/contatti/page.tsx` |
+| robots.txt | `src/app/robots.ts` → `/robots.txt` |
+| Open Graph + Twitter Card su ogni pagina | `metadata` delle pagine + `src/lib/seo.ts` |
+| Immagine social 1200×630 dedicata a ogni pagina | `opengraph-image.tsx` + `src/app/og/route.tsx` |
+| Manifest installabile su mobile | `src/app/manifest.ts` |
+| HTML statico, veloce e mobile-first | build con prerendering |
+
+## 📬 Far funzionare il form di contatto
+
+Il form invia i messaggi tramite [Resend](https://resend.com) (piano gratuito) e non
+salva nulla sul sito. Per attivarlo:
+
+1. Crea un account su [resend.com](https://resend.com) e una **API key**.
+2. Aggiungi la chiave al file `.env.local` (o alle Environment Variables del hosting):
+
+   ```bash
+   RESEND_API_KEY=re_xxxxxxxxxxxx
+   CONTACT_EMAIL=la-tua-email@esempio.com
+   CONTACT_FROM="Sito Axsen <no-reply@tuo-dominio.com>"
+   ```
+
+3. Se hai un dominio tuo, verificalo su Resend e usa quell'indirizzo in
+   `CONTACT_FROM`. Senza dominio verificato puoi inviare solo verso l'email del
+   tuo account.
+
+Senza chiave configurata il form non si rompe: mostra un avviso chiaro e propone
+il link `mailto:` come alternativa. L'endpoint è in `src/app/api/contatti/route.ts`
+e include validazione dei campi, limite di 5 invii ogni 10 minuti per IP e un campo
+nascosto anti-spam.
+
+## 🌐 Pubblicare online
+
+### Deploy su Vercel (consigliato, gratuito)
+
+1. Crea un account su [vercel.com](https://vercel.com) e importa il repository.
+2. Vercel riconosce Next.js automaticamente: premi **Deploy**.
+3. Vai in **Settings → Environment Variables** e aggiungi:
+   - `NEXT_PUBLIC_SITE_URL` = `https://axsenkurtoski.vercel.app`
+4. In **Settings → Domains** puoi collegare in un secondo momento un dominio
+   personale (es. `axsenkurtoski.com`): quando lo fai, aggiorna anche
+   `NEXT_PUBLIC_SITE_URL` e rifai il deploy.
+
+> L'indirizzo ufficiale è **https://axsenkurtoski.vercel.app** ed è già il valore
+> predefinito nel codice: la variabile d'ambiente serve solo se cambi dominio.
+
+### Farsi indicizzare da Google (importante!)
+
+> Versione completa con tutti i prerequisiti, i tempi e le verifiche: **[PREREQUISITI.md](PREREQUISITI.md)**.
+
+1. Apri [Google Search Console](https://search.google.com/search-console) e
+   aggiungi la tua proprietà (dominio o URL prefix).
+2. Verifica la proprietà (Vercel: metodo "HTML tag" o "DNS").
+3. Nella sezione **Sitemap** invia: `https://axsenkurtoski.vercel.app/sitemap.xml`.
+4. Usa **Controlla URL** sulla home e sui tuoi profili per richiedere l'indicizzazione.
+5. Aggiungi il link al sito su **tutti i tuoi profili** (GitHub, Instagram,
+   LinkedIn, X, bio): i link in entrata accelerano e rafforzano l'indicizzazione.
+6. Usa lo stesso nome e la stessa foto ovunque: Google collega le identità più
+   facilmente.
+7. Porta pazienza: i primi risultati per il tuo nome compaiono di solito entro
+   qualche giorno, a volte qualche settimana.
+
+Consiglio: puoi controllare lo stato dei dati strutturati con
+[Rich Results Test](https://search.google.com/test/rich-results).
+
+## 🗂 Struttura del progetto
+
+```
+src/
+├─ app/
+│  ├─ layout.tsx            # layout, SEO globale, dati strutturati Person
+│  ├─ page.tsx              # homepage
+│  ├─ chi-sono/page.tsx     # biografia, timeline, competenze
+│  ├─ blog/page.tsx         # indice articoli
+│  ├─ blog/[slug]/page.tsx  # singolo articolo + BlogPosting
+│  ├─ contatti/page.tsx     # contatti + form + FAQ
+│  ├─ api/contatti/route.ts # invio email del form (Resend)
+│  ├─ og/route.tsx          # immagine social generata per le pagine interne
+│  ├─ sitemap.ts robots.ts manifest.ts opengraph-image.tsx icon.svg
+│  └─ globals.css           # tema e utility CSS
+├─ components/              # header, footer, card, icone, animazioni
+├─ content/posts/*.md       # articoli del blog (markdown)
+├─ lib/
+│  ├─ site.ts               # ⚙️ i tuoi dati (nome, bio, social, skill...)
+│  ├─ posts.ts              # loader markdown → HTML
+│  ├─ seo.ts                # helper per Open Graph e immagini social
+│  └─ og-template.tsx       # disegno condiviso delle immagini 1200×630
+└─ ../scripts/
+   ├─ seo-check.mjs         # verifica SEO dell'output buildato
+   └─ generate-icons.mjs    # favicon e icone PNG senza dipendenze
+```
+
+## 🎨 Design
+
+- Tema scuro moderno con accento gradiente viola → azzurro
+- Barra di avanzamento lettura sugli articoli e pulsante "torna su"
+- Animazioni leggere allo scroll (rispettano `prefers-reduced-motion`)
+- Layout responsive mobile-first, navigazione con menu hamburger
+- Accessibilità: skip link, focus visibile, testi alternativi, contrasto curato

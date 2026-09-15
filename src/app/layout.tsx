@@ -1,0 +1,136 @@
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { BackToTop } from "@/components/back-to-top";
+import { JsonLd } from "@/components/json-ld";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { site } from "@/lib/site";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} — Developer & Creator`,
+    template: `%s · ${site.name}`,
+  },
+  description: site.shortBio,
+  keywords: [...site.keywords],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  category: "technology",
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": `${site.url}/feed.xml` },
+  },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "64x64" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "it_IT",
+    url: site.url,
+    siteName: site.name,
+    title: `${site.name} — Developer & Creator`,
+    description: site.shortBio,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — Developer & Creator`,
+    description: site.shortBio,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION ??
+      "", // ⚠️ Inserisci qui il codice di verifica GSC (GUIDA-SEO.md, passo 1)
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0f",
+  width: "device-width",
+  initialScale: 1,
+};
+
+/** Dati strutturati: Google capisce chi è Axsen Kurtoski */
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  givenName: site.firstName,
+  familyName: site.lastName,
+  alternateName: ["Axsen", "Kurtoski"],
+  url: site.url,
+  email: `mailto:${site.email}`,
+  jobTitle: "Developer & Creatore Digitale",
+  description: site.shortBio,
+  knowsAbout: site.skills.map((skill) => skill.name),
+  address: { "@type": "PostalAddress", addressCountry: "IT" },
+  sameAs: Object.values(site.socials).filter((href) => href.length > 0),
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: `${site.name} — Sito ufficiale`,
+  alternateName: site.name,
+  url: site.url,
+  inLanguage: "it-IT",
+  about: { "@type": "Person", name: site.name },
+  author: { "@type": "Person", name: site.name, url: site.url },
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html
+      lang="it"
+      data-scroll-behavior="smooth"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="flex min-h-full flex-col">
+        {/* Dati strutturati: Google capisce chi è Axsen Kurtoski */}
+        <JsonLd data={[personJsonLd, websiteJsonLd]} />
+        <a
+          href="#contenuto"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#7c6cff] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+        >
+          Salta al contenuto
+        </a>
+        <SiteHeader />
+        <main id="contenuto" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
+        <BackToTop />
+      </body>
+    </html>
+  );
+}
