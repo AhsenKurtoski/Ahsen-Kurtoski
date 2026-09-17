@@ -175,8 +175,22 @@ nascosto anti-spam.
 > Versione completa con tutti i prerequisiti, i tempi e le verifiche: **[PREREQUISITI.md](PREREQUISITI.md)**.
 
 1. Apri [Google Search Console](https://search.google.com/search-console) e
-   aggiungi la tua proprietà (dominio o URL prefix).
-2. Verifica la proprietà (Vercel: metodo "HTML tag" o "DNS").
+   aggiungi la proprietà scegliendo **Prefisso URL** con
+   `https://axsenkurtoski.vercel.app`. La scheda *Dominio* non è utilizzabile:
+   richiede un record DNS TXT e tu non controlli il DNS di `vercel.app`.
+2. Verifica la proprietà con uno dei due metodi già predisposti:
+   - **File HTML** (quello in uso): il file di Google è già in
+     `public/google2783a9147b2337cb.html`, quindi viene servito su
+     `https://axsenkurtoski.vercel.app/google2783a9147b2337cb.html`.
+     **Non cancellarlo**: Search Console ricontrolla il token e la verifica
+     decade se il file sparisce. Per cambiarlo, metti il nuovo file in `public/`.
+   - **Tag HTML**: incolla il codice di Google nella variabile d'ambiente
+     `NEXT_PUBLIC_GOOGLE_VERIFICATION` (in locale in `.env.local`, in produzione
+     su Vercel) e rifai il deploy.
+
+   ⚠️ Non riattivare `"cleanUrls": true` in `vercel.json`: Vercel
+   reindirizzerebbe con 308 ogni URL `.html` alla versione senza estensione, e il
+   file di verifica non risponderebbe più 200 all'indirizzo richiesto da Google.
 3. Nella sezione **Sitemap** invia: `https://axsenkurtoski.vercel.app/sitemap.xml`.
 4. Usa **Controlla URL** sulla home e sui tuoi profili per richiedere l'indicizzazione.
 5. Aggiungi il link al sito su **tutti i tuoi profili** (GitHub, Instagram,
