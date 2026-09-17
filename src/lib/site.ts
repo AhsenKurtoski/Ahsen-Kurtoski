@@ -1,6 +1,29 @@
+/** Dominio ufficiale: usato se la variabile d'ambiente manca, è vuota o non valida. */
+const FALLBACK_URL = "https://axsenkurtoski.vercel.app";
+
+/**
+ * Legge l'URL del sito da NEXT_PUBLIC_SITE_URL senza mai far fallire il build.
+ * Su Vercel la variabile può arrivare come stringa vuota (es. creata senza
+ * valore): con `??` restava "" e `new URL("")` faceva crashare la build con
+ * ERR_INVALID_URL. Qui accettiamo solo http/https validi, altrimenti usiamo
+ * il dominio ufficiale; una barra finale viene rimossa per non generare
+ * indirizzi con doppia barra (es. https://sito.com//blog).
+ */
+function resolveSiteUrl(raw: string | undefined): string {
+  const value = (raw ?? "").trim().replace(/\/+$/, "");
+  if (!value) return FALLBACK_URL;
+
+  const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    return new URL(withProtocol).origin;
+  } catch {
+    return FALLBACK_URL;
+  }
+}
+
 export const site = {
   // URLs
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://axsenkurtoski.vercel.app",
+  url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
 
   // Identità
   name: "Axsen Kurtoski",
@@ -33,7 +56,8 @@ export const site = {
 
   // Dettagli rapidi (hero / chi sono)
   location: "Italia",
-  email: process.env.CONTACT_EMAIL ?? "cshop0784@gmail.com",
+  // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
+  email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
 
   // Social (usa URL completi; lascia "" per nascondere l'icona)

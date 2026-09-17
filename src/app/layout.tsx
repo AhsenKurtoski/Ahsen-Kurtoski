@@ -68,9 +68,11 @@ export const metadata: Metadata = {
     },
   },
   verification: {
+    // Con `||` una variabile vuota diventa undefined: il meta tag di verifica
+    // non viene emesso, invece di produrne uno vuoto che Search Console
+    // segnalerebbe come verifica non valida.
     google:
-      process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION ??
-      "", // ⚠️ Inserisci qui il codice di verifica GSC (GUIDA-SEO.md, passo 1)
+      process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || undefined, // ⚠️ Inserisci qui il codice di verifica GSC (GUIDA-SEO.md, passo 1)
   },
 };
 
