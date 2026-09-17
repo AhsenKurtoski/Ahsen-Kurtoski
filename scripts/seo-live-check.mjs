@@ -280,6 +280,10 @@ if (notFound.error) {
 
 for (const url of sitemapUrls.slice(0, 5)) {
   if (url.endsWith("/")) continue;
+  // La home non ha una variante con barra finale: `https://sito` e
+  // `https://sito/` producono la stessa richiesta HTTP (`GET /`), quindi non
+  // sono due URL diversi e non c'è niente da segnalare.
+  if (new URL(url).pathname === "/") continue;
   const variant = await get(`${url}/`, { redirect: "manual" });
   if (!variant.error && variant.res.status === 200) {
     problem(`${new URL(url).pathname} funziona sia con sia senza slash finale: due URL per la stessa pagina`);
