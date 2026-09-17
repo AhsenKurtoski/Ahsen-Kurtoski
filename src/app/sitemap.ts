@@ -13,7 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${site.url}/`,
+      // Senza barra finale: identico al canonical dichiarato dalla home.
+      url: site.url,
       lastModified: siteUpdated,
       changeFrequency: "weekly",
       priority: 1,

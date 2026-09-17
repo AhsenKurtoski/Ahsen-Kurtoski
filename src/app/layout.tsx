@@ -32,7 +32,8 @@ export const metadata: Metadata = {
   publisher: site.name,
   category: "technology",
   alternates: {
-    canonical: "/",
+    // Indirizzo assoluto senza barra finale: identico alla voce della sitemap.
+    canonical: site.url,
     types: { "application/rss+xml": `${site.url}/feed.xml` },
   },
   icons: {

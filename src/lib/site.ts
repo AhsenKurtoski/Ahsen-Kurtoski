@@ -22,7 +22,14 @@ function resolveSiteUrl(raw: string | undefined): string {
 }
 
 export const site = {
-  // URLs
+  /*
+   * URLs. `url` è anche l'indirizzo canonico della home: deve essere identico
+   * in ogni punto (canonical, sitemap, Open Graph, dati strutturati). Next
+   * rimuove la barra finale dai canonical, quindi si usa questa forma senza
+   * barra: se canonical e sitemap dichiarassero due varianti diverse, Google
+   * le tratterebbe come due pagine identiche e il live test di Search Console
+   * rifiuterebbe la richiesta di indicizzazione.
+   */
   url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
 
   // Identità
