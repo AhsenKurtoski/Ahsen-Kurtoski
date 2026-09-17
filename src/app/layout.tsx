@@ -100,6 +100,33 @@ const personJsonLd = {
   sameAs: Object.values(site.socials).filter((href) => href.length > 0),
 };
 
+/**
+ * Dati strutturati dell'attività: Google li confronta con il profilo Business
+ * (Google Maps). Nome, sito e area servita devono combaciare con quelli del
+ * profilo, altrimenti Google legge due identità separate.
+ *
+ * Nota: NON c'è l'indirizzo perché il profilo è impostato come «area servita».
+ * Se un giorno ricevi clienti in un luogo con insegna, aggiungilo qui e nel
+ * profilo con gli stessi valori.
+ */
+const businessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${site.url}#attivita`,
+  name: site.name,
+  url: site.url,
+  description: site.shortBio,
+  email: `mailto:${site.email}`,
+  image: `${site.url}/opengraph-image`,
+  address: { "@type": "PostalAddress", addressCountry: "IT" },
+  areaServed: site.serviceAreas.map((area) => ({
+    "@type": "AdministrativeArea",
+    name: area,
+  })),
+  founder: { "@type": "Person", name: site.name, url: site.url },
+  sameAs: Object.values(site.socials).filter((href) => href.length > 0),
+};
+
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -120,7 +147,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         {/* Dati strutturati: Google capisce chi è Axsen Kurtoski */}
-        <JsonLd data={[personJsonLd, websiteJsonLd]} />
+        <JsonLd data={[personJsonLd, businessJsonLd, websiteJsonLd]} />
         <a
           href="#contenuto"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#7c6cff] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"

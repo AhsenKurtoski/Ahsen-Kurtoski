@@ -63,6 +63,14 @@ export const site = {
 
   // Dettagli rapidi (hero / chi sono)
   location: "Italia",
+
+  /**
+   * Zone in cui lavori. Devono essere le STESSE che imposti come «Area servita»
+   * nel profilo Business su Google: Google confronta i dati strutturati del sito
+   * con il profilo, e se non coincidono il collegamento tra i due è più debole.
+   * Aggiungi qui le città che servi, es. ["Feltre", "Belluno", "Italia"].
+   */
+  serviceAreas: ["Italia"],
   // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
   email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
