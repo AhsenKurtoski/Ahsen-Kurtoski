@@ -74,12 +74,16 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
    i link dai tuoi profili danno a Google un motivo per visitarlo e, insieme al
    `sameAs` nei dati strutturati, gli fanno collegare il nome "Axsen Kurtoski"
    alla persona giusta.
-6. **Bing e DuckDuckGo**: dopo il deploy lancia
+6. **Bing e DuckDuckGo**: è già automatico. Ogni `git push` su `main` fa partire la
+   GitHub Action `.github/workflows/indexnow.yml`, che segnala solo le pagine
+   cambiate (Bing, quindi DuckDuckGo, più Yandex, Seznam e Naver). Non devi fare
+   niente. Se vuoi farlo a mano:
    ```bash
-   npm run indexnow -- https://axsenkurtoski.vercel.app
+   npm run indexnow:changed   # solo le pagine cambiate
+   npm run indexnow           # tutto il sito
    ```
-   Segnala tutti gli URL del sito agli engine che supportano IndexNow. Bing
-   alimenta anche DuckDuckGo.
+   Bing alimenta anche DuckDuckGo. Brave, invece, non partecipa a IndexNow: per
+   Brave c'è solo <https://search.brave.com/submit-url> e i backlink.
 7. **Controlla dopo 2-3 giorni** cercando `Axsen Kurtoski` e
    `site:axsenkurtoski.vercel.app`.
 

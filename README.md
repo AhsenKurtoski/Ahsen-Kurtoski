@@ -13,7 +13,8 @@ npm run build     # build di produzione
 npm start         # avvia la build di produzione
 npm run seo:check # controlla che ogni pagina abbia i dati che Google legge
 npm run seo:live   # controlla il sito PUBBLICATO (indicizzabilità reale)
-npm run indexnow   # segnala gli URL a Bing/DuckDuckGo/Yandex
+npm run indexnow   # segnala tutti gli URL a Bing/DuckDuckGo/Yandex
+npm run indexnow:changed # segnala solo le pagine che hai appena modificato
 npm run email:test # prova l'invio del form di contatto
 npm run icons     # rigenera favicon e icone PNG
 ```
@@ -29,6 +30,44 @@ per ognuna, se mancano title, description, canonical, Open Graph, immagine socia
 o dati strutturati. Segnala anche i contenuti ancora segnaposto e gli URL non
 presenti nella sitemap. Se trova un errore blocca il comando (esce con codice 1),
 quindi puoi usarlo anche in una pipeline di deploy.
+
+### Segnalazione automatica ai motori
+
+Scrivi un articolo e fai `git push`: pensa a tutto la GitHub Action
+`.github/workflows/indexnow.yml`. Non devi lanciare nessun comando a mano.
+
+Come funziona:
+
+- il workflow confronta il push con il commit precedente e ricava **quali pagine
+  pubbliche sono cambiate** (`scripts/indexnow.mjs --changed`);
+- aspetta che il deploy Vercel sia online (`--wait 300`): un URL che risponde 404
+  nell'istante della segnalazione viene scartato dai motori;
+- segnala **solo** quegli URL, non tutto il sito: `src/content/posts/nuovo.md`
+  diventa `/blog/nuovo`, la sua pagina tag, `/blog` e `/feed.xml`;
+- se cambia qualcosa di globale (layout, `site.ts`, stili, sitemap) segnala tutto il
+  sito, perché di fatto è cambiato tutto;
+- se le modifiche non toccano pagine pubbliche (script, configurazioni,
+  documentazione) non invia niente: **nessun invio inutile**.
+
+Google non partecipa a IndexNow: per Google contano la sitemap (che si aggiorna da
+sola, con `<lastmod>` veri) e Search Console. L'azione copre Bing (quindi
+DuckDuckGo), Yandex, Seznam e Naver.
+
+Non serve nessuna API key né servizio a pagamento: la chiave IndexNow è già
+committata in `public/78ad937f3d090064954460ece76cbeba.txt` e lo script la trova da
+sé (funziona anche in CI, dove `.indexnow-key` non esiste).
+
+Comandi utili:
+
+```bash
+npm run indexnow:changed          # a mano: solo le pagine cambiate
+npm run indexnow                  # a mano: tutto il sito
+npm run indexnow -- --dry-run     # mostra cosa invierebbe, senza inviare niente
+npm run indexnow -- --url /blog/nuovo-articolo   # un singolo URL
+```
+
+Per controllare l'esito: GitHub → scheda **Actions** → “Segnala i contenuti nuovi
+ai motori”.
 
 ## ✏️ Cosa personalizzare (in ordine)
 

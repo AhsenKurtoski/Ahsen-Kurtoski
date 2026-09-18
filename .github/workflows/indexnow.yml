@@ -1,0 +1,38 @@
+name: Segnala i contenuti nuovi ai motori
+
+# Ogni push su main segnala a Bing/DuckDuckGo/Yandex/Seznam/Naver solo le pagine
+# che sono davvero cambiate. Google non partecipa a IndexNow: per Google resta la
+# sitemap (si aggiorna da sola con i <lastmod> veri) e Search Console.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Serve la storia per confrontare il push con il commit precedente
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Aspetta che il deploy Vercel sia online prima di segnalare: un URL che
+      # risponde 404 al momento della segnalazione viene scartato dai motori.
+      - name: Segnala solo gli URL cambiati
+        run: node scripts/indexnow.mjs --changed --wait 300
+        env:
+          NEXT_PUBLIC_SITE_URL: "${{ vars.NEXT_PUBLIC_SITE_URL || 'https://axsenkurtoski.vercel.app' }}"
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_BASE: ${{ github.event.before }}
