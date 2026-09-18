@@ -37,6 +37,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.6,
     },
+    {
+      // L'informativa privacy è una pagina informativa, non un contenuto da
+      // spingere: priorità bassa ma dichiarata, così Google sa che esiste.
+      url: `${site.url}/privacy`,
+      lastModified: new Date(`${site.privacyUpdated}T00:00:00Z`),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 
   const posts = getAllPosts();

@@ -59,7 +59,10 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-09-16",
+  updated: "2026-09-18",
+
+  /** Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e nel JSON-LD). */
+  privacyUpdated: "2026-09-18",
 
   // Dettagli rapidi (hero / chi sono)
   location: "Italia",
@@ -74,6 +77,23 @@ export const site = {
   // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
   email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
+
+  /**
+   * Altri siti tuoi, mostrati come link (sezione Progetti della home e footer).
+   *
+   * Restano VOLUTAMENTE fuori dai dati strutturati `sameAs`: dichiarare due siti
+   * come identità ufficiale della stessa persona disperde il segnale con cui
+   * Google collega il nome «Axsen Kurtoski» a un unico indirizzo. Un link
+   * normale, invece, si legge bene e non confonde.
+   */
+  otherSites: [
+    {
+      name: "Axsen Studio",
+      url: "https://axsen-studio.netlify.app",
+      description:
+        "Il mio studio di sviluppo web: siti, e-commerce e app su misura, curati dal design al deploy.",
+    },
+  ],
 
   // Social (usa URL completi; lascia "" per nascondere l'icona)
   socials: {

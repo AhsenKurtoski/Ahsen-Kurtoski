@@ -22,6 +22,25 @@ export function SiteFooter() {
             {site.shortBio}
           </p>
           <SocialLinks />
+
+          {site.otherSites.length > 0 && (
+            <p className="text-sm text-zinc-400">
+              <span className="text-zinc-500">Altri miei siti: </span>
+              {site.otherSites.map((other, index) => (
+                <span key={other.url}>
+                  {index > 0 && <span className="text-zinc-600">, </span>}
+                  <a
+                    href={other.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-dotted underline-offset-4 transition-colors hover:text-white"
+                  >
+                    {other.name}
+                  </a>
+                </span>
+              ))}
+            </p>
+          )}
         </div>
 
         <nav aria-label="Link del sito" className="flex flex-col gap-3">
@@ -77,8 +96,16 @@ export function SiteFooter() {
 
       <div className="border-t border-white/5">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>
-            © {year} {site.name}. Tutti i diritti riservati.
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>
+              © {year} {site.name}. Tutti i diritti riservati.
+            </span>
+            <Link
+              href="/privacy"
+              className="transition-colors hover:text-white"
+            >
+              Privacy e cookie
+            </Link>
           </p>
           <p className="inline-flex items-center gap-1.5">
             Costruito con Next.js e Tailwind CSS

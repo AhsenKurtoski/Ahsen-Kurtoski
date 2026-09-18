@@ -31,6 +31,24 @@ o dati strutturati. Segnala anche i contenuti ancora segnaposto e gli URL non
 presenti nella sitemap. Se trova un errore blocca il comando (esce con codice 1),
 quindi puoi usarlo anche in una pipeline di deploy.
 
+### Privacy e cookie
+
+Il sito **non usa cookie di tracciamento** (nessun Google Analytics, nessun embed di
+terze parti, font serviti dal sito stesso), quindi non c'è nessun consenso da
+chiedere: al posto del solito muro «Accetta / Rifiuta» c'è un avviso informativo che
+sparisce con un clic e non blocca la lettura della pagina.
+
+- informativa: `src/app/privacy/page.tsx` (dichiarata in `sitemap.ts`)
+- avviso a comparsa: `src/components/cookie-notice.tsx`, montato in `layout.tsx`
+- l'avviso ricorda di essere stato letto con una chiave in `localStorage`
+  (`ak-avviso-cookie`), **non** con un cookie: per rivederlo basta svuotare i dati
+  del sito dal browser.
+
+⚠️ Se un giorno aggiungi statistiche, un pixel pubblicitario o un embed esterno,
+**aggiorna prima l'informativa e l'avviso**: la pagina afferma nero su bianco cosa
+raccoglie il sito, e deve restare vero. Anche la data in alto (`privacyUpdated` in
+`src/lib/site.ts`) va aggiornata a quel momento.
+
 ### Segnalazione automatica ai motori
 
 Scrivi un articolo e fai `git push`: pensa a tutto la GitHub Action

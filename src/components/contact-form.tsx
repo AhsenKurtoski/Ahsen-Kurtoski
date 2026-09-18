@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { site } from "@/lib/site";
 import { Icon } from "./icons";
@@ -137,6 +138,17 @@ export function ContactForm() {
       >
         {feedback ||
           "Il messaggio arriva direttamente nella mia casella email: nessun dato viene salvato su questo sito."}
+      </p>
+
+      <p className="text-xs leading-relaxed text-zinc-500">
+        I dati che scrivi qui (nome, email e messaggio) li uso solo per
+        risponderti.{" "}
+        <Link
+          href="/privacy"
+          className="text-[#00d4ff] underline decoration-dotted underline-offset-4 hover:text-white"
+        >
+          Leggi l&apos;informativa privacy
+        </Link>
       </p>
 
       {status === "error" && (

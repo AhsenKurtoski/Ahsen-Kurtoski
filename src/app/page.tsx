@@ -40,6 +40,13 @@ const projects: {
     icon: "sparkles",
     href: "/blog",
   },
+  {
+    title: site.otherSites[0].name,
+    description: site.otherSites[0].description,
+    tags: ["Studio", "Siti web"],
+    icon: "globe",
+    href: site.otherSites[0].url,
+  },
 ];
 
 const services: { title: string; description: string; icon: IconName }[] = [
@@ -140,7 +147,17 @@ export default function HomePage() {
               <ul className="mt-6 flex flex-col gap-3 text-sm">
                 <li className="flex items-center gap-2.5 text-zinc-300">
                   <Icon name="globe" className="size-4 text-[#00d4ff]" />
-                  Sito ufficiale: axsenkurtoski.com
+                  <span>
+                    Sito ufficiale:{" "}
+                    {/* Il dominio arriva da NEXT_PUBLIC_SITE_URL: se un giorno
+                        compri un dominio tuo, questa riga si aggiorna da sola */}
+                    <a
+                      href={site.url}
+                      className="font-medium text-[#00d4ff] transition-colors hover:text-white"
+                    >
+                      {site.url.replace(/^https?:\/\//, "")}
+                    </a>
+                  </span>
                 </li>
                 <li className="flex items-center gap-2.5 text-zinc-300">
                   <Icon name="mail" className="size-4 text-[#00d4ff]" />
@@ -260,7 +277,8 @@ export default function HomePage() {
             description="Una selezione di quello che faccio: siti, esperimenti e contenuti."
           />
 
-          <div className="grid gap-5 md:grid-cols-3">
+          {/* Quattro card: due per riga su tablet, quattro su desktop */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {projects.map((project, index) => {
               const isExternal = project.href.startsWith("http");
               const Card = (
