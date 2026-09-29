@@ -94,7 +94,7 @@ export default function HomePage() {
             </span>
 
             <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Ciao, sono <span className="text-gradient">Axsen Kurtoski</span>
+              Ciao, sono <span className="text-gradient">Ahsen Kurtoski</span>
             </h1>
 
             <p className="text-lg text-zinc-300 sm:text-xl">
@@ -193,7 +193,7 @@ export default function HomePage() {
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <Reveal className="flex flex-col gap-10">
           <SectionHeading
-            eyebrow="Chi è Axsen Kurtoski"
+            eyebrow="Chi è Ahsen Kurtoski"
             title="Una persona, tanti progetti"
             description={site.longBio[0]}
           />

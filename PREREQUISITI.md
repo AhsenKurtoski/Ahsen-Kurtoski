@@ -1,6 +1,6 @@
 # Prerequisiti per essere trovato su Google
 
-Questo documento elenca **tutto ciò che serve davvero** perché cercando "Axsen Kurtoski"
+Questo documento elenca **tutto ciò che serve davvero** perché cercando "Ahsen Kurtoski"
 compaiano informazioni corrette, cosa è già a posto e cosa tocca a te. Alla fine ci sono
 le pratiche inutili che girano online, così non perdi tempo.
 
@@ -20,7 +20,7 @@ Tempi realistici per un sito nuovo con un dominio nuovo:
 | --- | --- |
 | Google scopre la home dopo il deploy | poche ore — 2 giorni |
 | Indicizzazione di home e `/chi-sono` | 1 — 5 giorni |
-| Compaiono cercando "Axsen Kurtoski" | 2 giorni — 3 settimane |
+| Compaiono cercando "Ahsen Kurtoski" | 2 giorni — 3 settimane |
 | Indicizzazione di tutti gli articoli e archivi | 1 — 6 settimane |
 | Pannello di conoscenza (riquadro con foto/ruolo) | mesi, e non è garantito |
 
@@ -46,7 +46,7 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
 | Immagine social 1200×630 su ogni pagina (anteprime su WhatsApp/LinkedIn) | ✅ |
 | 404 con stato 404 (niente soft-404) | ✅ |
 | Mobile-friendly e veloce | ✅ mobile-first, HTML statico |
-| Indirizzo ufficiale configurato: `https://axsenkurtoski.vercel.app` | ✅ predefinito nel codice |
+| Indirizzo ufficiale configurato: `https://ahsenkurtoski.vercel.app` | ✅ predefinito nel codice |
 | Dominio personale (opzionale: `*.vercel.app` è indicizzabile) | ⬜ solo se ne acquisti uno |
 | Proprietà verificata su Search Console + sitemap inviata | ⬜ tocca a te |
 
@@ -55,13 +55,13 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
 ## 🔧 Cosa fare tu, nell'ordine esatto
 
 1. **Pubblica il sito** su Vercel → `GUIDA-DEPLOY.md` (10 minuti, gratis).
-   L'indirizzo ufficiale `https://axsenkurtoski.vercel.app` è già il valore
+   L'indirizzo ufficiale `https://ahsenkurtoski.vercel.app` è già il valore
    predefinito, quindi canonical, sitemap e immagini social sono corretti anche
    senza configurare nulla. Se poi acquisti un dominio tuo, imposta
    `NEXT_PUBLIC_SITE_URL` con quello nuovo e rifai il deploy.
 2. **Verifica il sito pubblicato** (prerequisiti reali, non la build locale):
    ```bash
-   npm run seo:live -- https://axsenkurtoski.vercel.app
+   npm run seo:live -- https://ahsenkurtoski.vercel.app
    ```
 3. **Search Console**: aggiungi la proprietà e verifica con il tag HTML
    (`GUIDA-SEO.md`, passo 1). Poi **invia la sitemap** (`/sitemap.xml`).
@@ -72,7 +72,7 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
    email, curriculum). Questo è il prerequisito **non tecnico** più importante: un
    dominio nuovissimo con zero link in entrata viene scansionato con calma, mentre
    i link dai tuoi profili danno a Google un motivo per visitarlo e, insieme al
-   `sameAs` nei dati strutturati, gli fanno collegare il nome "Axsen Kurtoski"
+   `sameAs` nei dati strutturati, gli fanno collegare il nome "Ahsen Kurtoski"
    alla persona giusta.
 6. **Bing e DuckDuckGo**: è già automatico. Ogni `git push` su `main` fa partire la
    GitHub Action `.github/workflows/indexnow.yml`, che segnala solo le pagine
@@ -84,8 +84,8 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
    ```
    Bing alimenta anche DuckDuckGo. Brave, invece, non partecipa a IndexNow: per
    Brave c'è solo <https://search.brave.com/submit-url> e i backlink.
-7. **Controlla dopo 2-3 giorni** cercando `Axsen Kurtoski` e
-   `site:axsenkurtoski.vercel.app`.
+7. **Controlla dopo 2-3 giorni** cercando `Ahsen Kurtoski` e
+   `site:ahsenkurtoski.vercel.app`.
 
 ---
 
@@ -113,19 +113,19 @@ Verificali in qualsiasi momento con `npm run seo:check` (sulla build) e
 
 ---
 
-## 🎯 Il vero prerequisito per la ricerca "Axsen Kurtoski"
+## 🎯 Il vero prerequisito per la ricerca "Ahsen Kurtoski"
 
 Per una **ricerca di marca** (il tuo nome) Google deve capire che esiste una persona
 con quel nome, che ha un sito, e che quello è il sito giusto. Servono tre cose, in
 quest'ordine di importanza:
 
 1. **Il nome scritto in modo identico e coerente** — nel `<title>`, nella
-   descrizione, nella pagina "Chi è Axsen Kurtoski", nei dati `Person`
+   descrizione, nella pagina "Chi è Ahsen Kurtoski", nei dati `Person`
    (`name` + `alternateName`) e sulle tue bio sociali. Tutto già a posto.
 2. **Lo stesso nome e la stessa foto su tutti i profili**, collegati al sito e
    dichiarati in `sameAs`. Più fonti concordano, più Google è sicuro dell'identità.
 3. **Contenuti che parlano di te in modo sostanziale** — la pagina `/chi-sono` è
-   già costruita per rispondere a "chi è Axsen Kurtoski". Bio inventata = rischio di
+   già costruita per rispondere a "chi è Ahsen Kurtoski". Bio inventata = rischio di
    confusione con altre persone: se il testo non ti rappresenta, va cambiato.
 
 ---

@@ -12,13 +12,13 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contatti",
   description:
-    "Contatta Axsen Kurtoski: email, social e form per collaborazioni, progetti o semplici domande.",
-  keywords: ["contattare Axsen Kurtoski", "Axsen Kurtoski email"],
+    "Contatta Ahsen Kurtoski: email, social e form per collaborazioni, progetti o semplici domande.",
+  keywords: ["contattare Ahsen Kurtoski", "Ahsen Kurtoski email"],
   alternates: { canonical: "/contatti" },
   openGraph: {
-    title: "Contatti — Axsen Kurtoski",
+    title: "Contatti — Ahsen Kurtoski",
     description:
-      "Scrivi ad Axsen Kurtoski per collaborazioni, progetti o domande.",
+      "Scrivi ad Ahsen Kurtoski per collaborazioni, progetti o domande.",
     url: `${site.url}/contatti`,
     type: "website",
     images: [

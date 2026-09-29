@@ -1,8 +1,8 @@
 # Review: Deploy + SEO + Verifica completa
 
 > Data revisione: 2026-09-14
-> Spec: [spec.md](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/.trae/specs/spec.md)
-> Tasks: [tasks.md](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/.trae/specs/tasks.md)
+> Spec: [spec.md](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/.trae/specs/spec.md)
+> Tasks: [tasks.md](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/.trae/specs/tasks.md)
 
 ---
 
@@ -12,7 +12,7 @@
 |---|---|---|---|
 | AC-1 Build pulita | rule | ✅ PASS | Build Next.js completata con successo: `Compiled successfully in 3.2s · Running TypeScript 2.5s · 27 pagine generate`. GetDiagnostics non riporta errori TS. |
 | AC-2 SEO tecnico completo | rule | ✅ PASS | robots/sitemap/canonical/JSON-LD/Person+WebSite+FAQPage+BlogPosting/OG/Twitter/lang tutti presenti e conformi. |
-| AC-3 Placeholder critici | rule | ✅ PASS | Email reale fornita (`axsen.kurtoski@financier.com`) inserita come fallback in `lib/site.ts`; social GitHub/LinkedIn/Instagram aggiornati; avviso placeholder rimosso. `.env.example` completo. |
+| AC-3 Placeholder critici | rule | ✅ PASS | Email reale fornita (`ahsen.kurtoski@financier.com`) inserita come fallback in `lib/site.ts`; social GitHub/LinkedIn/Instagram aggiornati; avviso placeholder rimosso. `.env.example` completo. |
 | AC-4 Deploy pubblico | rule | ⚠️ **BLOCKED** | Autenticazione Vercel non disponibile lato agente (token mancante). Deploy preparato al 100% (`vercel.json`, guide scritte) ma richiede login utente tramite browser come da `GUIDA-DEPLOY.md`. |
 | AC-5 Form contatti | rule | ✅ PASS | API `/api/contatti`: validazione input, rate limit, honeypot anti-bot, fallback 503 senza `RESEND_API_KEY`. Nessun crash 500 per casi testati. |
 | AC-6 Qualità SEO (≥4/5) | rubric | 5/5 | Soglia 4 superata. Ogni pagina ha title/description/canonical/JSON-LD multipli/OG generate/sitemap e robots coerenti. |
@@ -28,8 +28,8 @@
 - [x] `.env.example` completo: `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GOOGLE_VERIFICATION`, `CONTACT_EMAIL`, `RESEND_API_KEY`, `CONTACT_FROM`.
 
 ### CP2 — Dati personali e contenuti
-- [x] Email aggiornata: `CONTACT_EMAIL=axsen.kurtoski@financier.com` letto da env con fallback.
-- [x] Social reali: GitHub `AxsenXzc`, LinkedIn `axsen-kurtoski`, Instagram `axsen-studio`. X e YouTube disattivati (stringa vuota → icone nascoste).
+- [x] Email aggiornata: `CONTACT_EMAIL=ahsen.kurtoski@financier.com` letto da env con fallback.
+- [x] Social reali: GitHub `AxsenXzc`, LinkedIn `ahsen-kurtoski`, Instagram `axsen-studio`. X e YouTube disattivati (stringa vuota → icone nascoste).
 - [x] Avviso giallo in pagina contatti se email == `example.com` (ora NON si mostra, email reale).
 
 ### CP3 — Build e quality gate

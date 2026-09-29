@@ -8,7 +8,7 @@ Però **pubblicare il sito non lo mette automaticamente su Google**. Serve un pa
 
 ## Prima di iniziare: il sito deve essere online
 
-Segui `GUIDA-DEPLOY.md` per pubblicare su Vercel (gratis, senza carta di credito). Quando hai il tuo indirizzo (es. `https://axsenkurtoski.vercel.app`), torna qui e usa **sempre quell'indirizzo esatto** nei passaggi sotto.
+Segui `GUIDA-DEPLOY.md` per pubblicare su Vercel (gratis, senza carta di credito). Quando hai il tuo indirizzo (es. `https://ahsenkurtoski.vercel.app`), torna qui e usa **sempre quell'indirizzo esatto** nei passaggi sotto.
 
 ⚠️ **Passaggio da non dimenticare**: dopo il deploy imposta la variabile `NEXT_PUBLIC_SITE_URL` su Vercel con il tuo dominio (istruzioni in `GUIDA-DEPLOY.md`). Senza, canonical, sitemap e dati strutturati puntano al dominio di default e Google capisce male.
 
@@ -18,7 +18,7 @@ Segui `GUIDA-DEPLOY.md` per pubblicare su Vercel (gratis, senza carta di credito
 
 1. Vai su <https://search.google.com/search-console/welcome> e accedi con il tuo account Google.
 2. Clicca **Aggiungi proprietà** e scegli la colonna **Prefisso URL** (non quella "Dominio": richiede configurazione DNS).
-3. Inserisci l'URL completo del sito, ad esempio `https://axsenkurtoski.vercel.app`.
+3. Inserisci l'URL completo del sito, ad esempio `https://ahsenkurtoski.vercel.app`.
 4. Clicca **Continua**.
 5. Scegli il metodo di verifica **Tag HTML** (il più semplice): Google ti mostra un tag tipo
    `<meta name="google-site-verification" content="CODICE_LUNGO" />`.
@@ -43,7 +43,7 @@ Segui `GUIDA-DEPLOY.md` per pubblicare su Vercel (gratis, senza carta di credito
 1. In Search Console, menu a sinistra → **Indicizzazione → Sitemap**.
 2. Nel campo "Inserisci l'URL della sitemap" scrivi:
    ```
-   https://axsenkurtoski.vercel.app/sitemap.xml
+   https://ahsenkurtoski.vercel.app/sitemap.xml
    ```
 3. Clicca **Invia**.
 4. Dopo qualche minuto lo stato diventa "Operazione riuscita".
@@ -54,11 +54,11 @@ Segui `GUIDA-DEPLOY.md` per pubblicare su Vercel (gratis, senza carta di credito
 
 Per ogni pagina che ti interessa, in Search Console usa la barra in alto **Controllo URL**:
 
-1. Incolla l'URL, ad esempio `https://axsenkurtoski.vercel.app/`
+1. Incolla l'URL, ad esempio `https://ahsenkurtoski.vercel.app/`
 2. Attendi l'analisi, poi clicca **Richiedi l'indicizzazione**.
 3. Ripeti per `/chi-sono`, `/blog`, `/contatti` e per i primi articoli.
 
-Fallo soprattutto per la home e per `/chi-sono`: sono le pagine che rispondono alla ricerca "chi è Axsen Kurtoski".
+Fallo soprattutto per la home e per `/chi-sono`: sono le pagine che rispondono alla ricerca "chi è Ahsen Kurtoski".
 
 ---
 
@@ -81,8 +81,8 @@ Puoi usare anche il **Rich Results Test** di Google: <https://search.google.com/
 
 ## 6. Dopo 1-3 giorni controlla
 
-1. Cerca su Google il tuo nome completo: `Axsen Kurtoski`.
-2. Nella ricerca scrivi `site:axsenkurtoski.vercel.app` per vedere quali pagine Google ha già in archivio.
+1. Cerca su Google il tuo nome completo: `Ahsen Kurtoski`.
+2. Nella ricerca scrivi `site:ahsenkurtoski.vercel.app` per vedere quali pagine Google ha già in archivio.
 3. Se non compare nulla, torna al punto 3 e richiedi di nuovo l'indicizzazione. La prima volta Google è lento, è normale.
 
 ---

@@ -33,6 +33,6 @@ jobs:
       - name: Segnala solo gli URL cambiati
         run: node scripts/indexnow.mjs --changed --wait 300
         env:
-          NEXT_PUBLIC_SITE_URL: "${{ vars.NEXT_PUBLIC_SITE_URL || 'https://axsenkurtoski.vercel.app' }}"
+          NEXT_PUBLIC_SITE_URL: "${{ vars.NEXT_PUBLIC_SITE_URL || 'https://ahsenkurtoski.vercel.app' }}"
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
           INDEXNOW_BASE: ${{ github.event.before }}

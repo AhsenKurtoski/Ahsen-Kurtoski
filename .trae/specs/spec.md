@@ -1,26 +1,26 @@
-# Spec: Deploy + SEO + Verifica completa sito Axsen Kurtoski
+# Spec: Deploy + SEO + Verifica completa sito Ahsen Kurtoski
 
 ## Problema
 
-Il progetto **axsen-kurtoski** (portfolio + blog personale Next.js) esiste già con una struttura di base (pagine, metadata, JSON-LD, sitemap, robots), ma:
+Il progetto **ahsen-kurtoski** (portfolio + blog personale Next.js) esiste già con una struttura di base (pagine, metadata, JSON-LD, sitemap, robots), ma:
 
 1. Non sono stati eseguiti controlli automatizzati (lint, build, TypeScript) per garantire l'assenza di errori.
 2. Le configurazioni SEO, sebbene presenti, non sono state verificate in modo sistematico rispetto alle best practice di Google.
-3. Il sito non è pubblicato online, quindi nessun utente può cercare "Axsen Kurtoski" su Google e trovare i contenuti.
+3. Il sito non è pubblicato online, quindi nessun utente può cercare "Ahsen Kurtoski" su Google e trovare i contenuti.
 4. Non c'è una strategia esplicita di deploy con servizi e dominio **gratuiti**, senza costi per l'utente.
 5. Le informazioni personali (email, social, dati di contatto) contengono placeholder (`@example.com`, URL social di esempio) che devono essere revisionati prima della pubblicazione.
 6. Non è stata verificata la raggiungibilità e la stabilità del sito dopo il deploy, così come l'indicizzazione Google.
 
 ## Utenti
 
-- **Ricercatori**: persone che cercano "Axsen Kurtoski" o parole chiave correlate su Google.
+- **Ricercatori**: persone che cercano "Ahsen Kurtoski" o parole chiave correlate su Google.
 - **Visitatori**: persone che atterrano sul sito tramite link diretto o risultati di ricerca.
-- **Collaboratori**: persone che vogliono contattare Axsen tramite email o form.
+- **Collaboratori**: persone che vogliono contattare Ahsen tramite email o form.
 
 ## Obiettivi
 
 1. Pubblicare il sito **immediatamente online** usando servizi e dominio completamente gratuiti (Vercel + dominio .vercel.app).
-2. Assicurarsi che tutte le informazioni pubbliche su Axsen Kurtoski siano accessibili, corrette e non contengano placeholder.
+2. Assicurarsi che tutte le informazioni pubbliche su Ahsen Kurtoski siano accessibili, corrette e non contengano placeholder.
 3. Ottimizzare e verificare ogni aspetto SEO (metadata, canonical, robots, sitemap, dati strutturati JSON-LD, OpenGraph, Twitter, velocità) per massimizzare l'indicizzazione Google.
 4. Eseguire controlli di qualità (TypeScript, ESLint, build di produzione) per garantire l'assenza di errori a runtime.
 5. Verificare che tutte le funzionalità del sito (navigazione, blog, form contatti con fallback mailto, ricerca per tag, dati strutturati) operino correttamente in produzione.
@@ -53,7 +53,7 @@ Il progetto **axsen-kurtoski** (portfolio + blog personale Next.js) esiste già 
 | F-14 | Form contatti funzionale: in assenza di API key mostra fallback chiaro con mailto. |
 | F-15 | API `/api/contatti` non deve crashare; deve validare input, rispettare rate limit e rispondere con JSON coerente. |
 | F-16 | Tutti i link interni funzionano (Home, Chi sono, Blog, Contatti, articoli, tag). |
-| F-17 | Nomi e email di esempio (`@example.com`, `axsen@example.com`) sostituiti o segnalati come variabili ambiente `CONTACT_EMAIL`. |
+| F-17 | Nomi e email di esempio (`@example.com`, `ahsen@example.com`) sostituiti o segnalati come variabili ambiente `CONTACT_EMAIL`. |
 | F-18 | File `next.config.ts` configurato almeno con `trailingSlash`, `compress`, eventuali headers di sicurezza base. |
 
 ## Requisiti non funzionali
@@ -71,7 +71,7 @@ Il progetto **axsen-kurtoski** (portfolio + blog personale Next.js) esiste già 
 ## Vincoli
 
 - **Costo zero**: nessun acquisto di dominio, piano a pagamento o servizio a sottoscrizione.
-- **Dominio fornito dalla piattaforma**: l'URL pubblico iniziale sarà quello generato automaticamente da Vercel (es. `axsen-kurtoski-USER.vercel.app`). È possibile aggiornare successivamente il `site.url` verso un altro dominio libero (es. Netlify, Cloudflare Pages) ma Vercel è la scelta consigliata poiché Next.js è sviluppato da Vercel e garantisce massimo supporto.
+- **Dominio fornito dalla piattaforma**: l'URL pubblico iniziale sarà quello generato automaticamente da Vercel (es. `ahsen-kurtoski-USER.vercel.app`). È possibile aggiornare successivamente il `site.url` verso un altro dominio libero (es. Netlify, Cloudflare Pages) ma Vercel è la scelta consigliata poiché Next.js è sviluppato da Vercel e garantisce massimo supporto.
 - **Nessun commit esterno**: ogni modifica rimane locale nel repository finché l'utente non decide di pushare.
 - **SEO "white hat"**: tutte le ottimizzazioni SEO devono rispettare le linee guida Google (nessuna keyword stuffing, nessun doorway, ecc.).
 - **Accesso account**: l'utente dovrà autenticarsi a Vercel nel proprio browser quando richiesto dallo strumento di deploy, poiché l'agente non ha accesso ai suoi account.
@@ -96,7 +96,7 @@ Il progetto **axsen-kurtoski** (portfolio + blog personale Next.js) esiste già 
 
 | Q | Domanda | Impatto se non risolta |
 |---|---|---|
-| Q1 | Email reale di contatto da usare al posto di `axsen@example.com`? | Verrà lasciato il placeholder con avviso |
+| Q1 | Email reale di contatto da usare al posto di `ahsen@example.com`? | Verrà lasciato il placeholder con avviso |
 | Q2 | URL social reali (GitHub, LinkedIn, Instagram, X) da sostituire a quelli di esempio? | Verranno mantenuti quelli di esempio; funzionalmente validi ma non puntano a profili reali. L'utente potrà sostituirli successivamente in `lib/site.ts`. |
 | Q3 | Conferma che Vercel sia il fornitore accettato per il deploy gratuito? | In caso contrario si usa Cloudflare Pages come fallback, ma con integrazione toolchain non diretta. |
 

@@ -1,6 +1,6 @@
-# Axsen Kurtoski — Sito personale
+# Ahsen Kurtoski — Sito personale
 
-Sito personale ufficiale di **Axsen Kurtoski**: chi sono, competenze, progetti e blog.
+Sito personale ufficiale di **Ahsen Kurtoski**: chi sono, competenze, progetti e blog.
 Costruito con Next.js + Tailwind CSS, ottimizzato per farsi trovare su Google
 (SEO completa, dati strutturati, sitemap, Open Graph).
 
@@ -96,7 +96,7 @@ Qui c'è tutto quello che riguarda te:
 - `name`, `firstName`, `initials` — nome e monogramma
 - `roles` — i ruoli che appaiono con l'effetto typing nella home
 - `shortBio` / `longBio` — biografia breve e completa
-- `email` — **⚠️ sostituisci `axsen@example.com` con la tua email vera**
+- `email` — **⚠️ sostituisci `ahsen@example.com` con la tua email vera**
 - `location`, `availability`
 - `socials` — GitHub, LinkedIn, Instagram, X, YouTube (lascia `""` per nascondere un'icona)
 - `skills` — competenze e percentuali
@@ -153,12 +153,12 @@ node scripts/generate-icons.mjs
 
 ## 🔍 SEO: cosa è già pronto
 
-Il sito è già ottimizzato per la query **"Axsen Kurtoski"**:
+Il sito è già ottimizzato per la query **"Ahsen Kurtoski"**:
 
 | Cosa | Dove |
 | --- | --- |
 | Titoli e descrizioni unici per ogni pagina | `metadata` in ogni `page.tsx` |
-| Dati strutturati `Person` (chi è Axsen Kurtoski) | `src/app/layout.tsx` |
+| Dati strutturati `Person` (chi è Ahsen Kurtoski) | `src/app/layout.tsx` |
 | Dati strutturati `BlogPosting` per gli articoli | `src/app/blog/[slug]/page.tsx` |
 | Sitemap XML (pagine, articoli e archivi tag) | `src/app/sitemap.ts` → `/sitemap.xml` |
 | Feed RSS del blog | `src/app/feed.xml/route.ts` → `/feed.xml` |
@@ -219,12 +219,12 @@ nascosto anti-spam.
 1. Crea un account su [vercel.com](https://vercel.com) e importa il repository.
 2. Vercel riconosce Next.js automaticamente: premi **Deploy**.
 3. Vai in **Settings → Environment Variables** e aggiungi:
-   - `NEXT_PUBLIC_SITE_URL` = `https://axsenkurtoski.vercel.app`
+   - `NEXT_PUBLIC_SITE_URL` = `https://ahsenkurtoski.vercel.app`
 4. In **Settings → Domains** puoi collegare in un secondo momento un dominio
-   personale (es. `axsenkurtoski.com`): quando lo fai, aggiorna anche
+   personale (es. `ahsenkurtoski.com`): quando lo fai, aggiorna anche
    `NEXT_PUBLIC_SITE_URL` e rifai il deploy.
 
-> L'indirizzo ufficiale è **https://axsenkurtoski.vercel.app** ed è già il valore
+> L'indirizzo ufficiale è **https://ahsenkurtoski.vercel.app** ed è già il valore
 > predefinito nel codice: la variabile d'ambiente serve solo se cambi dominio.
 
 ### Farsi indicizzare da Google (importante!)
@@ -233,12 +233,12 @@ nascosto anti-spam.
 
 1. Apri [Google Search Console](https://search.google.com/search-console) e
    aggiungi la proprietà scegliendo **Prefisso URL** con
-   `https://axsenkurtoski.vercel.app`. La scheda *Dominio* non è utilizzabile:
+   `https://ahsenkurtoski.vercel.app`. La scheda *Dominio* non è utilizzabile:
    richiede un record DNS TXT e tu non controlli il DNS di `vercel.app`.
 2. Verifica la proprietà con uno dei due metodi già predisposti:
    - **File HTML** (quello in uso): il file di Google è già in
      `public/google2783a9147b2337cb.html`, quindi viene servito su
-     `https://axsenkurtoski.vercel.app/google2783a9147b2337cb.html`.
+     `https://ahsenkurtoski.vercel.app/google2783a9147b2337cb.html`.
      **Non cancellarlo**: Search Console ricontrolla il token e la verifica
      decade se il file sparisce. Per cambiarlo, metti il nuovo file in `public/`.
    - **Tag HTML**: incolla il codice di Google nella variabile d'ambiente
@@ -248,7 +248,7 @@ nascosto anti-spam.
    ⚠️ Non riattivare `"cleanUrls": true` in `vercel.json`: Vercel
    reindirizzerebbe con 308 ogni URL `.html` alla versione senza estensione, e il
    file di verifica non risponderebbe più 200 all'indirizzo richiesto da Google.
-3. Nella sezione **Sitemap** invia: `https://axsenkurtoski.vercel.app/sitemap.xml`.
+3. Nella sezione **Sitemap** invia: `https://ahsenkurtoski.vercel.app/sitemap.xml`.
 4. Usa **Controlla URL** sulla home e sui tuoi profili per richiedere l'indicizzazione.
 5. Aggiungi il link al sito su **tutti i tuoi profili** (GitHub, Instagram,
    LinkedIn, X, bio): i link in entrata accelerano e rafforzano l'indicizzazione.

@@ -185,7 +185,7 @@ if (!sitemap) {
 
   if (locs.length) {
     const first = locs[0];
-    if (first.includes("axsenkurtoski.com")) {
+    if (first.includes("ahsenkurtoski.com")) {
       warnings(
         `la sitemap punta al dominio di default (${new URL(first).origin}): imposta NEXT_PUBLIC_SITE_URL con il dominio reale prima del deploy`,
       );

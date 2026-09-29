@@ -1,6 +1,6 @@
 # Tasks: Deploy + SEO + Verifica completa
 
-> Origine: [spec.md](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/.trae/specs/spec.md)
+> Origine: [spec.md](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/.trae/specs/spec.md)
 > Copertura AC: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7
 
 ---
@@ -11,7 +11,7 @@
 - **Dipendenze**: nessuna
 - **AC coperti**: AC-1, AC-2, NF-3, F-18
 - **Cosa fare**:
-  1. Aprire [next.config.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/next.config.ts).
+  1. Aprire [next.config.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/next.config.ts).
   2. Aggiungere:
      - `trailingSlash: false` (mantiene URL puliti, senza slash finale duplicato).
      - `compress: true`.
@@ -37,14 +37,14 @@
 - **Dipendenze**: nessuna
 - **AC coperti**: AC-3, NF-4, F-17
 - **Cosa fare**:
-  1. Modificare [src/lib/site.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/lib/site.ts) in modo che:
-     - `email: process.env.CONTACT_EMAIL ?? "axsen@example.com"`.
-  2. Aggiornare [.env.example](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/.env.example) aggiungendo:
+  1. Modificare [src/lib/site.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/lib/site.ts) in modo che:
+     - `email: process.env.CONTACT_EMAIL ?? "ahsen@example.com"`.
+  2. Aggiornare [.env.example](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/.env.example) aggiungendo:
      - `NEXT_PUBLIC_SITE_URL=http://localhost:3000`
      - `CONTACT_EMAIL=tuoindirizzo@esempio.com`
      - `RESEND_API_KEY=` (vuoto, opzionale)
      - `CONTACT_FROM=` (vuoto, opzionale)
-  3. Verificare che l'email `axsen@example.com` rimanga solo come default e che il `mailto:` usi sempre `site.email` (già vero in layout, pagina home, contatti).
+  3. Verificare che l'email `ahsen@example.com` rimanga solo come default e che il `mailto:` usi sempre `site.email` (già vero in layout, pagina home, contatti).
   4. Aggiungere un piccolo avviso nella pagina contatti se l'email è ancora il fallback `@example.com`: qualcosa tipo "⚠️ Configura `CONTACT_EMAIL` per ricevere i messaggi a un indirizzo reale." solo se la mail contiene `example.com`.
 
 ### Test Requirements (TR)
@@ -90,20 +90,20 @@
 - **AC coperti**: AC-2, AC-6, F-5, F-6, F-7, F-8, F-9, F-10, F-11, F-12
 - **Cosa fare**:
   1. Avviare il dev server (`npm run dev`) oppure ispezionare staticamente i file:
-     - Verificare [robots.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/robots.ts) → contiene `Allow: /` e `Sitemap: <site.url>/sitemap.xml`.
-     - Verificare [sitemap.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/sitemap.ts) → include statiche + post + tag, URL assoluti con `${site.url}`.
-     - Verificare in [layout.tsx](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/layout.tsx):
+     - Verificare [robots.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/robots.ts) → contiene `Allow: /` e `Sitemap: <site.url>/sitemap.xml`.
+     - Verificare [sitemap.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/sitemap.ts) → include statiche + post + tag, URL assoluti con `${site.url}`.
+     - Verificare in [layout.tsx](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/layout.tsx):
        - `metadataBase: new URL(site.url)`.
        - `alternates.canonical`, `openGraph`, `twitter`, `robots.index/follow` presenti.
        - `<html lang="it">`.
        - JSON-LD `Person` + `WebSite` iniettati.
-     - Verificare in ogni pagina ([chi-sono](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/chi-sono/page.tsx), [blog](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/blog/page.tsx), [contatti](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/contatti/page.tsx), [slug articolo](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/blog/%5Bslug%5D/page.tsx), [tag](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/blog/tag/%5Btag%5D/page.tsx)):
+     - Verificare in ogni pagina ([chi-sono](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/chi-sono/page.tsx), [blog](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/blog/page.tsx), [contatti](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/contatti/page.tsx), [slug articolo](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/blog/%5Bslug%5D/page.tsx), [tag](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/blog/tag/%5Btag%5D/page.tsx)):
        - `metadata.title` + `description` + `canonical` + `openGraph` presenti.
        - `BlogPosting` JSON-LD negli articoli.
        - `FAQPage` JSON-LD in contatti.
-     - Verificare [opengraph-image.tsx](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/opengraph-image.tsx) e [blog/[slug]/opengraph-image.tsx](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/blog/%5Bslug%5D/opengraph-image.tsx) esistono e usano `site.url`/`site.initials`.
-     - Verificare [feed.xml/route.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/feed.xml/route.ts) produce XML valido.
-     - Verificare [manifest.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/manifest.ts) ha `start_url`, icone, lingua.
+     - Verificare [opengraph-image.tsx](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/opengraph-image.tsx) e [blog/[slug]/opengraph-image.tsx](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/blog/%5Bslug%5D/opengraph-image.tsx) esistono e usano `site.url`/`site.initials`.
+     - Verificare [feed.xml/route.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/feed.xml/route.ts) produce XML valido.
+     - Verificare [manifest.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/manifest.ts) ha `start_url`, icone, lingua.
   2. Se manca qualcosa:
      - Aggiungere metadata mancanti (es. canonical se assente).
      - Assicurarsi che tutti gli URL in `openGraph.url`, `twitter`, JSON-LD siano assoluti.
@@ -134,7 +134,7 @@
 - **Cosa fare**:
   1. Avviare dev o build+start locale.
   2. Verificare:
-     - `/not-found` o URL inesistente → 404 con pagina custom [not-found.tsx](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/app/not-found.tsx).
+     - `/not-found` o URL inesistente → 404 con pagina custom [not-found.tsx](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/app/not-found.tsx).
      - Link da home → chi-sono, blog, contatti: status 200.
      - Da pagina blog → clic su un articolo → 200.
      - Da pagina blog → clic su un tag → 200.
@@ -163,8 +163,8 @@
   2. Durante il deploy, impostare:
      - Variabile d'ambiente `NEXT_PUBLIC_SITE_URL` = URL pubblico finale fornito da Vercel.
      - (Opzionale) Settare `CONTACT_EMAIL` se l'utente l'ha fornita.
-  3. Salvare l'URL pubblico generato (es. `https://axsen-kurtoski-xxxx.vercel.app`) come evidenza.
-  4. Dopo il deploy, aggiornare nel codice il fallback di `site.url` in [lib/site.ts](file:///c:/Users/anelk/Desktop/Antigravity/axsen-kurtoski/src/lib/site.ts) con l'URL effettivo appena deployato, così se `NEXT_PUBLIC_SITE_URL` non è settato in locale rimane quello di produzione corretto (non `axsenkurtoski.com` inesistente).
+  3. Salvare l'URL pubblico generato (es. `https://ahsen-kurtoski-xxxx.vercel.app`) come evidenza.
+  4. Dopo il deploy, aggiornare nel codice il fallback di `site.url` in [lib/site.ts](file:///c:/Users/anelk/Desktop/Antigravity/ahsen-kurtoski/src/lib/site.ts) con l'URL effettivo appena deployato, così se `NEXT_PUBLIC_SITE_URL` non è settato in locale rimane quello di produzione corretto (non `ahsenkurtoski.com` inesistente).
 
 ### Test Requirements (TR)
 

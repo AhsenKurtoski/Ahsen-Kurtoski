@@ -5,7 +5,7 @@ date: 2026-09-10
 tags: Personale, Web
 ---
 
-Ciao! Sono **Axsen Kurtoski** e questo è il mio angolo di internet: un posto tutto mio dove racconto chi sono, cosa faccio e cosa sto imparando.
+Ciao! Sono **Ahsen Kurtoski** e questo è il mio angolo di internet: un posto tutto mio dove racconto chi sono, cosa faccio e cosa sto imparando.
 
 ## Perché questo sito
 

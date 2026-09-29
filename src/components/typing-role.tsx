@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 
 const roles: readonly string[] = site.roles;
 
-/** Effetto macchina da scrivere che alterna i ruoli di Axsen. */
+/** Effetto macchina da scrivere che alterna i ruoli di Ahsen. */
 export function TypingRole() {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");

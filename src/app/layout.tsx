@@ -84,14 +84,14 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/** Dati strutturati: Google capisce chi è Axsen Kurtoski */
+/** Dati strutturati: Google capisce chi è Ahsen Kurtoski */
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: site.name,
   givenName: site.firstName,
   familyName: site.lastName,
-  alternateName: ["Axsen", "Kurtoski"],
+  alternateName: ["Ahsen", "Kurtoski"],
   url: site.url,
   email: `mailto:${site.email}`,
   jobTitle: "Developer & Creatore Digitale",
@@ -147,7 +147,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        {/* Dati strutturati: Google capisce chi è Axsen Kurtoski */}
+        {/* Dati strutturati: Google capisce chi è Ahsen Kurtoski */}
         <JsonLd data={[personJsonLd, businessJsonLd, websiteJsonLd]} />
         <a
           href="#contenuto"

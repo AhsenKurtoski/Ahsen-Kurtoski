@@ -29,7 +29,7 @@ const PUBLIC_DIR = path.join(process.cwd(), "public");
 const KEY_FILE = path.join(process.cwd(), ".indexnow-key");
 const POSTS_DIR = path.join(process.cwd(), "src", "content", "posts");
 /** Stesso dominio di riserva usato da src/lib/site.ts */
-const DEFAULT_SITE = "https://axsenkurtoski.vercel.app";
+const DEFAULT_SITE = "https://ahsenkurtoski.vercel.app";
 
 /* -------------------------------------------------- argomenti */
 
@@ -261,7 +261,7 @@ async function fetchWithTimeout(url, ms = 15000) {
     return await fetch(url, {
       redirect: "follow",
       signal: controller.signal,
-      headers: { "User-Agent": "AxsenKurtoski-SEO-Check/1.0" },
+      headers: { "User-Agent": "AhsenKurtoski-SEO-Check/1.0" },
     });
   } finally {
     clearTimeout(timer);
@@ -322,7 +322,7 @@ log("\n\u001b[1mIndexNow\u001b[0m");
 if (!siteUrl || !/^https?:\/\//.test(siteUrl)) {
   console.error(
     "\n✗ Serve l'URL del sito pubblicato, ad esempio:\n" +
-      "  node scripts/indexnow.mjs https://axsen-kurtoski.vercel.app\n",
+      "  node scripts/indexnow.mjs https://ahsen-kurtoski.vercel.app\n",
   );
   await finish(1);
 }
@@ -421,7 +421,7 @@ const response = await fetch(ENDPOINT, {
   method: "POST",
   headers: {
     "Content-Type": "application/json; charset=utf-8",
-    "User-Agent": "AxsenKurtoski-SEO-Check/1.0",
+    "User-Agent": "AhsenKurtoski-SEO-Check/1.0",
   },
   body: JSON.stringify({
     host: new URL(siteUrl).host,

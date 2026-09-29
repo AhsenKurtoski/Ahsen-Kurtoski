@@ -19,7 +19,7 @@ Questo progetto è già pronto per essere pubblicato su **Vercel** (piano Hobby,
 
    | Name                   | Value                                                       |
    | ---------------------- | ----------------------------------------------------------- |
-   | `NEXT_PUBLIC_SITE_URL` | `https://axsenkurtoski.vercel.app` (è già il valore predefinito nel codice, ma mettilo per chiarezza) |
+   | `NEXT_PUBLIC_SITE_URL` | `https://ahsenkurtoski.vercel.app` (è già il valore predefinito nel codice, ma mettilo per chiarezza) |
    | `CONTACT_EMAIL`        | `cshop0784@gmail.com` — indirizzo che riceve i messaggi del form |
 
 > Il form usa **FormSubmit** e non richiede chiavi API: ricordati solo di cliccare il
@@ -44,14 +44,14 @@ Segui le domande:
 - Set up and deploy? `Y`
 - Scope: scegli il tuo account personale
 - Link to existing project? `N`
-- Project name: `axsen-kurtoski` (o quello che vuoi)
+- Project name: `ahsen-kurtoski` (o quello che vuoi)
 - Directory: `./`
 - Framework: `Next.js` (dovrebbe rilevarlo)
 - Build command: lascia il default
 - Install command: lascia il default
 - Want to modify these settings? `N`
 
-Quando la build finisce, salva l'URL che ti mostra (es. `https://axsen-kurtoski-abc.vercel.app`).
+Quando la build finisce, salva l'URL che ti mostra (es. `https://ahsen-kurtoski-abc.vercel.app`).
 
 ---
 
@@ -62,7 +62,7 @@ Senza questo passaggio **canonical, sitemap, OpenGraph e JSON-LD useranno l'URL 
 1. Vai su <https://vercel.com/dashboard> → entra nel progetto → **Settings → Environment Variables**.
 2. Aggiungi (o modifica) la variabile:
    - **Name**: `NEXT_PUBLIC_SITE_URL`
-   - **Value**: `https://axsenkurtoski.vercel.app` (sostituisci con il tuo URL **SENZA slash finale `/`)
+   - **Value**: `https://ahsenkurtoski.vercel.app` (sostituisci con il tuo URL **SENZA slash finale `/`)
    - **Environment**: seleziona **Production, Preview, Development**
 3. Clicca **Save**.
 4. Rientra nella scheda **Deployments**, clicca in alto a destra **⋯ sull'ultimo deploy → **Redeploy** (senza cache).

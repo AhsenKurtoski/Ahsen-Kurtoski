@@ -1,5 +1,5 @@
 /** Dominio ufficiale: usato se la variabile d'ambiente manca, è vuota o non valida. */
-const FALLBACK_URL = "https://axsenkurtoski.vercel.app";
+const FALLBACK_URL = "https://ahsenkurtoski.vercel.app";
 
 /**
  * Legge l'URL del sito da NEXT_PUBLIC_SITE_URL senza mai far fallire il build.
@@ -33,8 +33,8 @@ export const site = {
   url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
 
   // Identità
-  name: "Axsen Kurtoski",
-  firstName: "Axsen",
+  name: "Ahsen Kurtoski",
+  firstName: "Ahsen",
   lastName: "Kurtoski",
   initials: "AK",
 
@@ -48,7 +48,7 @@ export const site = {
 
   // Bio lunga (pagina Chi sono)
   longBio: [
-    "Ciao, sono Axsen Kurtoski. Sono un developer e creatore digitale: mi appassiona costruire cose per il web, dai primi schizzi su carta al deploy finale.",
+    "Ciao, sono Ahsen Kurtoski. Sono un developer e creatore digitale: mi appassiona costruire cose per il web, dai primi schizzi su carta al deploy finale.",
     "Ho iniziato per curiosità, restando incollato allo schermo a capire come funzionano i siti che visitavo ogni giorno. Da lì è nata una passione che mi accompagna tuttora: scrivere codice, rompere le cose, sistemarle e imparare qualcosa a ogni progetto.",
     "Su questo sito racconto il mio percorso e scrivo articoli su sviluppo web, strumenti che uso e cose che scopro ogni giorno. Se vuoi contattarmi per una collaborazione o anche solo per scambiare due chiacchiere su tech, scrivimi!",
   ],
@@ -83,7 +83,7 @@ export const site = {
    *
    * Restano VOLUTAMENTE fuori dai dati strutturati `sameAs`: dichiarare due siti
    * come identità ufficiale della stessa persona disperde il segnale con cui
-   * Google collega il nome «Axsen Kurtoski» a un unico indirizzo. Un link
+   * Google collega il nome «Ahsen Kurtoski» a un unico indirizzo. Un link
    * normale, invece, si legge bene e non confonde.
    */
   otherSites: [
@@ -140,9 +140,9 @@ export const site = {
   // Domande frequenti (usate nella pagina Contatti e nei dati strutturati FAQPage)
   faqs: [
     {
-      question: "Chi è Axsen Kurtoski?",
+      question: "Chi è Ahsen Kurtoski?",
       answer:
-        "Axsen Kurtoski è un developer e creatore digitale: costruisce progetti web moderni, si occupa di UI/UX e SEO e racconta il suo percorso sul blog di questo sito.",
+        "Ahsen Kurtoski è un developer e creatore digitale: costruisce progetti web moderni, si occupa di UI/UX e SEO e racconta il suo percorso sul blog di questo sito.",
     },
     {
       question: "Rispondi a tutti i messaggi?",
@@ -163,14 +163,14 @@ export const site = {
 
   // SEO
   keywords: [
-    "Axsen Kurtoski",
-    "Axsen Kurtoski chi è",
-    "chi è Axsen Kurtoski",
-    "Axsen Kurtoski sito ufficiale",
-    "Axsen Kurtoski developer",
-    "Axsen Kurtoski blog",
-    "Axsen Kurtoski progetti",
-    "Axsen Kurtoski chi sono",
+    "Ahsen Kurtoski",
+    "Ahsen Kurtoski chi è",
+    "chi è Ahsen Kurtoski",
+    "Ahsen Kurtoski sito ufficiale",
+    "Ahsen Kurtoski developer",
+    "Ahsen Kurtoski blog",
+    "Ahsen Kurtoski progetti",
+    "Ahsen Kurtoski chi sono",
   ],
 } as const;
 

@@ -9,25 +9,25 @@ import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "Chi è Axsen Kurtoski? Biografia, percorso e competenze" },
+  title: { absolute: "Chi è Ahsen Kurtoski? Biografia, percorso e competenze" },
   description:
-    "Chi è Axsen Kurtoski: la sua storia, il suo percorso da developer e creatore digitale, le competenze e i progetti che porta avanti.",
+    "Chi è Ahsen Kurtoski: la sua storia, il suo percorso da developer e creatore digitale, le competenze e i progetti che porta avanti.",
   keywords: [
-    "Axsen Kurtoski chi è",
-    "chi è Axsen Kurtoski",
-    "Axsen Kurtoski biografia",
-    "Axsen Kurtoski developer",
+    "Ahsen Kurtoski chi è",
+    "chi è Ahsen Kurtoski",
+    "Ahsen Kurtoski biografia",
+    "Ahsen Kurtoski developer",
   ],
   alternates: { canonical: "/chi-sono" },
   openGraph: {
-    title: "Chi sono — Axsen Kurtoski",
+    title: "Chi sono — Ahsen Kurtoski",
     description:
-      "La storia, il percorso e le competenze di Axsen Kurtoski, developer e creatore digitale.",
+      "La storia, il percorso e le competenze di Ahsen Kurtoski, developer e creatore digitale.",
     url: `${site.url}/chi-sono`,
     type: "profile",
     images: [
       ogImage({
-        title: "Chi è Axsen Kurtoski",
+        title: "Chi è Ahsen Kurtoski",
         subtitle: "Biografia, percorso e competenze",
       }),
     ],
@@ -58,7 +58,7 @@ export default function ChiSonoPage() {
 
               <SectionHeading
                 eyebrow="Biografia"
-                title="Chi è Axsen Kurtoski?"
+                title="Chi è Ahsen Kurtoski?"
                 description="Il riassunto ufficiale, in poche righe: chi sono, cosa faccio e dove sto andando."
               />
 
