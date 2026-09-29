@@ -1,0 +1,87 @@
+# Checklist — Google Search Console sul nuovo dominio `ahsenkurtoski.vercel.app`
+
+Obiettivo: spostare l'indicizzazione da `axsenkurtoski.vercel.app` a
+`ahsenkurtoski.vercel.app` senza perdere posizioni. Tempo totale: ~20 minuti,
+più l'attesa di Google (da pochi giorni a 2-3 settimane).
+
+---
+
+## 0. Prerequisito — Vercel (se non ancora fatto)
+
+- [ ] Dashboard → progetto `axsenkurtoski` → **Settings → General** → rinomina in
+      `ahsenkurtoski` → **Save**.
+- [ ] Verifica col browser:
+      `https://ahsenkurtoski.vercel.app/` deve rispondere **200**;
+      `https://axsenkurtoski.vercel.app/` deve **reindirizzare** al nuovo
+      (Vercel lo fa da solo dopo la rinomina: 308 permanente).
+- [ ] (Solo se il redirect del vecchio dominio non partisse da solo: Settings →
+      Domains → rimuovi `axsenkurtoski.vercel.app`, riaggiungilo e impostalo come
+      **Redirect to** `ahsenkurtoski.vercel.app` con redirect **Permanent**.)
+
+> ⚠️ Non eliminare il vecchio dominio senza impostare il redirect: servirebbe a
+> Google come segnale di migrazione e a chi ha già il vecchio link.
+
+## 1. Nuova proprietà in Search Console
+
+- [ ] Apri <https://search.google.com/search-console> (stesso account Google di prima).
+- [ ] Menu in alto a sinistra → **Aggiungi proprietà** → tipo **Prefisso URL**.
+- [ ] Inserisci esattamente: `https://ahsenkurtoski.vercel.app/`
+      (https + nessuno spazio + slash finale).
+- [ ] Come metodo di verifica scegli **File HTML**: Google propone il nome file
+      `google2783a9147b2337cb.html` — **è già online nel sito**, non devi
+      caricare nulla. Se Google propone un nome diverso, salva il file in
+      `public/`, fai commit + push e aspetta il deploy (~1-2 min).
+- [ ] Clicca **Verifica**: deve dare esito positivo (il file risponde su qualunque
+      dominio del progetto).
+
+## 2. Sitemap e indicizzazione
+
+- [ ] Nella nuova proprietà: menu **Sitemap** → aggiungi `sitemap.xml`
+      (l'URL completo diventa `https://ahsenkurtoski.vercel.app/sitemap.xml`) → **Invia**.
+- [ ] Strumento **Controllo URL** (barra in alto): incolla
+      `https://ahsenkurtoski.vercel.app/` → **Richiedi indicizzazione**.
+- [ ] Ripeti per `/chi-sono`: è la pagina che risponde alla ricerca «chi è Ahsen Kurtoski».
+- [ ] Facoltativo ma utile: ripeti anche per gli articoli del blog (li trovi nella sitemap).
+
+## 3. Cambio indirizzo (opzionale, accelera la migrazione)
+
+- [ ] Su **entrambe** le proprietà verificate (vecchia e nuova): nuova proprietà →
+      **Impostazioni → Cambio di indirizzo** → seleziona `ahsenkurtoski.vercel.app`
+      → Google controlla il redirect → **Conferma**.
+- [ ] Se il tool segnala che manca il redirect, torna al punto 0 e sistemalo.
+
+## 4. Segnali di supporto (facoltativi ma utili)
+
+- [ ] Profilo Google Business / social: aggiorna i link al sito dove li hai
+      pubblicati (LinkedIn, Instagram, Fiverr, bio) così il segnale di collegamento
+      passa al nuovo dominio.
+- [ ] I tool SEO del repo funzionano col nuovo dominio:
+      ```bash
+      npm run seo:live -- https://ahsenkurtoski.vercel.app
+      npm run indexnow -- https://ahsenkurtoski.vercel.app
+      ```
+- [ ] Il workflow GitHub (IndexNow) segnala già automaticamente le pagine cambiate
+      a Bing/DuckDuckGo/Yandex a ogni push su main: non serve nulla.
+
+## 5. Cosa NON fare
+
+- ❌ Non chiudere/eliminare la **vecchia** proprietà in Search Console: resta
+  attiva per monitorare il calo di URL vecchi indicati.
+- ❌ Non rimuovere il redirect dal vecchio dominio, nemmeno dopo il cambio
+  indirizzo: Google lo usa per mesi.
+- ❌ Non inviare la sitemap vecchia nella nuova proprietà (e viceversa).
+
+## 6. Controlli a distanza
+
+| Quando | Cosa controllare |
+| --- | --- |
+| +2-3 giorni | Controllo URL sulla home: «URL è su Google» deve comparire per il nuovo dominio |
+| +1 settimana | Rapporti → **Pagine**: crescono gli URL `ahsenkurtoski.vercel.app`, calano quelli vecchi |
+| +2-3 settimane | Ricerca Google: `Ahsen Kurtoski` e `site:ahsenkurtoski.vercel.app` mostrano il nuovo dominio |
+| +1 mese | Se la vecchia proprietà non ha più imprescrizioni e il traffico è migrato, puoi ignorarla |
+
+---
+
+Stato del codice: già pronto — `src/lib/site.ts` usa `ahsenkurtoski.vercel.app`
+come dominio di riferimento, sitemap/canonical/robots la usano, il file di
+verifica Google è in `public/` e la documentazione (README, GUIDE) è aggiornata.
