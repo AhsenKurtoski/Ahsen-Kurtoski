@@ -2,12 +2,12 @@
 
 **Data audit:** 30 settembre 2026
 **Oggetto:** repo locale `Ahsen-Blog` + sito pubblicato
-**Sito effettivamente servito:** `https://axsenkurtoski.vercel.app` (unico dominio che risponde)
-**Dominio ufficiale dichiarato nel codice:** `https://ahsenkurtoski.vercel.app` → **404 NOT_FOUND**
+**Sito misurato durante l'audit:** `https://axsenkurtoski.vercel.app` (all'epoca l'unico dominio che rispondeva)
+**Dominio ufficiale dichiarato nel codice:** `https://ahsenkurtoski.vercel.app` → all'audit **404 NOT_FOUND**; **risolto** il 30/09/2026: ora risponde **200** e il vecchio dominio fa **307** verso il nuovo
 
 Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler link interno (`scripts/audit-links.mjs`), Chrome for Testing headless con `scripts/audit-responsive.mjs` (console, rete, 7 viewport, interazioni), Lighthouse 13.5 locale (7 run), Googlebot UA, MCP Vercel.
 
-> **Stato al 30/09/2026:** i problemi **H2, H3, H4, M1, L1** e l'effetto typing (M3) sono **già corretti nel working tree** — non ancora committati né deployati. Prima → dopo e verifiche in [fixes-applied.md](fixes-applied.md) (Lighthouse a11y 100/100 su tutte le pagine testate). Restano aperti: **C1** (dominio 404), **H1** (handle social da rinominare), **H5**, **M2**, **M3 fix 2–4**, **M4**.
+> **Stato al 30/09/2026 (fine giornata):** **C1** (dominio), **C2** (pubblicazione), **H1** (handle), **H2**, **H3**, **H4**, **M1**, **L1** e l'effetto typing (M3, fix 1) sono **chiusi e deployati** (commit `c3bc58c`). Misure sul sito **live**: audit link a **0 problemi / 0 avvisi** su 16 pagine, Lighthouse a11y **100/100** su home, /chi-sono, /blog, /contatti e pagine tag. Restano aperti: **H5** (solo i testi del sito dello studio), **M2** (title/description), **M3 fix 2–4** (font mono, CSS, bundle), **M4** (Search Console). Prima → dopo e verifiche in [fixes-applied.md](fixes-applied.md).
 
 ---
 
@@ -19,7 +19,7 @@ Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler
 | Richieste di rete fallite | ✅ 0 | 0 richieste fallite, 0 risposte ≥400 su tutte le pagine |
 | Link interni | ✅ 17/17 | Tutti 200, nessuna catena di redirect, nessun doppio slash |
 | Link esterni | ⚠️ 10 | GitHub/LinkedIn/Instagram/Fiverr non verificabili da bot; 1 link interno assoluto verso il dominio morto |
-| Dominio & indicizzabilità | 🔴 **Critico** | Sitemap e canonical puntano a un dominio che risponde 404 |
+| Dominio & indicizzabilità | ✅ | **Risolto il 30/09/2026**: dominio ufficiale 200, vecchio dominio 307 → nuovo; canonical, sitemap e robots coerenti (all'audit puntavano a un dominio 404) |
 | Core Web Vitals | ⚠️ | LCP 3,1 s su mobile (home), TBT 930 ms; CLS ~0, TTFB 66 ms |
 | Accessibilità | ⚠️ | Contraste 4,06–4,09:1 (< 4,5) in 16 punti; 4 errori semantici su /chi-sono |
 | On-page SEO | ⚠️ | H1 mancante su 14/16 pagine; 2 title >60 char; description spesso <120 |
@@ -27,7 +27,7 @@ Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler
 | Responsive | ✅ | Nessun overflow a 360/375/390/412/768/1024/1280 px; interazioni tutte funzionanti |
 | Sicurezza/header | ✅ | HSTS, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy |
 
-**Punteggi Lighthouse (locali, Chrome 154):**
+**Punteggi Lighthouse (locali, Chrome 154) — misure eseguite durante l'audit, prima dei fix:**
 
 | Pagina | Modalità | Perf | A11y | BP | SEO | LCP | TBT | CLS |
 |---|---|---|---|---|---|---|---|---|
@@ -39,16 +39,34 @@ Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler
 | Articolo SEO | mobile | 84 | 96 | 100 | 100 | 2,43 s | 529 ms | 0 |
 | Articolo SEO | desktop | **100** | 96 | 100 | 100 | 482 ms | 0 ms | 0 |
 
+**Dopo i fix, misurati sul sito live (`https://ahsenkurtoski.vercel.app`, deploy del commit `c3bc58c`):**
+
+| Pagina | Modalità | Perf | A11y | LCP | TBT | CLS | TTFB |
+|---|---|---|---|---|---|---|---|
+| Home | mobile | 83–86 (3 run) | **100** | 2,45–2,65 s | 393–546 ms | 0 | 70 ms |
+| Blog | mobile | 97 | **100** | 2,20 s | 132 ms | 0 | 88 ms |
+| Contatti | mobile | 97 | **100** | 2,14 s | 106 ms | 0 | 82 ms |
+| Home, /chi-sono, /blog, /contatti, /blog/tag/seo | mobile | — | **100** | — | — | — | — |
+
+Dati grezzi in `audit/raw/after-fix/` (cartella locale, non versionata).
+
 ---
 
 ## 2. Problemi per priorità
 
 ### 🔴 CRITICAL
 
-#### C1 — Il dominio ufficiale risponde 404; canonical e sitemap puntano lì
-**Problema.** Il codice dichiara `https://ahsenkurtoski.vercel.app` come dominio canonico (canonical, sitemap, robots.txt, Open Graph, JSON-LD, link "Sito ufficiale" in home). Quel dominio **non è assegnato ad alcun progetto Vercel** e risponde `404: NOT_FOUND`. Il sito è servito solo da `axsenkurtoski.vercel.app`, che però dichiara canonical verso il dominio morto.
+#### C1 — Il dominio ufficiale risponde 404; canonical e sitemap puntano lì — ✅ RISOLTO il 30/09/2026
+**Esito.** Il progetto Vercel è stato rinominato (`axsenkurtoski` → `ahsenkurtoski`):
+```
+curl -sI https://ahsenkurtoski.vercel.app/   # → 200
+curl -sI https://axsenkurtoski.vercel.app/   # → 307, Location: https://ahsenkurtoski.vercel.app/
+```
+Audit link sul dominio ufficiale dopo il deploy: 16/16 pagine, robots e sitemap coerenti, **0 problemi / 0 avvisi**.
 
-**Riproduzione.**
+**Problema (come si presentava durante l'audit).** Il codice dichiara `https://ahsenkurtoski.vercel.app` come dominio canonico (canonical, sitemap, robots.txt, Open Graph, JSON-LD, link "Sito ufficiale" in home). Quel dominio **non è assegnato ad alcun progetto Vercel** e risponde `404: NOT_FOUND`. Il sito è servito solo da `axsenkurtoski.vercel.app`, che però dichiara canonical verso il dominio morto.
+
+**Riproduzione (all'audit, prima della rinomina).**
 ```bash
 curl -sI https://ahsenkurtoski.vercel.app/        # → 404
 curl -s  https://axsenkurtoski.vercel.app/ | grep canonical   # → https://ahsenkurtoski.vercel.app
@@ -59,11 +77,11 @@ curl -s  https://axsenkurtoski.vercel.app/sitemap.xml | grep loc | head -1  # �
 
 **Soluzione esatta.**
 1. Vercel → progetto `axsenkurtoski` → **Settings → General → Project Name** → `ahsenkurtoski` → **Save**.
-2. Vercel assegna automaticamente `ahsenkurtoski.vercel.app` e trasforma `axsenkurtoski.vercel.app` in **redirect 308** verso il nuovo dominio.
+2. Vercel assegna automaticamente `ahsenkurtoski.vercel.app` e trasforma `axsenkurtoski.vercel.app` in **redirect 307** verso il nuovo dominio (verificato: era previsto 308, in pratica Vercel risponde **307 Temporary Redirect**).
 3. Verifica:
 ```bash
 curl -sI https://ahsenkurtoski.vercel.app/            # 200
-curl -sI https://axsenkurtoski.vercel.app/ | head -1  # 308 + Location: ahsenkurtoski
+curl -sI https://axsenkurtoski.vercel.app/ | head -1  # 307 + Location: ahsenkurtoski
 npm run seo:live -- https://ahsenkurtoski.vercel.app  # tutto verde
 npm run audit:links -- https://ahsenkurtoski.vercel.app
 ```
@@ -78,13 +96,15 @@ npm run audit:links -- https://ahsenkurtoski.vercel.app
 
 ### 🟠 HIGH
 
-#### H1 — I nuovi handle `AhsenKurtoski` non esistono ancora (link rotti al deploy)
-**Problema.** Su tua indicazione ho sostituito gli handle social con `AhsenKurtoski` (GitHub/LinkedIn/Instagram). Verifica del 30/09: `https://github.com/AhsenKurtoski` → **404**. LinkedIn (999) e Instagram (login wall) non sono verificabili da strumenti automatici.
-**Riproduzione.** Apri i tre URL nuovi dalla home; quello GitHub dà 404.
-**Soluzione.** Prima del prossimo deploy: rinomina gli account (GitHub → Settings → Account → Change username; Instagram → Cambia username; LinkedIn → Modifica URL pubblico). GitHub mantiene il redirect dal vecchio username; per Instagram/LinkedIn verifica che i vecchi link continuino a funzionare, altrimenti aggiorna le bio che li contengono. Se preferisci non rinominare, ripristina i vecchi handle in `src/lib/site.ts` (righe 100–102).
+#### H1 — I nuovi handle `AhsenKurtoski` non esistono ancora (link rotti al deploy) — ✅ RISOLTO il 30/09/2026
+**Esito.** Gli account sono stati rinominati: `github.com/AhsenKurtoski` → **200** (e nel profilo non c'è più nessun riferimento ad "Axsen"), `instagram.com/ahsenkurtoski` → 200, `linkedin.com/in/ahsenkurtoski` → 999 (anti-bot: **conferma manuale**).
+
+**Problema (come si presentava durante l'audit).** Su tua indicazione ho sostituito gli handle social con `AhsenKurtoski` (GitHub/LinkedIn/Instagram). Verifica del 30/09: `https://github.com/AhsenKurtoski` → **404**. LinkedIn (999) e Instagram (login wall) non sono verificabili da strumenti automatici.
+**Riproduzione (all'audit).** Apri i tre URL nuovi dalla home; quello GitHub dava 404.
+**Soluzione (eseguita il 30/09/2026).** Rinomina degli account (GitHub → Settings → Account → Change username; Instagram → Cambia username; LinkedIn → Modifica URL pubblico). GitHub mantiene il redirect dal vecchio username; per Instagram/LinkedIn verifica che i vecchi link continuino a funzionare, altrimenti aggiorna le bio che li contengono. Se preferisci non rinominare, ripristina i vecchi handle in `src/lib/site.ts` (righe 100–102).
 **Impatto.** SEO/UX: link di identità (`sameAs`) rotti indeboliscono il collegamento del nome alla persona. **Difficoltà:** Facile (ma richiede l'accesso agli account).
 
-#### H2 — Contraste insufficiente su testi piccoli (4,06–4,09:1, richiesto 4,5:1)
+#### H2 — Contraste insufficiente su testi piccoli (4,06–4,09:1, richiesto 4,5:1) — ✅ RISOLTO e deployato
 **Problema.** 16 usi di `text-zinc-500` (#71717b) su fondi `#0b0b11`/`#0a0a0f` = **4,06–4,09:1**. Lighthouse segnala 6–10 nodi per pagina (footer, breadcrumb, meta articoli, card home, etichette /chi-sono).
 **Riproduzione.** Lighthouse → Accessibility → `color-contrast` (report in `audit/lighthouse/`).
 **Soluzione.** Passa i testi piccoli a `text-zinc-400` (contrasto ~7,9:1):
@@ -94,7 +114,7 @@ grep -rl "text-zinc-500" src | xargs sed -i 's/text-zinc-500/text-zinc-400/g'
 File coinvolti (16 occorrenze): `src/app/page.tsx`, `chi-sono/page.tsx`, `blog/page.tsx`, `blog/[slug]/page.tsx`, `blog/tag/[tag]/page.tsx`, `privacy/page.tsx`, `components/site-footer.tsx`, `components/breadcrumbs.tsx`, `components/contact-form.tsx`.
 **Impatto.** A11y: da 96 a ~100; UX: leggibilità. **Difficoltà:** Facile.
 
-#### H3 — /chi-sono: HTML non valido nella timeline e nelle info rapide
+#### H3 — /chi-sono: HTML non valido nella timeline e nelle info rapide — ✅ RISOLTO e deployato
 **Problema.** `<li>` dentro `<ol>` ma avvolti da `<div>` (componente `Reveal`) → axe `list` + `listitem`. `<dt>/<dd>` annidati due livelli sotto `<dl>` → `definition-list` + `dlitem`. Effetti: accessibilità 81/100, categoria "agentic-browsing" 50/100 (albero di accessibilità malformato), possibile lettura errata da screen reader e crawler.
 **Riproduzione.** Lighthouse su `/chi-sono` → vedi `audit/raw/lighthouse-details.json`.
 **Soluzione 1 — timeline (`src/app/chi-sono/page.tsx`, righe 121–144):** inverti l'annidamento, il `<li>` deve essere figlio diretto di `<ol>`:
@@ -123,7 +143,7 @@ File coinvolti (16 occorrenze): `src/app/page.tsx`, `chi-sono/page.tsx`, `blog/p
 ```
 **Impatto.** A11y 81→~100, albero di accessibilità pulito. **Difficoltà:** Facile.
 
-#### H4 — `label-content-name-mismatch` sul logo dell'header
+#### H4 — `label-content-name-mismatch` sul logo dell'header — ✅ RISOLTO e deployato
 **Problema.** `<Link aria-label="Ahsen Kurtoski — torna alla home">` ma dentro c'è testo visibile "AK Ahsen Kurtoski": l'etichetta accessibile non include il testo visibile.
 **Riproduzione.** Lighthouse → Accessibility → `label-content-name-mismatch` (tutte le pagine).
 **Soluzione (`src/components/site-header.tsx`, righe 22–26):** rimuovi `aria-label` (il testo visibile è già descrittivo):
@@ -141,7 +161,7 @@ File coinvolti (16 occorrenze): `src/app/page.tsx`, `chi-sono/page.tsx`, `blog/p
 
 ### 🟡 MEDIUM
 
-#### M1 — H1 mancante su 14 pagine su 16
+#### M1 — H1 mancante su 14 pagine su 16 — ✅ RISOLTO e deployato
 **Problema.** Solo la home e gli articoli hanno un `<h1>`. `/chi-sono`, `/blog`, `/contatti`, `/privacy` e le 7 pagine tag usano `SectionHeading`, che rende sempre `<h2>`. La pagina "Chi è Ahsen Kurtoski?" — quella che deve rispondere alla query "chi è Ahsen Kurtoski" — non ha un H1.
 **Soluzione.** Aggiungi una prop `as` al componente:
 ```tsx
@@ -174,11 +194,13 @@ Poi, **solo per la prima intestazione di ogni pagina**: `/chi-sono` riga 59, `/b
 Per gli articoli la description è l'`excerpt` del frontmatter (`src/content/posts/*.md`): allungala nelle card, cambia anche l'anteprima.
 **Impatto.** CTR in SERP. **Difficoltà:** Facile.
 
-#### M3 — Main thread / TBT elevato su mobile (LCP 3,1 s, TBT 930 ms)
+#### M3 — Main thread / TBT elevato su mobile (LCP 3,1 s, TBT 930 ms) — ⚙️ PARZIALE (fix 1 fatto: typing; restano font mono, CSS, bundle)
 Dettaglio nella [performance report](performance-report.md#3-cause-del-lag-e-proposte-di-fix). Sintesi: il bundle JS principale pesa 147 KB (28 KB non usati), l'effetto typing gira in continuazione anche a pagina nascosta e non rispetta `prefers-reduced-motion`; il font mono (23 KB) è precaricato su tutte le pagine anche dove non serve.
 **Impatto.** Performance mobile (Perf 71→85+), UX. **Difficoltà:** Media.
 
 #### M4 — Sitemap e OG sono N/A per immagini; nessuna immagine di contenuto
+
+> Nota: la numerazione M4 di questa sezione è quella interna al report; nell'action plan la voce M4 è «Google Search Console».
 **Problema.** Nessuna immagine di contenuto sul sito (0 `<img>`; icone SVG e OG generate). Non ci sono quindi problemi srcset/lazy/WebP — ma anche nessun `image:image` nella sitemap, che ora non serve.
 **Soluzione futura (quando aggiungi immagini):** usa `next/image` con `width/height` espliciti, `loading="lazy"` (tranne la prima visibile), formato WebP/AVIF automatico; il markdown degli articoli supporta già immagini con `loading="lazy"` (`src/lib/posts.ts`), ma senza width/height → aggiungi la dimensione al markdown o passa a `next/image`.
 **Impatto.** Futuro. **Difficoltà:** Facile (quando serve).
@@ -187,7 +209,7 @@ Dettaglio nella [performance report](performance-report.md#3-cause-del-lag-e-pro
 
 ### ⚪ LOW / QUICK WINS
 
-#### L1 — Input del form a 14 px → zoom automatico su iOS
+#### L1 — Input del form a 14 px → zoom automatico su iOS — ✅ RISOLTO e deployato
 `inputClass` in `src/components/contact-form.tsx` usa `text-sm` (14 px): su iPhone il focus allo zoom è automatico sotto i 16 px. Fix:
 ```tsx
 const inputClass = "w-full rounded-xl border … px-4 py-3 text-base sm:text-sm …";

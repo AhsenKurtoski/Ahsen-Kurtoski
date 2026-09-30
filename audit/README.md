@@ -1,18 +1,18 @@
 # Audit completo — Ahsen Kurtoski (30 settembre 2026)
 
-Kit di audit + report per il sito personale. Tutto verificato sul **sito realmente servito** (`axsenkurtoski.vercel.app`) e sul repo locale, con: build di produzione, TypeScript, ESLint, Lighthouse 13.5 (Chrome for Testing locale), crawler link, sweep responsive su 7 viewport, simulazione Googlebot per UA, MCP Vercel.
+Kit di audit + report per il sito personale. Verificato sul **sito realmente servito** (all'epoca `axsenkurtoski.vercel.app`, che oggi fa 307 verso il dominio ufficiale) e sul repo locale, con: build di produzione, TypeScript, ESLint, Lighthouse 13.5 (Chrome for Testing locale), crawler link, sweep responsive su 7 viewport, simulazione Googlebot per UA, MCP Vercel.
 
-> **Modifiche al codice già applicate** (non ancora deployate): handle social → `AhsenKurtoski`, brand testuale → "Ahsen Studio", data `updated` aggiornata, 3 script di audit riutilizzabili, `.gitignore` per `.chrome/`.
+> **Stato al 30/09/2026: tutto applicato, committato e deployato** (commit `c3bc58c` su `main`): handle social → `AhsenKurtoski`, brand → "Ahsen Studio", link del sito dello studio aggiornato, fix a11y/semantica, kit di audit riutilizzabile e GitHub Action di verifica.
 >
-> **Fix a11y/semantica già applicati** (non deployati): contrasto, aria-label del logo, HTML di /chi-sono, `<h1>` su tutte le pagine, input a 16 px, typing con `reduced-motion` — dettagli e verifiche in [fixes-applied.md](fixes-applied.md).
+> Le misure "prima" di questo report restano quelle dell'audit e sono **etichettate come tali**: i numeri "dopo" sono misurati sul sito live dopo il deploy. Prima → dopo in [fixes-applied.md](fixes-applied.md).
 
 ---
 
 ## 🔥 I tre numeri che contano
 
-1. **Il dominio ufficiale `ahsenkurtoski.vercel.app` risponde 404.** Canonical, sitemap e robots puntano lì: il sito è "canonicalizzato verso il vuoto". Fix: rinomina del progetto Vercel `axsenkurtoski` → `ahsenkurtoski` (2 minuti, crea anche il redirect 308 dal vecchio dominio). Vedi [action plan, C1](action-plan.md).
-2. **Home mobile: Lighthouse 71** (LCP 3,10 s, TBT 930 ms). Il resto è solido: CLS ~0, TTFB 66 ms, zero terze parti, zero errori JS. Cause e fix in [performance report](performance-report.md).
-3. **A11y 81/100 su /chi-sono** per HTML non valido (li/dt/dd annidati male) e contraste 4,06:1 (`text-zinc-500`) su tutte le pagine. Fix facili e già scritti in [audit report](audit-report.md).
+1. **Il dominio ufficiale ora risponde 200** ✅ (durante l'audit era 404, con canonical e sitemap "canonicalizzati verso il vuoto"). Il progetto Vercel è stato rinominato `axsenkurtoski` → `ahsenkurtoski` e il vecchio dominio fa **307** verso il nuovo. Vedi [action plan, C1](action-plan.md).
+2. **Home mobile: Lighthouse 86** (LCP 2,61 s, TBT 421 ms) misurato sul sito live dopo i fix; durante l'audit era **71** (LCP 3,10 s, TBT 930 ms). Blog e contatti passano da 72/84 a **97**. Il resto è solido: CLS 0, TTFB 70–88 ms, zero terze parti, zero errori JS. Cause e fix in [performance report](performance-report.md).
+3. **Accessibilità 100/100** su home, /chi-sono, /blog, /contatti e pagine tag (misurata sul live; durante l'audit /chi-sono era **81**): contrasto, HTML di /chi-sono, `<h1>` su tutte le pagine, etichetta del logo e form sistemati. Prima → dopo in [fixes-applied.md](fixes-applied.md).
 
 ## ✅ Cosa è già in ordine
 
@@ -55,6 +55,8 @@ node scripts/audit-lh-summary.mjs
 (`next start` su `127.0.0.1:3000`, con `NEXT_PUBLIC_SITE_URL` puntato lì così canonical, sitemap e link assoluti
 sono coerenti con l'indirizzo visitato). Report del run allegato come artefatto `audit-link`.
 
+Il crawler verifica anche che ogni pagina abbia **un solo `<h1>`** e nessun salto nella gerarchia dei titoli, oltre a canonical, meta robots, JSON-LD e 404 reali.
+
 L'audit link gira con `--fail-on=internal`: bloccano i problemi che questo repo può correggere (link interni rotti,
 sitemap/robots incoerenti, canonical sbagliato, 404), mentre i link verso siti di terze parti restano nel log e
 nell'artefatto senza far fallire la verifica — rispondono 403/999 ai bot e non dipendono dal codice.
@@ -66,4 +68,4 @@ Report locale della stessa verifica: `audit/raw/ci-locale/`.
 
 1. Rinomina il progetto Vercel (C1) → 2. rinomina gli account social (H1) → 3. commit + push → 4. verifica con gli script qui sopra → 5. Search Console (M4).
 
-Nessun commit, push o deploy è stato eseguito da questo audit: le modifiche sono nel working tree, pronte per te.
+Tutto questo è nel commit `c3bc58c` su `main`, deployato e verificato sul dominio ufficiale (audit link a 0 problemi, Lighthouse a11y 100/100). La verifica automatica in [`.github/workflows/verifiche.yml`](../.github/workflows/verifiche.yml) ripete build, typecheck, lint, `seo:check` e audit link a ogni push.

@@ -41,16 +41,17 @@
 <body>
 <div class="wrap">
   <h1>Audit <span>Ahsen Kurtoski</span></h1>
-  <p class="sub">30 settembre 2026 · target: repo locale + sito pubblicato (dominio servito: <code>axsenkurtoski.vercel.app</code>)</p>
+  <p class="sub">30 settembre 2026 · audit su repo locale + sito pubblicato (all'audit servito da <code>axsenkurtoski.vercel.app</code>, oggi 307 → <code>ahsenkurtoski.vercel.app</code>)<br>
+  <span class="note">Segue un aggiornamento a fine giornata: fix applicati, committati (c3bc58c) e deployati — i numeri "dopo" sono misurati sul dominio ufficiale.</span></p>
 
   <div class="grid">
-    <div class="card"><div class="lbl">Criticità #1</div><div class="big bad">Dominio 404</div><p class="note">Il dominio ufficiale dichiarato nel codice non è assegnato: canonical e sitemap puntano nel vuoto.</p></div>
-    <div class="card"><div class="lbl">Pagine verificate</div><div class="big">16/16</div><p class="note">Tutte 200 sul dominio attivo, 404 sulla sitemap (dominio nuovo).</p></div>
+    <div class="card"><div class="lbl">Dominio ufficiale</div><div class="big ok">200</div><p class="note"><code>ahsenkurtoski.vercel.app</code> risponde 200 e il vecchio dominio fa 307. Durante l'audit era 404 (criticità #1, risolta).</p></div>
+    <div class="card"><div class="lbl">Pagine verificate</div><div class="big">16/16</div><p class="note">16/16 a 200 sul dominio ufficiale, un solo <code>&lt;h1&gt;</code> per pagina, nessun salto di gerarchia. Audit link: 0 problemi.</p></div>
     <div class="card"><div class="lbl">Errori JavaScript</div><div class="big ok">0</div><p class="note">Console e rete pulite su tutte le pagine (il 404 della pagina 404 è atteso).</p></div>
-    <div class="card"><div class="lbl">Lighthouse home mobile</div><div class="big warn">71</div><p class="note">Perf 71 · A11y 96 · BP 100 · SEO 100. TBT 930 ms da correggere.</p></div>
+    <div class="card"><div class="lbl">Lighthouse home mobile</div><div class="big ok">86</div><p class="note">Dopo i fix, sul live: Perf 83–86 · A11y 100 · LCP 2,61 s · TBT 421 ms. All'audit: 71 · 96 · 3,10 s · 930 ms.</p></div>
   </div>
 
-  <h2>Punteggi Lighthouse (locali, Chrome 154)</h2>
+  <h2>Punteggi Lighthouse — all'audit, prima dei fix (locali, Chrome 154)</h2>
   <div class="card" style="overflow-x:auto">
     <table>
       <thead><tr><th>Run</th><th>Perf</th><th>A11y</th><th>BP</th><th>SEO</th><th>LCP</th><th>TBT</th><th>CLS</th></tr></thead>
@@ -67,11 +68,25 @@
     </table>
   </div>
 
+  <h2>Dopo i fix — misure sul sito live (dominio ufficiale)</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Run (mobile)</th><th>Perf</th><th>A11y</th><th>LCP</th><th>TBT</th><th>CLS</th><th>TTFB</th></tr></thead>
+      <tbody>
+        <tr><td>home (3 run)</td><td class="ok">83 · 84 · 86</td><td class="ok">100</td><td>2,45–2,65 s</td><td>393 · 393 · 546 ms</td><td>0</td><td>70 ms</td></tr>
+        <tr><td>blog</td><td class="ok">97</td><td class="ok">100</td><td>2,20 s</td><td>132 ms</td><td>0</td><td>88 ms</td></tr>
+        <tr><td>contatti</td><td class="ok">97</td><td class="ok">100</td><td>2,14 s</td><td>106 ms</td><td>0</td><td>82 ms</td></tr>
+        <tr><td>home · /chi-sono · /blog · /contatti · /blog/tag/seo</td><td>—</td><td class="ok">100</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Le due serie non sono misurate nelle stesse condizioni (dominio, periodo e cache diversi): il confronto è indicativo, i valori da guardare sono quelli "dopo".</p>
+  </div>
+
   <h2>Da correggere — priorità</h2>
   <div class="card">
     <ul class="clean">
-      <li><span class="pill bad">CRITICAL</span> <strong>Dominio ufficiale 404</strong> — canonical/sitemap/robots puntano a un dominio inesistente. Fix: rinomina progetto Vercel → <code>ahsenkurtoski</code> (2 min).</li>
-      <li><span class="pill warn">HIGH</span> <strong>Handle social nuovi non ancora esistenti</strong> — github.com/AhsenKurtoski è 404: rinominare gli account prima del deploy.</li>
+      <li><span class="pill ok">RISOLTO</span> <strong>Dominio ufficiale 404</strong> — progetto Vercel rinominato: <code>ahsenkurtoski.vercel.app</code> → 200, vecchio dominio → 307; canonical/sitemap/robots coerenti.</li>
+      <li><span class="pill ok">RISOLTO</span> <strong>Handle social</strong> — <code>github.com/AhsenKurtoski</code> → 200 (profilo senza più "Axsen"); Instagram 200. LinkedIn risponde 999 ai bot: conferma manuale.</li>
       <li><span class="pill ok">APPLICATO</span> <strong>Contraste 4,06:1</strong> su testi piccoli (16 usi di <code>text-zinc-500</code>) → ora <code>text-zinc-400</code> (~8:1).</li>
       <li><span class="pill ok">APPLICATO</span> <strong>/chi-sono: HTML non valido</strong> (li fuori da ol, dt/dd annidati) → A11y <strong>81 → 100</strong>.</li>
       <li><span class="pill ok">APPLICATO</span> <strong>H1 mancante su 14/16 pagine</strong> → ora 16/16 con un solo <code>&lt;h1&gt;</code> e nessun salto di livello; <code>heading-order</code> risolto sulle pagine elenco.</li>
@@ -79,7 +94,7 @@
       <li><span class="pill warn">MEDIUM</span> Description corte, TBT mobile 930 ms, font mono precaricato ovunque.</li>
       <li><span class="pill ok">QUICK WIN</span> Tap target 40 px, collegamento locale Vercel stantio.</li>
     </ul>
-    <p class="note">Le voci <strong>APPLICATO</strong> sono nel working tree, non ancora deployate: verifica e misure in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y 100/100 sulle 7 pagine testate, dati in <code>raw/after-fix/</code>).</p>
+    <p class="note">Le voci marcate come fatte sono committate e deployate (commit <code>c3bc58c</code>): misure sul live in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y <strong>100/100</strong> su 5 pagine, audit link 0 problemi; dati grezzi in <code>raw/after-fix/</code>, cartella locale non versionata).</p>
   </div>
 
   <h2>Report completi</h2>
@@ -112,11 +127,11 @@
   </div>
 
   <h2>Nota di contesto</h2>
-  <p class="note">Le misure di performance, gli screenshot e il crawl si riferiscono al sito così come era pubblicato il 30/09/2026 (dominio attivo <code>axsenkurtoski.vercel.app</code>).
-  Le sostituzioni di handle e brand sono già applicate nel codice ma non ancora deployate; dopo il fix del dominio va rifatto un giro di verifica con
-  <code>npm run seo:live</code>, <code>npm run audit:links</code>, <code>npm run audit:responsive</code>.</p>
+  <p class="note">Le misure di questa pagina e gli screenshot "all'audit" si riferiscono al sito così come era pubblicato la mattina del 30/09/2026 (dominio allora attivo <code>axsenkurtoski.vercel.app</code>).
+  A fine giornata fix, sostituzioni e link sono stati committati (<code>c3bc58c</code>), deployati e riverificati sul dominio ufficiale con <code>npm run audit:links</code> e Lighthouse: audit link a 0 problemi, a11y 100/100, la home mobile passa da 71 a 83–86.
+  La verifica automatica in <code>.github/workflows/verifiche.yml</code> ripete typecheck, lint, build, <code>seo:check</code> e audit link a ogni push.</p>
 
-  <footer>Generato il 30/09/2026 · dati grezzi in <a href="raw/">audit/raw/</a> · kit di misura in <code>scripts/audit-*.mjs</code></footer>
+  <footer>Generato il 30/09/2026 · dati grezzi in <code>audit/raw/</code> (cartella locale, non versionata) · kit di misura in <code>scripts/audit-*.mjs</code></footer>
 </div>
 </body>
 </html>

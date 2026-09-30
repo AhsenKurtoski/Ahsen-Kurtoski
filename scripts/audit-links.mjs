@@ -17,7 +17,8 @@
  * Cosa controlla:
  *  1. robots.txt e sitemap.xml raggiungibili e coerenti col dominio;
  *  2. ogni URL della sitemap: stato (seguendo i redirect), <title>, canonical,
- *     meta robots, JSON-LD valido, contenuto presente nell'HTML servito;
+ *     meta robots, JSON-LD valido, un solo <h1>, gerarchia dei titoli senza salti,
+ *     contenuto presente nell'HTML servito;
  *  3. la stessa pagina richiesta con User-Agent Googlebot;
  *  4. tutti i link interni ed esterni trovati nell'HTML: stato e catena di redirect;
  *  5. comportamenti di base: pagina inesistente → 404, variante con slash,
@@ -74,6 +75,24 @@ const problem = (m, kind = "internal") => {
 };
 const warn = (m) => report.findings.warnings.push(m);
 
+/**
+ * fetch con un tentativo di recupero sugli errori di rete (DNS, connessione
+ * chiusa, timeout): sono transitori e non devono trasformarsi in un problema
+ * segnalato. Gli stati HTTP non vengono ritentati: quelli sono risposte reali.
+ */
+async function fetchWithRetry(target, options, attempts = 2) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      return await fetch(target, options);
+    } catch (error) {
+      lastError = error;
+      if (attempt < attempts) await new Promise((resolve) => setTimeout(resolve, 400 * attempt));
+    }
+  }
+  throw lastError;
+}
+
 /** GET con redirect manuali: restituisce stato, catena e body. */
 async function probe(url, { ua = UA_BROWSER, method = "GET", maxHops = 5 } = {}) {
   const chain = [];
@@ -81,7 +100,7 @@ async function probe(url, { ua = UA_BROWSER, method = "GET", maxHops = 5 } = {})
   for (let hop = 0; hop <= maxHops; hop++) {
     let res;
     try {
-      res = await fetch(current, {
+      res = await fetchWithRetry(current, {
         method,
         redirect: "manual",
         headers: { "User-Agent": ua, Accept: method === "GET" ? "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" : "*/*" },
@@ -138,7 +157,30 @@ function extract(html) {
     .replace(/\s+/g, " ")
     .trim();
   const links = [...html.matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map((m) => m[1]);
-  return { title, canonical, metaRobots, jsonLd, textLength: text.length, links };
+
+  // Gerarchia dei titoli: un solo <h1> e nessun salto di livello (h2 -> h3 sì, h1 -> h3 no).
+  // È un controllo di struttura, non di stile: un salto confonde gli screen reader e i
+  // motori che ricostruiscono l'outline della pagina.
+  const headings = [...html.matchAll(/<h([1-6])\b[^>]*>/gi)].map((m) => Number(m[1]));
+  let headingSkip = null;
+  for (let i = 1; i < headings.length; i++) {
+    if (headings[i] - headings[i - 1] > 1) {
+      headingSkip = `h${headings[i - 1]} → h${headings[i]}`;
+      break;
+    }
+  }
+
+  return {
+    title,
+    canonical,
+    metaRobots,
+    jsonLd,
+    textLength: text.length,
+    links,
+    h1Count: headings.filter((level) => level === 1).length,
+    headingCount: headings.length,
+    headingSkip,
+  };
 }
 
 const isManualCheck = (status, finalUrl) =>
@@ -208,6 +250,8 @@ for (const url of sitemapUrls) {
       if (info.canonical && info.canonical.replace(/\/$/, "") !== url.replace(/\/$/, ""))
         page.issues.push(`${label}: canonical diverso (${info.canonical})`);
       if (/noindex/i.test(info.metaRobots)) page.issues.push(`${label}: meta robots noindex`);
+      if (info.h1Count !== 1) page.issues.push(`${label}: ${info.h1Count} titoli <h1> nella pagina (atteso 1)`);
+      if (info.headingSkip) page.issues.push(`${label}: gerarchia titoli con salto ${info.headingSkip}`);
       if (info.textLength < 400) page.issues.push(`${label}: poco testo nell'HTML servito (${info.textLength} caratteri)`);
       if (info.jsonLd.broken) page.issues.push(`${label}: ${info.jsonLd.broken} blocchi JSON-LD non validi`);
       if (!info.jsonLd.types.length) page.issues.push(`${label}: nessun dato strutturato`);

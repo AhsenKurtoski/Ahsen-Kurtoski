@@ -1,11 +1,13 @@
 # SEO checklist — Ahsen Kurtoski
 
-**Data:** 30 settembre 2026 · Dati per pagina in [`audit/raw/onpage.json`](raw/onpage.json) · Crawl in [`audit/raw/link-audit.json`](raw/link-audit.json)
+**Data:** 30 settembre 2026 · Dati per pagina in `audit/raw/onpage.json` · Crawl in `audit/raw/link-audit.json` (cartella **locale, non versionata**: si rigenera con gli script in `scripts/audit-*.mjs`)
 Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non applicabile
+
+> **Aggiornamento 30/09/2026:** la matrice e la sezione technical qui sotto fotografano l'audit del mattino (**prima** dei fix e della rinomina del dominio). Lo stato **attuale**, verificato sul dominio ufficiale dopo il deploy, è nella [sezione 1b](#1b-stato-attuale-dopo-i-fix-verificato-sul-live): canonical coerenti, un solo `<h1>` su 16/16 pagine, robots e sitemap sul dominio giusto. Restano aperti solo title/description (M2) e la Search Console (M4).
 
 ---
 
-## 1. On-page — matrice per pagina (16 URL)
+## 1. On-page — matrice per pagina (16 URL) — **fotografia all'audit, prima dei fix**
 
 | Pagina | Title (char) | Description (char) | H1 | Canonical | OG image | JSON-LD | Esito |
 |---|---|---|---|---|---|---|---|
@@ -19,8 +21,8 @@ Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non appl
 | 404 | noindex implicito (404) — | — | ✅ 1 | ❌ | — | — | ✅ (non indicizzabile) |
 
 **Note operative:**
-- **Canonical ❌ ovunque**: puntano tutti a `https://ahsenkurtoski.vercel.app`, che risponde 404 → causa critica C1 (audit report). Si sistemano rinominando il progetto Vercel.
-- **H1 mancante su 14/16**: fix M1 (prop `as="h1"` su `SectionHeading`).
+- **Canonical ❌ ovunque** (all'audit): puntavano tutti a `https://ahsenkurtoski.vercel.app`, che allora rispondeva 404 → causa critica C1. **Risolto**: il progetto Vercel è stato rinominato, canonical e sitemap sono coerenti (vedi sezione 1b).
+- **H1 mancante su 14/16** (all'audit): fix M1 (prop `as="h1"` su `SectionHeading`) e `headingLevel` su `PostCard`. **Risolto**: 1 `<h1>` su tutte le 16 pagine.
 - **Title/description**: proposte concrete per pagina in audit report M2.
 - Alt text: — (nessuna immagine di contenuto; le icone sono SVG decorativi o con `aria-hidden`).
 - Internal linking: ✅ ogni pagina ha breadcrumb, nav, footer e link contestuali; 17 link interni unici, tutti 200.
@@ -51,12 +53,12 @@ Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non appl
 | Mobile-first indexing | ✅ | HTML identico per tutti gli UA, contenuto server-rendered |
 | hreflang | — | sito monolingua (it) |
 | Sitemap immagini / video | — | nessuna immagine di contenuto, nessun video |
-| Verifica Google (file HTML) | ✅ sul dominio attivo | `/google2783a9147b2337cb.html` → 200 su `axsenkurtoski.vercel.app`; **verificare che risponda anche sul dominio nuovo dopo la rinomina** |
+| Verifica Google (file HTML) | ✅ | `/google2783a9147b2337cb.html` → **200** sia su `ahsenkurtoski.vercel.app` sia sul vecchio dominio (che redirige); verificato il 30/09/2026 dopo la rinomina |
 | Meta `google-site-verification` | — | metodo usato: file HTML (il meta tag via env è predisposto e vuoto) |
 | Header sicurezza | ✅ | HSTS, X-Frame-Options DENY, nosniff, Referrer-Policy, Permissions-Policy |
 | Compressione | ✅ | brotli (Vercel) |
 | Cache asset statici | ✅ | `_next/static` immutable |
-| Hosting/redirect dominio vecchio→nuovo | ❌ | oggi il vecchio dominio serve direttamente (200); dopo la rinomina diventerà 308 |
+| Hosting/redirect dominio vecchio→nuovo | ✅ | `ahsenkurtoski.vercel.app` → 200; `axsenkurtoski.vercel.app` → **307** verso il nuovo (verificato il 30/09/2026) |
 
 ---
 
@@ -65,7 +67,7 @@ Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non appl
 Test con UA `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)` su tutte le 16 URL:
 
 - Sul dominio **funzionante**: 16/16 rispondono 200 con HTML completo (contenuto presente senza JavaScript), canonical, OG e JSON-LD → il sito è scansionabile.
-- Sulle URL della **sitemap** (dominio nuovo): 16/16 **404** → il problema non è la scansionabilità ma il dominio (C1).
+- Sulle URL della **sitemap**: durante l'audit 16/16 davano **404** (dominio non assegnato, causa C1). **Oggi**: 16/16 **200** con canonical, OG e JSON-LD, verificato dal crawler (`--fail-on=all`, 0 problemi) sul dominio ufficiale.
 - `robots.txt` raggiungibile da Googlebot, nessun blocco.
 - Nessuna dipendenza da JS per i contenuti: quello che vede Googlebot è già tutto lì.
 
@@ -73,9 +75,9 @@ Test con UA `Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.
 
 ## 4. Google Search Console — stato e passi
 
-Stato attuale: la verifica è predisposta via file HTML, ma **qualunque proprietà sul dominio nuovo non può funzionare finché il dominio risponde 404**. La procedura completa è in [`CHECKLIST-SEARCH-CONSOLE.md`](../CHECKLIST-SEARCH-CONSOLE.md) (già corretta per il progetto `axsenkurtoski`).
+Stato attuale (30/09/2026): il dominio ufficiale **risponde 200** e il file di verifica è online, quindi la proprietà si può creare subito. La procedura completa è in [`CHECKLIST-SEARCH-CONSOLE.md`](../CHECKLIST-SEARCH-CONSOLE.md) (la voce sul progetto Vercel `axsenkurtoski` è ormai storica: il progetto si chiama `ahsenkurtoski`).
 
-**Sequenza aggiornata (dopo la rinomina del progetto Vercel, fix C1):**
+**Sequenza da eseguire (dominio ufficiale già attivo):**
 
 1. Verifica che `https://ahsenkurtoski.vercel.app/google2783a9147b2337cb.html` risponda 200.
 2. Search Console → proprietà **Prefisso URL** `https://ahsenkurtoski.vercel.app/` → verifica con **File HTML** (già online).
@@ -84,7 +86,7 @@ Stato attuale: la verifica è predisposta via file HTML, ma **qualunque propriet
 5. Sulla **vecchia** proprietà: *Cambio di indirizzo* verso il nuovo dominio; non cancellare la proprietà, serve a monitorare il calo.
 6. Controlli a distanza (dal giorno dopo): Copertura/«Pagine» e query `site:ahsenkurtoski.vercel.app`.
 
-**Cause probabili di pagine non indicizzate oggi:** canonical → dominio 404 (l'unica causa reale; il resto è già a posto). Se dopo la migrazione qualche pagina resta "Scansionata, non indicizzata", la causa più comune per un sito nuovo senza backlink è la scoperta/valutazione: risposta = contenuti + link dalle bio, non richieste ripetute.
+**Cause probabili di pagine non indicizzate:** la causa strutturale (canonical verso un dominio 404) è stata rimossa. Se qualche pagina resta "Scansionata, non indicizzata", la causa più comune per un sito nuovo senza backlink è la scoperta/valutazione: risposta = contenuti + link dalle bio, non richieste ripetute.
 
 ---
 
@@ -100,7 +102,20 @@ Stato attuale: la verifica è predisposta via file HTML, ma **qualunque propriet
 
 | Area | ✅ | ⚠️ | ❌ |
 |---|---|---|---|
-| On-page (16 pagine) | 10 | 6 | 0 (H1/canonical contati a parte) |
-| Technical | 17 | 1 | 2 (sitemap/robots sul dominio morto) |
-| Scansionabilità Googlebot | 16/16 sul dominio attivo | — | 16/16 sulla sitemap (dominio morto) |
-| Riparazione prioritaria | **C1 dominio** → poi H1, title/description | | |
+| On-page (16 pagine) — **dopo i fix** | 14 | 2 (title/description, M2) | 0 |
+| Technical — **dopo i fix** | 19 | 1 (logo quadrato nel JSON-LD, opzionale) | 0 |
+| Scansionabilità Googlebot | 16/16 sul dominio ufficiale | — | — |
+| Prossimo passo | **M4 Search Console** sul dominio ormai attivo → poi M2, M3 fix 2–4 | | |
+
+### 1b. Stato attuale (dopo i fix, verificato sul live)
+
+Controlli eseguiti il 30/09/2026 sul dominio ufficiale, dopo il deploy del commit `c3bc58c`:
+
+| Controllo | Prima | Ora |
+|---|---|---|
+| Canonical di ogni pagina | ❌ puntavano a un dominio 404 | ✅ coincidono con l'URL della pagina (16/16) |
+| Sitemap e robots.txt | ❌ dichiaravano il dominio 404 | ✅ `sitemap.xml` con 16 URL e `Sitemap:` in robots.txt su `ahsenkurtoski.vercel.app` |
+| `<h1>` per pagina | ❌ assente su 14/16 | ✅ **1 su 16/16**, nessun salto di gerarchia (controllo aggiunto al crawler) |
+| Pagine della sitemap raggiungibili | ❌ 16/16 → 404 | ✅ 16/16 → 200 |
+| 404 reali, `http → https`, doppi slash | ✅ | ✅ (ricontrollati) |
+| Title oltre 60 char · description corte | ⚠️ 2 · molti | ⚠️ **ancora aperti** (M2: si correggono nel codice, non nel deploy) |

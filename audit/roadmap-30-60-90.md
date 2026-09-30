@@ -6,31 +6,32 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 
 ## 🗓️ Giorni 1–30 — Fondamenta (fix e migrazione)
 
-**Settimana 1 — sbloccare tutto**
-- [ ] C1: rinomina progetto Vercel → `ahsenkurtoski`; verifica 200 sul nuovo + 308 dal vecchio (2 min).
-- [ ] H1: rinomina account GitHub/LinkedIn/Instagram ad `AhsenKurtoski` (o ripristina i vecchi handle).
-- [ ] C2: commit + push delle modifiche già applicate (handle, brand, data).
-- [ ] Verifica post-deploy: `npm run seo:live` e `npm run audit:links` sul dominio nuovo (tutto verde).
+**Settimana 1 — sbloccare tutto** ✅ (tutto fatto il 30/09/2026)
+- [x] C1: rinomina progetto Vercel → `ahsenkurtoski`; verificato 200 sul nuovo + **307** dal vecchio (nel piano era previsto 308; Vercel risponde 307).
+- [x] H1: account rinominati ad `AhsenKurtoski` — GitHub 200 e Instagram 200 verificati; LinkedIn risponde 999 ai bot, **conferma manuale** ancora da fare.
+- [x] C2: commit `c3bc58c` + push su `main`.
+- [x] Verifica post-deploy: `seo:live` («il sito è scansionabile e indicizzabile», 16/16) e `audit:links` (0 problemi, 0 avvisi) sul dominio ufficiale.
 
-**Settimana 2 — Search Console e accessibilità**
-- [ ] M4: proprietà + verifica + sitemap + richieste indicizzazione (home, /chi-sono) + Cambio di indirizzo sulla proprietà vecchia.
-- [ ] H2: contrasto `text-zinc-500` → `text-zinc-400`.
-- [ ] H3/H4: fix semantici `/chi-sono` + aria-label header.
-- [ ] QW1/QW2: input 16 px, tap target 44 px.
+**Settimana 2 — Search Console e accessibilità** (accessibilità fatta, GSC da fare)
+- [ ] M4: proprietà + verifica + sitemap + richieste indicizzazione (home, /chi-sono) + Cambio di indirizzo sulla proprietà vecchia. **Unico blocco rimasto della settimana: serve il tuo accesso a Search Console.**
+- [x] H2: contrasto `text-zinc-500` → `text-zinc-400` (deployato; a11y 100/100 sul live).
+- [x] H3/H4: fix semantici `/chi-sono` + etichetta del logo nell'header.
+- [x] QW1: input del form a 16 px su mobile. [ ] QW2: tap target 44 px — **ancora aperto**.
 
 **Settimane 3–4 — contenuti e on-page**
-- [ ] M1: H1 su tutte le pagine.
-- [ ] M2: title/description della tabella proposta.
-- [ ] H5: aggiorna il sito Netlify dello studio.
+- [x] M1: H1 su tutte le pagine (1 per pagina su 16/16, verificato dal crawler).
+- [ ] M2: title/description della tabella proposta — **aperto**.
+- [ ] H5: aggiorna i testi del sito Netlify dello studio (sottodominio già rinominato e link sistemato; restano `<title>` e description).
 - [ ] Controlli: GSC Copertura (crescono gli URL del nuovo dominio), query `site:ahsenkurtoski.vercel.app`, primi `Ahsen Kurtoski` in SERP.
 
-**KPI a 30 giorni:** dominio nuovo 200 + vecchio 308; sitemap inviata e letta; 16/16 pagine indicizzabili; A11y ≥ 98; nessun link rotto.
+**KPI a 30 giorni:** dominio nuovo 200 + vecchio 307 ✅; sitemap inviata e letta ⬜ (dipende da M4); 16/16 pagine indicizzabili ✅; A11y ≥ 98 ✅ (100/100 sul live); nessun link rotto ✅ (audit link 0 problemi).
 
 ---
 
 ## 🗓️ Giorni 31–60 — Velocità e contenuti
 
-- [ ] M3: performance mobile — typing con reduced-motion/pausa, preload mono off, misurazione prima/dopo (target Perf ≥85, LCP ≤2,5 s, TBT ≤200 ms).
+- [x] M3 (fix 1): typing con reduced-motion/pausa a scheda nascosta — deployato; misure dopo: home 83–86, blog 97, contatti 97.
+- [ ] M3 (fix 2–4): preload mono off, CSS render-blocking, bundle — **aperti**; obiettivo LCP ≤2,5 s stabile su home (oggi 2,45–2,65 s) e TBT ≤200 ms (oggi 393–546 ms).
 - [ ] Valutare `experimental.inlineCss` con misurazione; bundle analyzer e `dynamic()` per i widget non critici.
 - [ ] 2–4 nuovi articoli (uno "pillar" tecnico, uno narrativo) seguendo il template del blog; `lastmod` e `updated` veri.
 - [ ] Ottimizzare gli `excerpt` degli articoli più vecchi (contenuto + description).

@@ -3,20 +3,25 @@
 Ordine di esecuzione consigliato: **Critical subito → High questa settimana → Medium entro 2 settimane → Quick win quando tocchi il codice → Long-term nel trimestre.**
 Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](performance-report.md), [SEO checklist](seo-checklist.md), [CSV find & replace](find-replace-log.csv).
 
-> **Aggiornamento 30/09/2026 (dopo l'audit):** le voci marcate **✅ APPLICATO** sono già nel working tree, verificate e non ancora deployate — dettagli e misure in [fixes-applied.md](fixes-applied.md). Le altre restano da fare.
+> **Aggiornamento 30/09/2026 (fine giornata):** **C1, C2, H1, H2, H3, H4, M1, L1** e il fix 1 di M3 sono **fatti, committati e deployati** (commit `c3bc58c`). Verifiche sul sito live: audit link **0 problemi / 0 avvisi** su 16 pagine, Lighthouse a11y **100/100**.
+> Restano aperti: **H5** (solo i testi del sito dello studio), **M2** (title/description), **M3 fix 2–4**, **M4** (Search Console), **QW2** (tap target 44 px), **QW4** (header duplicati), **L4** (collegamenti locali Vercel/git). Dettagli in [fixes-applied.md](fixes-applied.md).
 
 ---
 
 ## 🔴 CRITICAL — da fare subito
 
-### C1 · Sblocca il dominio ufficiale (rinomina progetto Vercel)
-- **Problema:** `ahsenkurtoski.vercel.app` → 404; canonical/sitemap/robots puntano lì. Il sito è online solo sul vecchio dominio.
+### C1 · Sblocca il dominio ufficiale (rinomina progetto Vercel) — ✅ FATTO il 30/09/2026
+**Esito:** progetto rinominato; `ahsenkurtoski.vercel.app` → **200**, `axsenkurtoski.vercel.app` → **307** verso il nuovo; audit link e `seo:live` sul dominio ufficiale puliti. Resta solo `npx vercel link`, che richiede il tuo accesso (voce L4).
+
+- **Problema (come si presentava durante l'audit):** `ahsenkurtoski.vercel.app` → 404; canonical/sitemap/robots puntano lì. Il sito è online solo sul vecchio dominio.
 - **Come riprodurlo:** `curl -sI https://ahsenkurtoski.vercel.app/` → 404.
-- **Soluzione esatta:** Vercel → progetto `axsenkurtoski` → Settings → General → Project Name → `ahsenkurtoski` → Save. Verifica: `curl -sI https://axsenkurtoski.vercel.app/` → 200 e `curl -sI https://axsenkurtoski.vercel.app/` → 308→200. Poi `npm run seo:live -- https://ahsenkurtoski.vercel.app` e `npm run audit:links -- https://ahsenkurtoski.vercel.app`, e `npx vercel link` per aggiornare il collegamento locale. (Opzione: posso eseguire io la rinomina via MCP Vercel se autorizzi.)
+- **Soluzione esatta:** Vercel → progetto `axsenkurtoski` → Settings → General → Project Name → `ahsenkurtoski` → Save. Verifica: `curl -sI https://axsenkurtoski.vercel.app/` → 200 e `curl -sI https://axsenkurtoski.vercel.app/` → **307** (era previsto 308: Vercel risponde 307 Temporary Redirect) → 200. Poi `npm run seo:live -- https://ahsenkurtoski.vercel.app` e `npm run audit:links -- https://ahsenkurtoski.vercel.app` — entrambi eseguiti il 30/09/2026, tutto verde.
 - **Impatto:** SEO bloccante risolto — senza questo Google non indicizza nulla correttamente. **Difficoltà:** Facile (2 min, dashboard).
 
-### C2 · Pubblica le sostituzioni già pronte nel working tree
-- **Problema:** le correzioni di handle/brand sono applicate al codice ma non ancora online.
+### C2 · Pubblica le sostituzioni già pronte nel working tree — ✅ FATTO il 30/09/2026
+**Esito:** commit `c3bc58c` su `main` (41 file) pushato; il sito live mostra handle `AhsenKurtoski`, brand "Ahsen Studio" e il link aggiornato del sito dello studio.
+
+- **Problema (come si presentava durante l'audit):** le correzioni di handle/brand sono applicate al codice ma non ancora online.
 - **Come riprodurlo:** il sito live mostra ancora GitHub `AxsenXzc`, brand "Axsen Studio".
 - **Soluzione esatta:** dopo C1 (e H1 qui sotto, perché i link nuovi devono esistere): commit dei file modificati (`src/lib/site.ts`, `package.json`, `.gitignore`, `scripts/audit-*.mjs`) → push → deploy automatico.
 - **Impatto:** coerenza identità "Ahsen Kurtoski" su tutto il sito. **Difficoltà:** Facile.
@@ -25,8 +30,10 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 
 ## 🟠 HIGH — questa settimana
 
-### H1 · Rinomina gli account social ad `AhsenKurtoski` (o ripristina i vecchi handle)
-- **Problema:** i nuovi URL nel codice non esistono ancora — verificato: `github.com/AhsenKurtoski` → **404**; LinkedIn/Instagram non verificabili da bot.
+### H1 · Rinomina gli account social ad `AhsenKurtoski` (o ripristina i vecchi handle) — ✅ FATTO il 30/09/2026
+**Esito:** `github.com/AhsenKurtoski` → **200** (profilo senza più riferimenti ad "Axsen"), `instagram.com/ahsenkurtoski` → 200, `linkedin.com/in/ahsenkurtoski` → 999 (anti-bot): **da confermare a mano** aprendo il profilo da browser.
+
+- **Problema (come si presentava durante l'audit):** i nuovi URL nel codice non esistono ancora — verificato: `github.com/AhsenKurtoski` → **404**; LinkedIn/Instagram non verificabili da bot.
 - **Come riprodurlo:** apri i tre link dalla home (dopo il deploy).
 - **Soluzione esatta:** GitHub → Settings → Account → Change username → `AhsenKurtoski` (mantiene il redirect dal vecchio); Instagram → Cambia username; LinkedIn → Modifica URL pubblico. Poi verifica i tre URL e aggiorna le bio social con il sito. *In alternativa:* ripristina in `src/lib/site.ts` (righe 100–102) i vecchi handle e non toccare gli account.
 - **Impatto:** `sameAs` e link di identità funzionanti = segnale forte per la ricerca sul nome. **Difficoltà:** Facile (ma richiede accesso agli account).

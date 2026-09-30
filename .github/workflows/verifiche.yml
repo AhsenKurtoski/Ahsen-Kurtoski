@@ -51,9 +51,25 @@ jobs:
 
       # Avvio, attesa e audit in un unico step: un processo avviato in background
       # in uno step precedente verrebbe terminato alla fine di quello step.
+      #
+      # Il server parte dal binario locale (`node_modules/.bin/next`), non con
+      # `npm run start`: npm crea una catena npm → sh → node e il PID che si
+      # ottiene non è il server, quindi il kill lascerebbe il processo vivo.
+      # Così `$!` è il server e il trap lo chiude in ogni caso di uscita.
+      # (Se restasse comunque qualcosa acceso: il runner è usa e getta e nessuno
+      # step successivo usa la 3000, quello che conta è il codice di uscita
+      # dell'audit, che lo step propaga.)
       - name: Audit link sul sito costruito
         run: |
-          npm run start -- -p 3000 > next-start.log 2>&1 &
+          server=""
+          cleanup() {
+            if [ -n "$server" ]; then
+              kill "$server" 2>/dev/null || true
+            fi
+          }
+          trap cleanup EXIT
+
+          ./node_modules/.bin/next start -p 3000 > next-start.log 2>&1 &
           server=$!
           for _ in $(seq 1 30); do
             if curl -sf -o /dev/null http://127.0.0.1:3000/; then break; fi
@@ -68,7 +84,6 @@ jobs:
           # sitemap, robots, canonical, 404). Link esterni e siti di terze parti
           # restano nel log e nell'artefatto, senza far fallire la verifica.
           npm run audit:links -- http://127.0.0.1:3000 --fail-on=internal && status=0 || status=$?
-          kill "$server" 2>/dev/null || true
           exit "$status"
 
       - name: Allega il report dell'audit

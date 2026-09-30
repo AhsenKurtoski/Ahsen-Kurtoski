@@ -1,7 +1,7 @@
 # Fix applicati — accessibilità e semantica (30 settembre 2026)
 
 Correzioni del gruppo **HIGH / MEDIUM / QUICK WIN** dell'[action plan](action-plan.md) già applicate al codice.
-Sono nel **working tree: non committate e non deployate** (nessun commit/push/deploy eseguito).
+**Committate e deployate** il 30/09/2026 (commit `c3bc58c` su `main`, deploy Vercel dalla stessa revisione). I numeri "dopo" in fondo sono misurati **sul sito live**, non in locale.
 
 Riferimento ai problemi originali: [audit report](audit-report.md) (H2, H3, H4, M1, L1, M3).
 
@@ -82,12 +82,21 @@ Etichette e ringraziamenti del form passano a `text-zinc-400` (punto 1).
 | Scheda nascosta | testo invariato dopo 1 s |
 | Layout a schermo (390 e 900 px) | timeline, card e form invariati |
 
+**Verifiche ripetute sul sito live dopo il deploy** (`https://ahsenkurtoski.vercel.app`):
+
+| Controllo | Esito |
+|---|---|
+| Lighthouse a11y (home, /chi-sono, /blog, /contatti, /blog/tag/seo) | **100/100** su tutte, zero audit falliti |
+| Audit link sul dominio ufficiale (`--fail-on=all`) | 16/16 pagine, 17 link interni 200, **0 problemi / 0 avvisi**, 404 reale, `http → https` 308 |
+| `<h1>` e gerarchia titoli su tutte le 16 URL | un solo `<h1>` per pagina, nessun salto (ora controllato anche dal crawler) |
+| Lighthouse performance mobile | home **83–86** (3 run), blog **97**, contatti **97**; LCP 2,14–2,65 s, TBT 106–546 ms |
+
 Dati grezzi dei run "dopo": `audit/raw/after-fix/` (JSON Lighthouse per le 7 pagine).
 Screenshot post-fix: `audit/screenshots/after-*.png`.
 
 ## Cosa resta aperto
 
-1. **Deploy**: queste modifiche valgono solo quando le committi e ridispleghi (dipendono da C1/C2 dell'action plan).
-2. **Tap target 40 px** (QW2: menu mobile e icone social) — non incluso in questo giro.
-3. **Title/description** (M2) e i fix 2–4 di performance (M3: `preload: false` per Geist Mono, `inlineCss`, bundle) — non inclusi.
-4. **Domino ufficiale 404** (C1) e **handle social da rinominare** (H1): invariati, restano i blocchi principali per l'indicizzazione.
+1. **Tap target 40 px** (QW2: menu mobile e icone social) — non incluso in questo giro.
+2. **Title/description** (M2) e i fix 2–4 di performance (M3: `preload: false` per Geist Mono, `inlineCss`, bundle) — non inclusi.
+3. **Sito dello studio** (H5): il sottodominio è a posto, ma `<title>` e description dicono ancora "Axsen Kurtoski" — si correggono nel progetto del sito, fuori da questo repo.
+4. **Search Console** (M4) sulla proprietà del dominio ufficiale, ora che risponde 200.

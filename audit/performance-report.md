@@ -1,12 +1,28 @@
 # Report performance & mobile — Ahsen Kurtoski
 
-**Data:** 30 settembre 2026 · **URL misurato:** `https://axsenkurtoski.vercel.app` (dominio realmente servito)
-**Strumenti:** Lighthouse 13.5 con Chrome for Testing 154 in locale (headless), puppeteer-core per lo sweep responsive. Report grezzi in [`audit/lighthouse/`](lighthouse/).
+**Data:** 30 settembre 2026 · **URL misurato:** `https://axsenkurtoski.vercel.app` (all'epoca il dominio realmente servito; oggi fa 307 verso `ahsenkurtoski.vercel.app`)
+**Strumenti:** Lighthouse 13.5 con Chrome for Testing 154 in locale (headless), puppeteer-core per lo sweep responsive. Report grezzi in `audit/lighthouse/` (cartella **locale, non versionata**: si rigenera con i comandi della sezione 6).
 **Throttling:** mobile = emulazione Moto G Power, rete "Slow 4G" + CPU 4× (metodo simulate, default Lighthouse); desktop = preset desktop; run extra "3G" su home con throttling devtools reale (RTT 600 ms, 400 kbps, CPU 4×).
 
 ---
 
-## 1. Punteggi e metriche
+## 0. Aggiornamento: misure dopo i fix (sito live, deploy `c3bc58c`)
+
+Misure ripetute **sul dominio ufficiale** dopo il deploy, cioè sul codice che gli utenti ricevono oggi.
+
+| Run (mobile) | Perf | A11y | LCP | TBT | CLS | TTFB |
+|---|---|---|---|---|---|---|
+| home (3 run) | **83 · 84 · 86** | **100** | 2,45–2,65 s | 393 · 393 · 546 ms | 0 | 70 ms |
+| blog | **97** | **100** | 2,20 s | 132 ms | 0 | 88 ms |
+| contatti | **97** | **100** | 2,14 s | 106 ms | 0 | 82 ms |
+
+Confronto con le misure pre-fix dello stesso periodo (home 71 → **83–86**, blog 72 → **97**, contatti 84 → **97**).
+Le due serie non sono misurate nelle stesse condizioni (dominio diverso, periodo diverso, cache diversa): il confronto è indicativo e i valori da guardare sono quelli "dopo". Il fix del typing effect è l'unico cambiamento di questo giro che riduce lavoro sul main thread, ed è coerente con il crollo del TBT, ma non ho misure isolate che ne provino da sole l'effetto.
+I fix 2–4 di M3 (font mono, CSS, bundle) **non** sono ancora applicati: la home resta sotto la soglia consigliata di LCP 2,5 s in un run su tre.
+
+---
+
+## 1. Punteggi e metriche (pre-fix, durante l'audit)
 
 | Run | Perf | A11y | Best Pract. | SEO | LCP | TBT | CLS | TTFB | JS trasferito |
 |---|---|---|---|---|---|---|---|---|---|
