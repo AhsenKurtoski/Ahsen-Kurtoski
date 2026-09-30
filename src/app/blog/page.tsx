@@ -44,6 +44,7 @@ export default function BlogPage() {
 
       <Reveal className="mt-6 flex flex-col gap-10">
         <SectionHeading
+          as="h1"
           eyebrow="Blog"
           title="Il blog di Ahsen Kurtoski"
           description="Scrivo di sviluppo web, design, SEO e di tutto quello che imparo costruendo cose. Nuovi articoli in arrivo, torna presto!"
@@ -57,7 +58,7 @@ export default function BlogPage() {
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
               <Reveal key={post.slug} delay={index * 80}>
-                <PostCard post={post} />
+                <PostCard post={post} headingLevel={2} />
               </Reveal>
             ))}
           </div>
@@ -65,7 +66,7 @@ export default function BlogPage() {
 
         {tags.length > 0 && (
           <div className="flex flex-col gap-3 border-t border-white/5 pt-8">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Esplora per argomento
             </h2>
             <ul className="flex flex-wrap gap-2">
@@ -77,7 +78,7 @@ export default function BlogPage() {
                   >
                     <Icon name="arrow-up-right" className="size-3.5" />
                     {item.tag}
-                    <span className="text-zinc-500">{item.count}</span>
+                    <span className="text-zinc-400">{item.count}</span>
                   </Link>
                 </li>
               ))}

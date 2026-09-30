@@ -16,17 +16,17 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5"
-          aria-label={`${site.name} — torna alla home`}
-        >
-          <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-[#7c6cff] to-[#00d4ff] text-sm font-bold text-white shadow-lg shadow-[#7c6cff]/25">
+        <Link href="/" className="flex items-center gap-2.5">
+          <span
+            aria-hidden="true"
+            className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-[#7c6cff] to-[#00d4ff] text-sm font-bold text-white shadow-lg shadow-[#7c6cff]/25"
+          >
             {site.initials}
           </span>
           <span className="text-sm font-semibold tracking-tight text-white sm:text-base">
             {site.firstName} <span className="text-gradient">{site.lastName}</span>
           </span>
+          <span className="sr-only">— torna alla home</span>
         </Link>
 
         <nav

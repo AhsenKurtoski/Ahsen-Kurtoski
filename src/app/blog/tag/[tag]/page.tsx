@@ -63,6 +63,7 @@ export default async function TagPage({ params }: PageProps) {
 
       <Reveal className="mt-6 flex flex-col gap-10">
         <SectionHeading
+          as="h1"
           eyebrow="Archivio tag"
           title={`Articoli su ${label}`}
           description={`Tutti gli articoli del blog che parlano di ${label}.`}
@@ -71,14 +72,14 @@ export default async function TagPage({ params }: PageProps) {
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, index) => (
             <Reveal key={post.slug} delay={index * 80}>
-              <PostCard post={post} />
+              <PostCard post={post} headingLevel={2} />
             </Reveal>
           ))}
         </div>
 
         {otherTags.length > 0 && (
           <div className="flex flex-col gap-3 border-t border-white/5 pt-8">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">
               Altri argomenti
             </h2>
             <ul className="flex flex-wrap gap-2">

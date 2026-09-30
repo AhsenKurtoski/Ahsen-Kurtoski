@@ -3,11 +3,14 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
+  /** Livello di intestazione: "h1" solo per il titolo principale di una pagina. */
+  as?: "h1" | "h2";
 }) {
   return (
     <div
@@ -20,9 +23,9 @@ export function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+      <Heading className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
         {title}
-      </h2>
+      </Heading>
       {description && (
         <p
           className={`max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base ${

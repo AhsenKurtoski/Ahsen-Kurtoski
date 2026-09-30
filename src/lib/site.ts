@@ -59,7 +59,7 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-09-18",
+  updated: "2026-09-30",
 
   /** Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e nel JSON-LD). */
   privacyUpdated: "2026-09-18",
@@ -85,11 +85,14 @@ export const site = {
    * come identità ufficiale della stessa persona disperde il segnale con cui
    * Google collega il nome «Ahsen Kurtoski» a un unico indirizzo. Un link
    * normale, invece, si legge bene e non confonde.
+   *
+   * Il sito dello studio è su Netlify: il 30/09/2026 il sottodominio è stato
+   * rinominato da `axsen-studio` a `ahsen-studio` (il vecchio risponde 404).
    */
   otherSites: [
     {
-      name: "Axsen Studio",
-      url: "https://axsen-studio.netlify.app",
+      name: "Ahsen Studio",
+      url: "https://ahsen-studio.netlify.app",
       description:
         "Il mio studio di sviluppo web: siti, e-commerce e app su misura, curati dal design al deploy.",
     },
@@ -97,9 +100,9 @@ export const site = {
 
   // Social (usa URL completi; lascia "" per nascondere l'icona)
   socials: {
-    github: "https://github.com/AxsenXzc",
-    linkedin: "https://www.linkedin.com/in/axsen-studio",
-    instagram: "https://www.instagram.com/axsenstudio",
+    github: "https://github.com/AhsenKurtoski",
+    linkedin: "https://www.linkedin.com/in/ahsenkurtoski",
+    instagram: "https://www.instagram.com/ahsenkurtoski",
     fiverr: "https://www.fiverr.com/s/RV7NzgN",
     x: "",
     youtube: "",

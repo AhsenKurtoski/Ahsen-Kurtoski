@@ -9,10 +9,12 @@
     "lint": "eslint",
     "seo:check": "node scripts/seo-check.mjs",
     "seo:live": "node scripts/seo-live-check.mjs",
+    "audit:links": "node scripts/audit-links.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "indexnow:changed": "node scripts/indexnow.mjs --changed",
     "email:test": "node scripts/test-email.mjs",
-    "icons": "node scripts/generate-icons.mjs"
+    "icons": "node scripts/generate-icons.mjs",
+    "audit:responsive": "node scripts/audit-responsive.mjs"
   },
   "dependencies": {
     "next": "16.3.5",
@@ -20,12 +22,14 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@puppeteer/browsers": "^3.2.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "lighthouse": "^13.5.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

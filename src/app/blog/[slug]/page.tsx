@@ -112,7 +112,7 @@ export default async function PostPage({ params }: PageProps) {
             {post.excerpt}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 border-y border-[var(--color-border)] py-4 text-xs text-zinc-500">
+          <div className="flex flex-wrap items-center gap-4 border-y border-[var(--color-border)] py-4 text-xs text-zinc-400">
             <span className="inline-flex items-center gap-1.5">
               <span className="grid size-7 place-items-center rounded-full bg-gradient-to-br from-[#7c6cff] to-[#00d4ff] text-[10px] font-bold text-white">
                 {site.initials}

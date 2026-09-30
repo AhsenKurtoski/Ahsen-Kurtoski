@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Audit Ahsen Kurtoski — 30/09/2026</title>
+<style>
+  :root { color-scheme: dark; --bg:#0a0a0f; --card:#12121a; --border:#26262f; --muted:#a1a1aa; --accent:#7c6cff; --accent2:#00d4ff; --ok:#34d399; --warn:#fbbf24; --bad:#f87171; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:#fafafa; font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  a { color:var(--accent2); text-decoration:none; } a:hover { text-decoration:underline; }
+  .wrap { max-width:1080px; margin:0 auto; padding:40px 20px 80px; }
+  h1 { font-size:2rem; margin:0 0 6px; letter-spacing:-.02em; }
+  h1 span { background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { color:var(--muted); margin:0 0 32px; }
+  h2 { font-size:1.15rem; margin:38px 0 12px; letter-spacing:.01em; }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:16px 18px; }
+  .card .big { font-size:1.9rem; font-weight:800; letter-spacing:-.02em; }
+  .card .lbl { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; }
+  .ok { color:var(--ok); } .warn { color:var(--warn); } .bad { color:var(--bad); }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  th { color:var(--muted); font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; }
+  tr:last-child td { border-bottom:0; }
+  .pill { display:inline-block; padding:2px 10px; border-radius:999px; font-size:.75rem; font-weight:600; border:1px solid var(--border); }
+  .pill.bad { color:var(--bad); border-color:#7f1d1d; background:#2a0f12; }
+  .pill.warn { color:var(--warn); border-color:#78350f; background:#2a1f0d; }
+  .pill.ok { color:var(--ok); border-color:#064e3b; background:#0b241c; }
+  ul.clean { list-style:none; padding:0; margin:0; }
+  ul.clean li { padding:10px 0; border-bottom:1px solid var(--border); }
+  ul.clean li:last-child { border-bottom:0; }
+  .gallery { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); }
+  .gallery figure { margin:0; }
+  .gallery img { width:100%; border:1px solid var(--border); border-radius:12px; background:#fff; }
+  .gallery figcaption { color:var(--muted); font-size:.78rem; margin-top:6px; }
+  .note { color:var(--muted); font-size:.88rem; }
+  footer { margin-top:48px; color:var(--muted); font-size:.85rem; border-top:1px solid var(--border); padding-top:16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Audit <span>Ahsen Kurtoski</span></h1>
+  <p class="sub">30 settembre 2026 · target: repo locale + sito pubblicato (dominio servito: <code>axsenkurtoski.vercel.app</code>)</p>
+
+  <div class="grid">
+    <div class="card"><div class="lbl">Criticità #1</div><div class="big bad">Dominio 404</div><p class="note">Il dominio ufficiale dichiarato nel codice non è assegnato: canonical e sitemap puntano nel vuoto.</p></div>
+    <div class="card"><div class="lbl">Pagine verificate</div><div class="big">16/16</div><p class="note">Tutte 200 sul dominio attivo, 404 sulla sitemap (dominio nuovo).</p></div>
+    <div class="card"><div class="lbl">Errori JavaScript</div><div class="big ok">0</div><p class="note">Console e rete pulite su tutte le pagine (il 404 della pagina 404 è atteso).</p></div>
+    <div class="card"><div class="lbl">Lighthouse home mobile</div><div class="big warn">71</div><p class="note">Perf 71 · A11y 96 · BP 100 · SEO 100. TBT 930 ms da correggere.</p></div>
+  </div>
+
+  <h2>Punteggi Lighthouse (locali, Chrome 154)</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Run</th><th>Perf</th><th>A11y</th><th>BP</th><th>SEO</th><th>LCP</th><th>TBT</th><th>CLS</th></tr></thead>
+      <tbody>
+        <tr><td><a href="lighthouse/home-mobile.report.html">home · mobile 4G</a></td><td class="warn">71</td><td>96</td><td>100</td><td>100</td><td>3,10 s</td><td class="bad">930 ms</td><td>~0</td></tr>
+        <tr><td><a href="lighthouse/home-desktop.report.html">home · desktop</a></td><td>96</td><td>96</td><td>100</td><td>100</td><td>512 ms</td><td>144 ms</td><td>~0</td></tr>
+        <tr><td><a href="lighthouse/home-3g.report.html">home · 3G</a></td><td>84</td><td>96</td><td>100</td><td>100</td><td>3,42 s</td><td>—</td><td>~0</td></tr>
+        <tr><td><a href="lighthouse/blog-mobile.report.html">blog · mobile</a></td><td class="warn">72</td><td>96</td><td>100</td><td>100</td><td>2,37 s</td><td class="bad">1.244 ms</td><td>0</td></tr>
+        <tr><td><a href="lighthouse/chi-sono-mobile.report.html">chi sono · mobile</a></td><td>95</td><td class="bad">81</td><td>100</td><td>100</td><td>2,15 s</td><td>207 ms</td><td>0</td></tr>
+        <tr><td><a href="lighthouse/contatti-mobile.report.html">contatti · mobile</a></td><td>84</td><td>96</td><td>100</td><td>100</td><td>2,18 s</td><td>534 ms</td><td>0</td></tr>
+        <tr><td><a href="lighthouse/articolo-seo-mobile.report.html">articolo · mobile</a></td><td>84</td><td>96</td><td>100</td><td>100</td><td>2,43 s</td><td>529 ms</td><td>0</td></tr>
+        <tr><td><a href="lighthouse/articolo-seo-desktop.report.html">articolo · desktop</a></td><td class="ok">100</td><td>96</td><td>100</td><td>100</td><td>482 ms</td><td>0 ms</td><td>0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Da correggere — priorità</h2>
+  <div class="card">
+    <ul class="clean">
+      <li><span class="pill bad">CRITICAL</span> <strong>Dominio ufficiale 404</strong> — canonical/sitemap/robots puntano a un dominio inesistente. Fix: rinomina progetto Vercel → <code>ahsenkurtoski</code> (2 min).</li>
+      <li><span class="pill warn">HIGH</span> <strong>Handle social nuovi non ancora esistenti</strong> — github.com/AhsenKurtoski è 404: rinominare gli account prima del deploy.</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>Contraste 4,06:1</strong> su testi piccoli (16 usi di <code>text-zinc-500</code>) → ora <code>text-zinc-400</code> (~8:1).</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>/chi-sono: HTML non valido</strong> (li fuori da ol, dt/dd annidati) → A11y <strong>81 → 100</strong>.</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>H1 mancante su 14/16 pagine</strong> → ora 16/16 con un solo <code>&lt;h1&gt;</code> e nessun salto di livello; <code>heading-order</code> risolto sulle pagine elenco.</li>
+      <li><span class="pill ok">APPLICATO</span> Etichetta del logo (<code>label-content-name-mismatch</code>), input form a 16 px su mobile, typing con <code>prefers-reduced-motion</code> e pausa a scheda nascosta.</li>
+      <li><span class="pill warn">MEDIUM</span> Description corte, TBT mobile 930 ms, font mono precaricato ovunque.</li>
+      <li><span class="pill ok">QUICK WIN</span> Tap target 40 px, collegamento locale Vercel stantio.</li>
+    </ul>
+    <p class="note">Le voci <strong>APPLICATO</strong> sono nel working tree, non ancora deployate: verifica e misure in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y 100/100 sulle 7 pagine testate, dati in <code>raw/after-fix/</code>).</p>
+  </div>
+
+  <h2>Report completi</h2>
+  <div class="card">
+    <ul class="clean">
+      <li>📋 <a href="audit-report.md">audit-report.md</a> — bug, priorità, snippet di fix, impatto, difficoltà</li>
+      <li>⚡ <a href="performance-report.md">performance-report.md</a> — Lighthouse, throttling, cause del lag e fix</li>
+      <li>🔍 <a href="seo-checklist.md">seo-checklist.md</a> — matrice ✅/⚠️/❌ per le 16 URL + GSC</li>
+      <li>✅ <a href="action-plan.md">action-plan.md</a> — piano prioritizzato (Critical/High/Medium/Quick win/Long-term)</li>
+      <li>🛠️ <a href="fixes-applied.md">fixes-applied.md</a> — fix a11y/semantica già applicati: prima → dopo e verifiche</li>
+      <li>🗓️ <a href="roadmap-30-60-90.md">roadmap-30-60-90.md</a> — obiettivi e KPI del trimestre</li>
+      <li>🔁 <a href="find-replace-log.csv">find-replace-log.csv</a> — prima/dopo di ogni sostituzione (applicata e non)</li>
+    </ul>
+  </div>
+
+  <h2>Screenshot responsive</h2>
+  <p class="note">Gli scatti si vedono aprendo questo file dal disco (o con un server statico): l'anteprima incorporata serve solo l'HTML e non carica le immagini relative.
+  Stessa cosa per i report Lighthouse collegati in tabella: la cartella <code>audit/lighthouse/</code> è locale e non versionata (si rigenera con i comandi in <a href="README.md">README.md</a>).</p>
+  <div class="gallery">
+    <figure><img src="screenshots/home-360.png" alt="Home a 360 px" loading="lazy"><figcaption>home · 360 px</figcaption></figure>
+    <figure><img src="screenshots/home-390.png" alt="Home a 390 px" loading="lazy"><figcaption>home · 390 px</figcaption></figure>
+    <figure><img src="screenshots/home-768.png" alt="Home a 768 px" loading="lazy"><figcaption>home · 768 px</figcaption></figure>
+    <figure><img src="screenshots/home-1280.png" alt="Home a 1280 px" loading="lazy"><figcaption>home · 1280 px</figcaption></figure>
+    <figure><img src="screenshots/articolo-seo-375.png" alt="Articolo a 375 px" loading="lazy"><figcaption>articolo · 375 px</figcaption></figure>
+    <figure><img src="screenshots/contatti-375.png" alt="Contatti a 375 px" loading="lazy"><figcaption>contatti · 375 px</figcaption></figure>
+    <figure><img src="screenshots/blog-768.png" alt="Blog a 768 px" loading="lazy"><figcaption>blog · 768 px</figcaption></figure>
+    <figure><img src="screenshots/after-chi-sono-390.png" alt="Chi sono a 390 px dopo i fix" loading="lazy"><figcaption>chi sono · 390 px (dopo i fix)</figcaption></figure>
+    <figure><img src="screenshots/after-blog-900.png" alt="Blog a 900 px dopo i fix" loading="lazy"><figcaption>blog · 900 px (dopo i fix)</figcaption></figure>
+    <figure><img src="screenshots/after-contatti-390.png" alt="Contatti a 390 px dopo i fix" loading="lazy"><figcaption>contatti · 390 px (dopo i fix)</figcaption></figure>
+  </div>
+
+  <h2>Nota di contesto</h2>
+  <p class="note">Le misure di performance, gli screenshot e il crawl si riferiscono al sito così come era pubblicato il 30/09/2026 (dominio attivo <code>axsenkurtoski.vercel.app</code>).
+  Le sostituzioni di handle e brand sono già applicate nel codice ma non ancora deployate; dopo il fix del dominio va rifatto un giro di verifica con
+  <code>npm run seo:live</code>, <code>npm run audit:links</code>, <code>npm run audit:responsive</code>.</p>
+
+  <footer>Generato il 30/09/2026 · dati grezzi in <a href="raw/">audit/raw/</a> · kit di misura in <code>scripts/audit-*.mjs</code></footer>
+</div>
+</body>
+</html>

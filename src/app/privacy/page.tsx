@@ -74,11 +74,12 @@ export default function PrivacyPage() {
 
       <div className="mt-6 flex flex-col gap-4">
         <SectionHeading
+          as="h1"
           eyebrow="Privacy e cookie"
           title="Informativa privacy"
           description="In chiaro, senza avvocatese: questo sito non ti traccia, non usa cookie di profilazione e non ha nessun database di utenti."
         />
-        <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+        <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
           Ultimo aggiornamento: {formatDate(site.privacyUpdated)}
         </p>
       </div>

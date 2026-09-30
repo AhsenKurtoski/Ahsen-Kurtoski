@@ -7,8 +7,9 @@ import { Icon } from "./icons";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+// text-base su mobile: sotto i 16px iOS zooma la pagina al focus del campo
 const inputClass =
-  "w-full rounded-xl border border-[var(--color-border)] bg-[#0e0e15] px-4 py-3 text-sm text-white placeholder:text-zinc-500 transition-colors focus:border-[#7c6cff] focus:outline-none";
+  "w-full rounded-xl border border-[var(--color-border)] bg-[#0e0e15] px-4 py-3 text-base text-white placeholder:text-zinc-400 transition-colors focus:border-[#7c6cff] focus:outline-none sm:text-sm";
 
 export function ContactForm() {
   const [name, setName] = useState("");
@@ -133,14 +134,14 @@ export function ContactForm() {
             ? "text-emerald-400"
             : status === "error"
               ? "text-amber-400"
-              : "text-zinc-500"
+              : "text-zinc-400"
         }`}
       >
         {feedback ||
           "Il messaggio arriva direttamente nella mia casella email: nessun dato viene salvato su questo sito."}
       </p>
 
-      <p className="text-xs leading-relaxed text-zinc-500">
+      <p className="text-xs leading-relaxed text-zinc-400">
         I dati che scrivi qui (nome, email e messaggio) li uso solo per
         risponderti.{" "}
         <Link

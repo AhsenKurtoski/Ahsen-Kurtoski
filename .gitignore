@@ -37,6 +37,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Chrome for Testing scaricato da scripts/npm run audit (Lighthouse locale)
+.chrome/
+
+# Dati grezzi dell'audit: report Lighthouse e crawl, rigenerabili con gli script
+# in scripts/audit-*.mjs (i report in Markdown, il CSV e la dashboard invece si versionano)
+audit/lighthouse/
+audit/raw/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,0 +1,82 @@
+name: Verifiche prima del deploy
+
+# A ogni push: typecheck, lint, build, controlli SEO sull'output della build e
+# audit di link sul sito appena costruito. Se qualcosa peggiora, la verifica
+# fallisce (basta guardare la ✗ nel log o l'artefatto allegato al run).
+#
+# Nota: il sito viene costruito con NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
+# così canonical, sitemap, robots e link assoluti puntano all'indirizzo che
+# l'audit visita davvero. Senza questo override l'audit classificherebbe i link
+# assoluti come "esterni" e segnalerebbe problemi inesistenti.
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # Un run per branch: se pushi due volte di fila, il primo viene annullato.
+  group: verifiche-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verifiche:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installa le dipendenze
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Controlli SEO sull'output della build
+        run: npm run seo:check
+
+      # Avvio, attesa e audit in un unico step: un processo avviato in background
+      # in uno step precedente verrebbe terminato alla fine di quello step.
+      - name: Audit link sul sito costruito
+        run: |
+          npm run start -- -p 3000 > next-start.log 2>&1 &
+          server=$!
+          for _ in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3000/; then break; fi
+            sleep 1
+          done
+          curl -sf -o /dev/null http://127.0.0.1:3000/ || {
+            echo "Il sito non risponde su http://127.0.0.1:3000"
+            tail -40 next-start.log
+            exit 1
+          }
+          # Bloccano solo i problemi che questo repo può correggere (link interni,
+          # sitemap, robots, canonical, 404). Link esterni e siti di terze parti
+          # restano nel log e nell'artefatto, senza far fallire la verifica.
+          npm run audit:links -- http://127.0.0.1:3000 --fail-on=internal && status=0 || status=$?
+          kill "$server" 2>/dev/null || true
+          exit "$status"
+
+      - name: Allega il report dell'audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-link
+          path: |
+            audit/raw/link-audit.json
+            next-start.log
+          if-no-files-found: ignore

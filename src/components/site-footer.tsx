@@ -25,10 +25,10 @@ export function SiteFooter() {
 
           {site.otherSites.length > 0 && (
             <p className="text-sm text-zinc-400">
-              <span className="text-zinc-500">Altri miei siti: </span>
+              <span className="text-zinc-400">Altri miei siti: </span>
               {site.otherSites.map((other, index) => (
                 <span key={other.url}>
-                  {index > 0 && <span className="text-zinc-600">, </span>}
+                  {index > 0 && <span className="text-zinc-400">, </span>}
                   <a
                     href={other.url}
                     target="_blank"
@@ -44,7 +44,7 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Link del sito" className="flex flex-col gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
             Naviga
           </h2>
           <ul className="flex flex-col gap-2">
@@ -70,7 +70,7 @@ export function SiteFooter() {
         </nav>
 
         <div className="flex flex-col gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
             Contatti
           </h2>
           <a
@@ -95,7 +95,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/5">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>
               © {year} {site.name}. Tutti i diritti riservati.

@@ -123,7 +123,7 @@ export default function HomePage() {
 
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <SocialLinks />
-              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500">
+              <span className="inline-flex items-center gap-1.5 text-xs text-zinc-400">
                 <Icon name="map-pin" className="size-4" />
                 {site.location}
               </span>
@@ -246,7 +246,7 @@ export default function HomePage() {
                       <span className="text-sm font-medium text-white">
                         {skill.name}
                       </span>
-                      <span className="text-xs tabular-nums text-zinc-500">
+                      <span className="text-xs tabular-nums text-zinc-400">
                         {skill.level}%
                       </span>
                     </div>

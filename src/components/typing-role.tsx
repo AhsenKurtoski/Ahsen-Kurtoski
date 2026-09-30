@@ -10,8 +10,30 @@ export function TypingRole() {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  // Rispetta "riduci animazioni" e mette in pausa l'effetto quando la scheda non è visibile:
+  // niente timer che macinano lavoro (e batteria) mentre nessuno guarda.
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncMotion = () => setReducedMotion(motion.matches);
+    syncMotion();
+    motion.addEventListener("change", syncMotion);
+
+    const syncVisibility = () => setPaused(document.hidden);
+    syncVisibility();
+    document.addEventListener("visibilitychange", syncVisibility);
+
+    return () => {
+      motion.removeEventListener("change", syncMotion);
+      document.removeEventListener("visibilitychange", syncVisibility);
+    };
+  }, []);
 
   useEffect(() => {
+    if (reducedMotion || paused) return;
+
     const current = roles[index % roles.length];
     const finished = text === current;
     const cleared = text === "";
@@ -35,7 +57,16 @@ export function TypingRole() {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [text, deleting, index]);
+  }, [text, deleting, index, reducedMotion, paused]);
+
+  if (reducedMotion) {
+    return (
+      <span className="inline-flex items-baseline">
+        <span className="text-gradient font-semibold">{roles[0]}</span>
+        <span className="sr-only">{roles.join(", ")}</span>
+      </span>
+    );
+  }
 
   return (
     <span className="inline-flex items-baseline">

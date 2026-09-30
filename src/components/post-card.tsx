@@ -2,7 +2,16 @@ import Link from "next/link";
 import { formatDate, tagToSlug, type Post } from "@/lib/posts";
 import { Icon } from "./icons";
 
-export function PostCard({ post }: { post: Post }) {
+export function PostCard({
+  post,
+  headingLevel = 3,
+}: {
+  post: Post;
+  /** Livello del titolo: 2 quando la card è contenuto di primo livello della pagina. */
+  headingLevel?: 2 | 3;
+}) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
+
   return (
     <article className="card group flex flex-col overflow-hidden">
       <div className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-4">
@@ -32,14 +41,14 @@ export function PostCard({ post }: { post: Post }) {
           ))}
         </div>
 
-        <h3 className="text-lg font-semibold leading-snug text-white">
+        <Heading className="text-lg font-semibold leading-snug text-white">
           <Link
             href={`/blog/${post.slug}`}
             className="transition-colors hover:text-[#00d4ff]"
           >
             {post.title}
           </Link>
-        </h3>
+        </Heading>
 
         <p className="text-sm leading-relaxed text-zinc-400">{post.excerpt}</p>
 

@@ -53,6 +53,7 @@ export default function ContattiPage() {
 
       <Reveal className="mt-6 flex flex-col gap-10">
         <SectionHeading
+          as="h1"
           eyebrow="Contatti"
           title="Parliamo dei tuoi progetti"
           description="Hai una domanda, un'idea o vuoi semplicemente salutarmi? Scegli il canale che preferisci: rispondo sempre."

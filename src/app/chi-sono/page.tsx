@@ -57,6 +57,7 @@ export default function ChiSonoPage() {
               <Breadcrumbs items={[{ label: "Chi sono" }]} />
 
               <SectionHeading
+                as="h1"
                 eyebrow="Biografia"
                 title="Chi è Ahsen Kurtoski?"
                 description="Il riassunto ufficiale, in poche righe: chi sono, cosa faccio e dove sto andando."
@@ -87,22 +88,22 @@ export default function ChiSonoPage() {
                   </div>
                 </div>
 
-                <dl className="flex flex-col gap-4 border-t border-[var(--color-border)] pt-6 text-sm">
+                <ul className="flex flex-col gap-4 border-t border-[var(--color-border)] pt-6 text-sm">
                   {facts.map((fact) => (
-                    <div key={fact.label} className="flex items-start gap-3">
+                    <li key={fact.label} className="flex items-start gap-3">
                       <Icon
                         name={fact.icon}
                         className="mt-0.5 size-4 shrink-0 text-[#00d4ff]"
                       />
                       <div>
-                        <dt className="text-xs uppercase tracking-wide text-zinc-500">
+                        <span className="block text-xs uppercase tracking-wide text-zinc-400">
                           {fact.label}
-                        </dt>
-                        <dd className="text-zinc-200">{fact.value}</dd>
+                        </span>
+                        <span className="block text-zinc-200">{fact.value}</span>
                       </div>
-                    </div>
+                    </li>
                   ))}
-                </dl>
+                </ul>
               </div>
             </Reveal>
           </div>
@@ -120,8 +121,8 @@ export default function ChiSonoPage() {
 
           <ol className="relative flex flex-col gap-8 border-l border-[var(--color-border)] pl-6">
             {site.timeline.map((step, index) => (
-              <Reveal key={step.year} delay={index * 90}>
-                <li className="relative">
+              <li key={step.year} className="relative">
+                <Reveal delay={index * 90}>
                   <span
                     className="absolute -left-[31px] top-1.5 size-2.5 rounded-full bg-gradient-to-br from-[#7c6cff] to-[#00d4ff]"
                     aria-hidden
@@ -135,8 +136,8 @@ export default function ChiSonoPage() {
                   <p className="mt-1 text-sm leading-relaxed text-zinc-400">
                     {step.description}
                   </p>
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
           </ol>
         </Reveal>

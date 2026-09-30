@@ -32,7 +32,7 @@ export function Breadcrumbs({
   return (
     <>
       <JsonLd data={jsonLd} />
-      <nav aria-label="Percorso" className={`text-xs text-zinc-500 ${className}`}>
+      <nav aria-label="Percorso" className={`text-xs text-zinc-400 ${className}`}>
         {all.map((item, index) => {
           const isLast = index === all.length - 1;
           return (
