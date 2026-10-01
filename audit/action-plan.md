@@ -6,7 +6,7 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 > **Aggiornamento 30/09/2026 (fine giornata):** **C1, C2, H1, H2, H3, H4, M1, L1** e il fix 1 di M3 sono **fatti, committati e deployati** (commit `c3bc58c`). Verifiche sul sito live: audit link **0 problemi / 0 avvisi** su 16 pagine, Lighthouse a11y **100/100**.
 > Restano aperti: **H5** (solo i testi del sito dello studio), **M3 fix 2–4**, **M4** (Search Console), **QW2** (tap target 44 px), **QW4** (header duplicati), **L4** (collegamenti locali Vercel/git). Dettagli in [fixes-applied.md](fixes-applied.md).
 >
-> **Aggiornamento 01/10/2026:** anche **M2** (title e meta description) e **M3 fix 2–4** (font mono, reveal CSS, bundle) sono **fatti e verificati** — 16/16 pagine nel range ideale di title/description, e sulla home mobile −25 KB per pagina con un componente client in meno. Modifiche nel working tree: in attesa di commit e deploy. Restano aperti **H5**, **M4**, **QW2**, **QW4**, **L4** e la sola voce estetica dell'LCP (font-display).
+> **Aggiornamento 01/10/2026:** anche **M2** (title e meta description) e **M3 fix 2–4** (font mono, reveal CSS, bundle) sono **fatti e verificati** — 16/16 pagine nel range ideale di title/description, e sulla home mobile −25 KB per pagina con un componente client in meno. Committate (`f480b5e`) e **deployate su Vercel il 01/10/2026**: su PageSpeed Insights mobile **Perf 96 → 100**, LCP **2,4 → 1,7 s**, TBT **72 → 20 ms**, risorse render-blocking **1 → 0**. Restano aperti **H5**, **M4**, **QW2**, **QW4** e **L4**.
 
 ---
 
@@ -72,13 +72,13 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 - **Soluzione esatta:** prop `as?: "h1" | "h2"` su `src/components/section-heading.tsx`; poi `as="h1"` sulla prima intestazione di `/chi-sono`, `/blog`, `/contatti`, `/privacy`, `/blog/tag/[tag]` (snippet completo in [audit report](audit-report.md), sezione M1).
 - **Impatto:** SEO on-page + gerarchia titoli per screen reader. **Difficoltà:** Facile.
 
-### M2 · Title e description ottimizzati — ✅ FATTO il 01/10/2026 (nel working tree, da committare)
+### M2 · Title e description ottimizzati — ✅ FATTO e deployato il 01/10/2026 (commit `f480b5e`)
 - **Problema:** 2 title >60 char; description 94–122 char (ideale 140–155).
 - **Soluzione esatta:** tabella con le proposte pagina per pagina in [audit report](audit-report.md) (sezione M2). Gli articoli si correggono nell'`excerpt` del frontmatter (`src/content/posts/*.md`).
-- **Esito:** riscritti title e description di `/blog`, `/contatti`, `/privacy`, `/chi-sono`, dei 4 articoli e dei 7 archivi tag, più `shortBio` della home; valori finali e verifiche in [fixes-applied.md §7](fixes-applied.md#7-title-e-meta-description-lunghezze-ideali). Le soglie di `seo:check` sono state portate a title ≤ 60 e description 140–155, così la voce non può regredire in silenzio. *Non ancora deployato.*
+- **Esito:** riscritti title e description di `/blog`, `/contatti`, `/privacy`, `/chi-sono`, dei 4 articoli e dei 7 archivi tag, più `shortBio` della home; valori finali e verifiche in [fixes-applied.md §7](fixes-applied.md#7-title-e-meta-description-lunghezze-ideali). Le soglie di `seo:check` sono state portate a title ≤ 60 e description 140–155, così la voce non può regredire in silenzio. *Deployato il 01/10/2026.*
 - **Impatto:** CTR in SERP. **Difficoltà:** Facile.
 
-### M3 · Performance mobile: typing, font mono, bundle — ✅ FATTO il 01/10/2026 (nel working tree, da committare)
+### M3 · Performance mobile: typing, font mono, bundle — ✅ FATTO e deployato il 01/10/2026 (commit `f480b5e`)
 - **Problema:** home mobile Perf 71 (LCP 3,10 s, TBT 930 ms); 28 KB di JS inutilizzati; font mono precaricato ovunque; CSS render-blocking ~150 ms.
 - **Come riprodurlo:** `npx lighthouse` (comandi in [performance report](performance-report.md#6-come-riprodurre)).
 - **Soluzione esatta:** Fix 1–4 in [performance report §3](performance-report.md#3-cause-del-lag-e-proposte-di-fix): typing con `prefers-reduced-motion` + pausa a scheda nascosta; `preload: false` per Geist Mono; valutare `experimental.inlineCss` (fatto e adottato); `@next/bundle-analyzer` e `dynamic()` per i widget non critici.

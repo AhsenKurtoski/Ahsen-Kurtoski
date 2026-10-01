@@ -92,13 +92,13 @@ L'ipotesi di partenza era che l'LCP fosse in ritardo per il cambio del font (il 
 
 **Nota sul metodo, da tenere presente ovunque in questo report.** Questa macchina ha una variabilità alta: nella stessa serie di 5 run identici un run ha segnato Perf 74 con TBT 1.114 ms, il successivo Perf 96 con TBT 90 ms. Per questo le conclusioni qui sopra si appoggiano alle mediane, ai byte (misura esatta) e ai tempi osservati, non ai punteggi dei singoli run.
 
-**Stato di queste modifiche: nel working tree, non ancora deployate.**
+**Stato di queste modifiche:** committate (`f480b5e`) e **deployate su Vercel il 01/10/2026**. L'esito misurato sul live dopo il deploy è in §0c.
 
 ---
 
 ## 0c. Verifica sul dominio live (PageSpeed Insights, 01/10/2026)
 
-Misura indipendente dalla mia macchina: PageSpeed Insights gira la stessa Lighthouse (13.5.0) dall'infrastruttura Google, **sul deploy attuale** — che non contiene le modifiche M2/M3 del working tree. Raccolta completa in `audit/raw/psi-live-evidence.json`; i report grezzi sono riapribili da [PSI mobile](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=mobile) e [PSI desktop](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=desktop).
+Misura indipendente dalla mia macchina: PageSpeed Insights gira la stessa Lighthouse (13.5.0) dall'infrastruttura Google. La prima misura è la **baseline prima del deploy** (non conteneva M2/M3); l'ultima riga della tabella e il paragrafo «Dopo il deploy» sono invece misurati sul deploy nuovo. Raccolta completa in `audit/raw/psi-live-evidence.json`; i report grezzi sono riapribili da [PSI mobile](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=mobile) e [PSI desktop](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=desktop).
 
 | Ambiente (home) | Macchina (`benchmarkIndex`) | Primo paint osservato | LCP osservato | LCP simulato | TBT | Perf |
 |---|---|---|---|---|---|---|
@@ -107,8 +107,25 @@ Misura indipendente dalla mia macchina: PageSpeed Insights gira la stessa Lighth
 | **PSI mobile, URL live** | **676** | **2.249 ms** | **= FCP** | **2,40 s** | **72 ms** | **96** |
 | **PSI desktop, URL live** | **1.073** | **232 ms** | **= FCP** | **0,52 s** | **0** | **100** |
 | 3G reale, pre-fix (throttling devtools) | 2.765 | 3.420 ms | **= FCP** | 3,42 s | 0 | 84 |
+| **PSI mobile, deploy nuovo** (`f480b5e`) | 854 | **269 ms** | **= FCP** | **1,7 s** | **20 ms** | **100** |
+| **PSI desktop, deploy nuovo** (`f480b5e`) | 1.001 | **351 ms** | **= FCP** | **0,6 s** | **10 ms** | **100** |
 
-**Verdetto di PSI sul live (mobile):** LCP **2,4 s** ✅, TBT **70 ms** ✅, CLS **0** ✅, Perf **96**, a11y/practice/SEO **100**. Sul desktop: Perf **100**, LCP **0,52 s**, TBT **0**. Con le soglie Core Web Vitals (LCP ≤ 2,5 s, TBT ≤ 200 ms, CLS ≤ 0,1) il sito **passa in laboratorio** su mobile e passa largamente su desktop.
+**Verdetto di PSI prima del deploy (mobile):** LCP **2,4 s** ✅, TBT **72 ms** ✅, CLS **0** ✅, Perf **96**, a11y/practice/SEO **100**. Sul desktop: Perf **100**, LCP **0,52 s**, TBT **0**. Con le soglie Core Web Vitals (LCP ≤ 2,5 s, TBT ≤ 200 ms, CLS ≤ 0,1) il sito **passa in laboratorio** su mobile e passa largamente su desktop.
+
+### Dopo il deploy (01/10/2026, commit `f480b5e`)
+
+| Home, PageSpeed Insights | Prima (deploy vecchio) | **Dopo (deploy nuovo)** |
+|---|---|---|
+| Perf mobile | 96 | **100** |
+| LCP mobile | 2,40 s | **1,7 s** |
+| TBT mobile | 72 ms | **20 ms** |
+| Primo paint osservato | 2.249 ms | **269 ms** |
+| Risorse render-blocking | 1 (il CSS, **300 ms stimati**) | **0** |
+| Perf desktop | 100 | 100 (LCP 0,52 → 0,6 s) |
+
+Il rilievo «CSS che blocca il rendering» è **sparito** dal report di PSI: era l'unica voce "da app" delle tre, e restano le due del framework (14 KiB di JS legacy, 28 KiB non usato).
+
+**Una cautela da non saltare.** PSI non garantisce la stessa macchina: la baseline girava con `benchmarkIndex` **676**, questo run con **854** (~26% più veloce). Una parte del guadagno è quindi fortuna della macchina, non codice. Il dato che *non* si spiega così è il **primo paint osservato: da 2.249 a 269 ms** — otto volte più veloce con una CPU più veloce del 26% — ed è coerente con la diagnosi della §0b: il contenuto non aspetta più l'idratazione per essere visibile, perché `Reveal` non è più un componente client e lo stato di partenza è visibile invece di `opacity: 0`. Su una macchina lenta quella differenza pesa più che sulla mia, ed è il motivo per cui il guadagno misurato sul live (−0,70 s di LCP mobile) è maggiore dei −253 ms attribuibili al solo `inlineCss`.
 
 **Nessun dato di campo.** PSI riporta «Nessun dato» sia per l'URL sia per l'origine: il sito ha troppo poco traffico per entrare in CrUX. Quindi **non esiste** una misura di utenti reali da confrontare: la valutazione ufficiale di Google sugli utenti reali, oggi, è semplicemente "non disponibile".
 

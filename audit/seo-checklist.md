@@ -118,4 +118,4 @@ Controlli eseguiti il 30/09/2026 sul dominio ufficiale, dopo il deploy del commi
 | `<h1>` per pagina | ❌ assente su 14/16 | ✅ **1 su 16/16**, nessun salto di gerarchia (controllo aggiunto al crawler) |
 | Pagine della sitemap raggiungibili | ❌ 16/16 → 404 | ✅ 16/16 → 200 |
 | 404 reali, `http → https`, doppi slash | ✅ | ✅ (ricontrollati) |
-| Title oltre 60 char · description corte | ⚠️ 2 · molti | ✅ **risolti** il 01/10/2026 (M2): title 32–60, description 140–153 su 16/16 — modifiche nel working tree, in attesa di commit/deploy |
+| Title oltre 60 char · description corte | ⚠️ 2 · molti | ✅ **risolti** il 01/10/2026 (M2): title 32–60, description 140–153 su 16/16 — deployate il 01/10/2026 (commit `f480b5e`) |

@@ -43,13 +43,13 @@
   <h1>Audit <span>Ahsen Kurtoski</span></h1>
   <p class="sub">30 settembre 2026 · audit su repo locale + sito pubblicato (all'audit servito da <code>axsenkurtoski.vercel.app</code>, oggi 307 → <code>ahsenkurtoski.vercel.app</code>)<br>
   <span class="note">Segue un aggiornamento a fine giornata: fix applicati, committati (c3bc58c) e deployati — i numeri "dopo" sono misurati sul dominio ufficiale.</span><br>
-  <span class="note"><strong>Aggiornamento 01/10/2026:</strong> riscritti title/description di tutte le pagine (M2) e applicati i fix di performance 2–4 (M3): <strong>−25 KB per pagina</strong>, un componente client in meno. Le modifiche sono nel working tree, <strong>non ancora deployate</strong>. Verifica indipendente su PageSpeed Insights (deploy attuale): mobile <strong>Perf 96 · LCP 2,4 s · TBT 70 ms · CLS 0</strong>, desktop <strong>Perf 100 · LCP 0,52 s</strong>.</span></p>
+  <span class="note"><strong>Aggiornamento 01/10/2026:</strong> riscritti title/description di tutte le pagine (M2) e applicati i fix di performance 2–4 (M3), più <code>inlineCss</code>: <strong>−25 KB per pagina</strong>, un componente client in meno, zero richieste che bloccano il rendering. Tutto <strong>committato (<code>f480b5e</code>) e deployato</strong>. Verifica PageSpeed Insights <strong>dopo il deploy</strong>: mobile <strong>Perf 100 · LCP 1,7 s · TBT 20 ms · CLS 0,001</strong>, desktop <strong>Perf 100 · LCP 0,6 s</strong>.</span></p>
 
   <div class="grid">
     <div class="card"><div class="lbl">Dominio ufficiale</div><div class="big ok">200</div><p class="note"><code>ahsenkurtoski.vercel.app</code> risponde 200 e il vecchio dominio fa 307. Durante l'audit era 404 (criticità #1, risolta).</p></div>
     <div class="card"><div class="lbl">Pagine verificate</div><div class="big">16/16</div><p class="note">16/16 a 200 sul dominio ufficiale, un solo <code>&lt;h1&gt;</code> per pagina, nessun salto di gerarchia. Audit link: 0 problemi.</p></div>
     <div class="card"><div class="lbl">Errori JavaScript</div><div class="big ok">0</div><p class="note">Console e rete pulite su tutte le pagine (il 404 della pagina 404 è atteso).</p></div>
-    <div class="card"><div class="lbl">PageSpeed Insights, home mobile</div><div class="big ok">96</div><p class="note">Sul live (01/10/2026, macchina lenta): Perf 96 · A11y 100 · LCP 2,4 s · TBT 70 ms · CLS 0. Desktop: Perf 100 · LCP 0,52 s · TBT 0. All'audit, in locale: 71 · 96 · 3,10 s · 930 ms.</p></div>
+    <div class="card"><div class="lbl">PageSpeed Insights, home mobile</div><div class="big ok">100</div><p class="note"><strong>Dopo il deploy (01/10/2026):</strong> Perf 100 · A11y 100 · LCP 1,7 s · TBT 20 ms · CLS 0,001 · <strong>0 risorse render-blocking</strong> (il rilievo «CSS bloccante, 300 ms stimati» è sparito). Prima del deploy: 96 · 2,4 s · 70 ms. All'audit, in locale: 71 · 3,10 s · 930 ms.</p></div>
   </div>
 
   <h2>Punteggi Lighthouse — all'audit, prima dei fix (locali, Chrome 154)</h2>
@@ -109,7 +109,7 @@
       <li><span class="pill warn">QUICK WIN</span> Tap target 40 px, collegamento locale Vercel stantio — ancora aperti.</li>
     </ul>
     <p class="note">Le voci del 30/09 sono committate e deployate (commit <code>c3bc58c</code>): misure sul live in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y <strong>100/100</strong> su 5 pagine, audit link 0 problemi; dati grezzi in <code>raw/after-fix/</code>, cartella locale non versionata).
-  Le due voci APPLICATO del 01/10 sono invece <strong>nel working tree e non ancora deployate</strong>: sul live restano i valori precedenti finché non si committa e pusha.</p>
+  Le voci APPLICATO del 01/10 sono <strong>committate (<code>f480b5e</code>) e deployate su Vercel</strong>: misure post-deploy su PageSpeed Insights (mobile <strong>Perf 100 · LCP 1,7 s · TBT 20 ms</strong>) e audit link sul dominio ufficiale a <strong>0 problemi</strong>.</p>
   </div>
 
   <h2>Report completi</h2>
