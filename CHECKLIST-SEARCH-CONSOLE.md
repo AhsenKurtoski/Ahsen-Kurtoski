@@ -21,6 +21,22 @@ più l'attesa di Google (da pochi giorni a 2-3 settimane).
 > ⚠️ Non eliminare il vecchio dominio senza impostare il redirect: servirebbe a
 > Google come segnale di migrazione e a chi ha già il vecchio link.
 
+## 0-bis. Già verificato il 01/10/2026 (non serve rifarlo)
+
+Questi prerequisiti sono stati controllati sul dominio ufficiale, quindi puoi
+partire direttamente dal §1.
+
+- [x] **File di verifica Google** — <https://ahsenkurtoski.vercel.app/google2783a9147b2337cb.html>
+      risponde **200** e contiene `google-site-verification: google2783a9147b2337cb.html`.
+- [x] **robots.txt** — `Allow: /` e `Sitemap: https://ahsenkurtoski.vercel.app/sitemap.xml`.
+- [x] **sitemap.xml** — **16 URL**, tutti con `<lastmod>`.
+- [x] **Dominio** — `ahsenkurtoski.vercel.app` **200**; `axsenkurtoski.vercel.app` **307** verso il nuovo.
+- [x] **Scansionabilità e link** — `npm run audit:links -- https://ahsenkurtoski.vercel.app`: 16 pagine, **0 problemi**.
+- [x] **Chiave IndexNow** — `78ad937f3d090064954460ece76cbeba.txt` risponde 200 (la usa il workflow a ogni push).
+
+Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
+(§1) e inviare la sitemap (§2).
+
 ## 1. Nuova proprietà in Search Console
 
 - [ ] Apri <https://search.google.com/search-console> (stesso account Google di prima).

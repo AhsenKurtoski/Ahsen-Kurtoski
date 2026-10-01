@@ -118,6 +118,18 @@ Metodo, tabelle complete e ipotesi sul limite residuo nella [sezione 0b del perf
 
 **Verifica.** `sameAs` nell'HTML di build contiene i 4 URL aggiornati su entrambi i blocchi JSON-LD; `seo:check` resta 16/16 con il solo avviso atteso (profili `x` e `youtube` vuoti); `tsc` ed `eslint` puliti. Che i profili esistano si conferma **a mano**, dal browser: è l'unica verifica possibile.
 
+**Il nome dell'Instagram (risolto il 01/10/2026).** Il profilo `ahsenstudio` esiste ma il suo nome visualizzato è **«Ahsen Kırdar»**, mentre il sito dichiara `Ahsen Kurtoski`: una discrepanza che nessun controllo automatico poteva notare, perché compare solo nel titolo della pagina del profilo e nessuno strumento lo confronta con il nome del sito. Scelta fatta: **dichiarare entrambi i nomi** invece di rinominare il profilo. `site.alternateNames` (`["Ahsen", "Kurtoski", "Ahsen Kırdar"]`) alimenta `alternateName` nel `Person` dei dati strutturati, così Google legge un'informazione esplicita anziché due indizi incoerenti. Se in futuro il profilo viene allineato a «Ahsen Kurtoski», quella voce si toglie senza altri effetti.
+
+## 10. Guardia di performance in CI (01/10/2026)
+
+Le decisioni di performance di questo giro (font mono non precaricato, `Reveal` senza JavaScript, `inlineCss`) erano invisibili in CI: potevano sparire senza che nessuno se ne accorgesse. `scripts/perf-budget.mjs` le trasforma in verifiche che girano **a ogni push**, dentro lo stesso step dell'audit link (l'unico punto del workflow in cui il server di build è acceso).
+
+**Cosa misura**, su home, blog, contatti e un articolo: documento gzip, prima visita totale (documento + script + font, deduplicati), CSS inline, numero di file JS, font precaricati e **quante risorse bloccano il rendering**. Quest'ultima è la condizione scelta con l'A/B (§0d del performance report): se torna un foglio di stile esterno bloccante, la verifica fallisce e rimanda alla sezione che ne spiega il perché.
+
+**Budget** (valori misurati il 01/10/2026 + ~15%): documento ≤ **48 KB gzip** (misurato 36,8–40,9), prima visita ≤ **290 KB gzip** (243,7–248,5), CSS inline ≤ **44 KB** (36,6), ≤ **10 file JS** (8–9), ≤ **1 font precaricato**.
+
+**Provata nei due sensi**: con `inlineCss: false` segnala «1 foglio di stile esterno che blocca il rendering, budget 0» ed esce con codice **1**; con la configurazione adottata esce **0**. Un controllo che non si è mai visto fallire non è un controllo. Il report JSON è allegato al run come `audit/raw/perf-budget.json`.
+
 ## Verifiche eseguite (dopo le modifiche)
 
 | Controllo | Esito |

@@ -1,8 +1,9 @@
 name: Verifiche prima del deploy
 
-# A ogni push: typecheck, lint, build, controlli SEO sull'output della build e
-# audit di link sul sito appena costruito. Se qualcosa peggiora, la verifica
-# fallisce (basta guardare la ✗ nel log o l'artefatto allegato al run).
+# A ogni push: typecheck, lint, build, controlli SEO sull'output della build,
+# audit di link e guardia di performance sul sito appena costruito. Se qualcosa
+# peggiora, la verifica fallisce (basta guardare la ✗ nel log o l'artefatto
+# allegato al run).
 #
 # Nota: il sito viene costruito con NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000
 # così canonical, sitemap, robots e link assoluti puntano all'indirizzo che
@@ -84,6 +85,12 @@ jobs:
           # sitemap, robots, canonical, 404). Link esterni e siti di terze parti
           # restano nel log e nell'artefatto, senza far fallire la verifica.
           npm run audit:links -- http://127.0.0.1:3000 --fail-on=internal && status=0 || status=$?
+
+          # Guardia di performance: peso della prima visita e risorse che bloccano il
+          # rendering, misurate sull'HTML servito. Gira qui perché è l'unico punto in
+          # cui il server è già acceso.
+          node scripts/perf-budget.mjs http://127.0.0.1:3000 || status=$?
+
           exit "$status"
 
       - name: Allega il report dell'audit
@@ -93,5 +100,6 @@ jobs:
           name: audit-link
           path: |
             audit/raw/link-audit.json
+            audit/raw/perf-budget.json
             next-start.log
           if-no-files-found: ignore

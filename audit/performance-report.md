@@ -190,6 +190,8 @@ Il costo ricorrente è la voce meno intuitiva: senza inline il CSS è un file **
 
 **L'alternativa più fine, non provata.** `optimizeCss` (critters) inlinerebbe **solo** il CSS critico lasciando il resto asincrono e cacheabile: sarebbe il meglio dei due mondi, ma richiede una dipendenza in più e non è stata misurata.
 
+**Perché la decisione non può rientrare dalla finestra.** `scripts/perf-budget.mjs` gira a ogni push (dentro il workflow di verifica) e fallisce se ricompare un foglio di stile esterno che blocca il rendering, o se il documento supera 48 KB gzip, la prima visita 290 KB gzip, il CSS inline 44 KB, i file JS 10, i font precaricati 1 (valori misurati il 01/10/2026 + ~15%, elencati nei commenti dello script). Provata nei due sensi: con `inlineCss: false` esce con codice 1 segnalando «1 foglio di stile esterno che blocca il rendering», con la configurazione adottata esce 0.
+
 ---
 
 ## 1. Punteggi e metriche (pre-fix, durante l'audit)

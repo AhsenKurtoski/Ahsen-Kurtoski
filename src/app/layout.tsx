@@ -105,7 +105,7 @@ const personJsonLd = {
   name: site.name,
   givenName: site.firstName,
   familyName: site.lastName,
-  alternateName: ["Ahsen", "Kurtoski"],
+  alternateName: site.alternateNames,
   url: site.url,
   email: `mailto:${site.email}`,
   jobTitle: "Developer & Creatore Digitale",

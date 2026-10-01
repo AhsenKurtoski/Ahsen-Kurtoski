@@ -100,15 +100,17 @@ Il profilo Instagram `ahsenstudio` **esiste**, ma il suo nome visualizzato è
 non poteva accorgersene: il titolo della pagina è l'unico punto in cui quel nome
 compare, e nessuno strumento lo confronta con il nome del sito.
 
-Due strade, entrambe legittime — la scelta è tua:
+Due strade, entrambe legittime:
 
 1. **Allineare il profilo al sito**: nome visualizzato `Ahsen Kurtoski`
    (o `Ahsen Kurtoski · Developer`). Coerenza nome-ovunque è uno dei segnali che
-   Google usa per collegare una persona a un unico insieme di profili.
-2. **Dichiarare entrambi i nomi nel sito**: se `Ahsen Kırdar` è il nome legale e
-   `Ahsen Kurtoski` quello pubblico, aggiungerlo a `alternateName` nei dati
-   strutturati (`src/app/layout.tsx`) lo rende un'informazione esplicita invece di
-   una discrepanza.
+   Google usa per collegare una persona a un unico insieme di profili. Se scegli
+   questa strada, `Ahsen Kırdar` si può togliere da `alternateNames`.
+2. **Dichiarare entrambi i nomi nel sito** — **strada scelta il 01/10/2026**:
+   `src/lib/site.ts` ha `alternateNames: ["Ahsen", "Kurtoski", "Ahsen Kırdar"]`,
+   che alimenta `alternateName` nel `Person` dei dati strutturati. Google legge
+   così un'informazione esplicita invece di due indizi incoerenti, senza toccare
+   né il nome pubblico del sito né il profilo Instagram.
 
-In ogni caso, dopo la modifica: aggiornare la tabella qui sopra e rieseguire
+In ogni caso, dopo una modifica: aggiornare la tabella qui sopra e rieseguire
 `npm run audit:links -- https://ahsenkurtoski.vercel.app`.

@@ -38,6 +38,19 @@ export const site = {
   lastName: "Kurtoski",
   initials: "AK",
 
+  /**
+   * Nomi con cui la persona è conosciuta. Finiscono in `alternateName` dei dati
+   * strutturati (`Person` in `src/app/layout.tsx`) e servono a far capire a
+   * Google che profili con nomi diversi sono la stessa entità: è la voce che
+   * evita di lasciare una discrepanza non dichiarata fra sito e social.
+   *
+   * `Ahsen Kırdar` è il nome visualizzato sul profilo Instagram `ahsenstudio`
+   * (verificato il 01/10/2026: il profilo esiste ma porta quel nome, mentre il
+   * sito usa `Ahsen Kurtoski`). Se un giorno il profilo viene allineato al nome
+   * del sito, questo elemento si può togliere senza altri effetti.
+   */
+  alternateNames: ["Ahsen", "Kurtoski", "Ahsen Kırdar"],
+
   // Ruoli mostrati nel typing effect della hero
   roles: ["Developer", "Creator", "Student", "Tech Enthusiast"],
 
