@@ -1,0 +1,71 @@
+name: Indice — migrazione dei domini
+
+# Una volta a settimana registra quanti URL dei due domini risultano nell'indice e
+# come procede il passaggio dal vecchio al nuovo, con i numeri in
+# `audit/indice-storico.json` (una voce per esecuzione, con il confronto con la
+# precedente). A mano: Actions → «Indice — migrazione dei domini» → Run workflow.
+#
+# Perché separato dalle verifiche a ogni push: interrogare un motore di ricerca a
+# ogni commit sarebbe inutile (l'indice si muove in giorni, non in minuti) e
+# scortese verso la sorgente. Una volta a settimana è la frequenza giusta.
+on:
+  schedule:
+    # Lunedì alle 06:00 UTC (08:00 in Italia d'estate).
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write # serve per salvare lo storico nel repository
+
+concurrency:
+  group: indice
+  cancel-in-progress: false
+
+jobs:
+  indice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Lo script non ha dipendenze (usa fetch e i moduli di Node), quindi non
+      # serve `npm ci`: sono 48 richieste HTTP e qualche secondo.
+      #
+      # Le chiavi sono opzionali di proposito: senza di esse la parte d'indice non
+      # viene misurata e il report lo dichiara in `indiceErrore`, invece di
+      # registrare uno zero che sembrerebbe "nessuna pagina indicizzata".
+      - name: Controlla migrazione e indice
+        run: npm run index:check
+        env:
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GOOGLE_CSE_ID: ${{ secrets.GOOGLE_CSE_ID }}
+        # Lo script esce con codice 1 se trova pagine con problemi di migrazione:
+        # è un'informazione da leggere nel report, non un motivo per non salvare
+        # lo storico (e senza storico non c'è confronto fra le settimane).
+        continue-on-error: true
+
+      - name: Salva lo storico nel repository
+        run: |
+          if git diff --quiet -- audit/indice-storico.json; then
+            echo "Nessuna modifica allo storico."
+            exit 0
+          fi
+          # Identità passata al singolo comando: non tocca la configurazione git
+          # della macchina né quella del repo.
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "Registra lo stato dell'indicizzazione dei due domini" -- audit/indice-storico.json
+          git push
+
+      - name: Allega il dettaglio
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: index-check
+          path: audit/raw/index-check.json
+          if-no-files-found: ignore

@@ -96,6 +96,19 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
 | +2-3 settimane | Ricerca Google: `Ahsen Kurtoski` e `site:ahsenkurtoski.vercel.app` mostrano il nuovo dominio |
 | +1 mese | Se la vecchia proprietà non ha più imprescrizioni e il traffico è migrato, puoi ignorarla |
 
+**I numeri al posto dell'occhio.** `npm run index:check` misura due cose: la parte
+**tecnica** della migrazione (per ogni pagina della sitemap: la nuova risponde 200,
+il canonical punta al dominio ufficiale, la vecchia fa un redirect in un solo salto)
+e l'**indice** — quanti URL dei due domini risultano indicizzati — se è configurata
+una sorgente (`SERPER_API_KEY` per Google, oppure `GOOGLE_API_KEY` +
+`GOOGLE_CSE_ID` per Programmable Search). Ogni esecuzione aggiunge una voce a
+`audit/indice-storico.json` con il confronto con la precedente, e il workflow
+**«Indice»** lo fa da solo ogni lunedì salvando lo storico nel repo.
+
+Punto di partenza, 01/10/2026: **1 pagina sul dominio ufficiale, 8 sul vecchio**
+(parte tecnica 16/16). È il numero da vedere scendere di settimana in settimana
+sul dominio vecchio e salire su quello nuovo.
+
 ---
 
 Stato del codice: già pronto — `src/lib/site.ts` usa `ahsenkurtoski.vercel.app`

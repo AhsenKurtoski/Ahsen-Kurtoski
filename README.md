@@ -15,6 +15,7 @@ npm run seo:check # controlla che ogni pagina abbia i dati che Google legge
 npm run seo:live   # controlla il sito PUBBLICATO (indicizzabilità reale)
 npm run audit:links -- http://127.0.0.1:3000  # link, sitemap, canonical, 404 del sito costruito
 npm run perf:budget -- http://127.0.0.1:3000  # peso della prima visita, risorse che bloccano il rendering
+npm run index:check # migrazione dei domini: redirect/canonical e pagine nell'indice (storico in audit/indice-storico.json)
 npm run indexnow   # segnala tutti gli URL a Bing/DuckDuckGo/Yandex
 npm run indexnow:changed # segnala solo le pagine che hai appena modificato
 npm run email:test # prova l'invio del form di contatto

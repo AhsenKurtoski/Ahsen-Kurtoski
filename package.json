@@ -11,6 +11,7 @@
     "seo:live": "node scripts/seo-live-check.mjs",
     "audit:links": "node scripts/audit-links.mjs",
     "perf:budget": "node scripts/perf-budget.mjs",
+    "index:check": "node scripts/index-check.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "indexnow:changed": "node scripts/indexnow.mjs --changed",
     "email:test": "node scripts/test-email.mjs",

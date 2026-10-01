@@ -1,0 +1,51 @@
+{
+  "descrizione": "Una voce per esecuzione di `npm run index:check`. I numeri dell'indice esistono solo nelle esecuzioni che avevano una sorgente configurata: `indiceErrore` dice perché una misura manca, invece di registrare uno zero.",
+  "aggiornatoIl": "2026-10-01T16:27:51.768Z",
+  "esecuzioni": [
+    {
+      "quando": "2026-10-01T17:05:00.000Z",
+      "nota": "Punto di partenza: misurato a mano con la ricerca dell'agente, prima che lo script avesse una sorgente configurata. Ricerca `site:` su Google.",
+      "migrazione": null,
+      "indice": {
+        "fonte": "google-manuale",
+        "nuovo": 1,
+        "vecchio": 8,
+        "urlsNuovo": [
+          "https://ahsenkurtoski.vercel.app/"
+        ]
+      },
+      "indiceErrore": null,
+      "pagine": []
+    },
+    {
+      "quando": "2026-10-01T16:27:51.768Z",
+      "nota": null,
+      "migrazione": {
+        "pagine": 16,
+        "nuoveOk": 16,
+        "canonicalOk": 16,
+        "vecchieConRedirect": 16
+      },
+      "indice": null,
+      "indiceErrore": "nessuna sorgente configurata",
+      "pagine": [
+        "/",
+        "/chi-sono",
+        "/blog",
+        "/contatti",
+        "/privacy",
+        "/blog/benvenuto-nel-mio-mondo-digitale",
+        "/blog/come-ho-iniziato-a-programmare",
+        "/blog/seo-per-le-persone-come-farsi-trovare-su-google",
+        "/blog/strumenti-essenziali-per-un-creatore-digitale",
+        "/blog/tag/web",
+        "/blog/tag/personale",
+        "/blog/tag/produttivita",
+        "/blog/tag/programmazione",
+        "/blog/tag/seo",
+        "/blog/tag/strumenti",
+        "/blog/tag/studio"
+      ]
+    }
+  ]
+}

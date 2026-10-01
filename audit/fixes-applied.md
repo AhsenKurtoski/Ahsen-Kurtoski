@@ -130,6 +130,19 @@ Le decisioni di performance di questo giro (font mono non precaricato, `Reveal` 
 
 **Provata nei due sensi**: con `inlineCss: false` segnala «1 foglio di stile esterno che blocca il rendering, budget 0» ed esce con codice **1**; con la configurazione adottata esce **0**. Un controllo che non si è mai visto fallire non è un controllo. Il report JSON è allegato al run come `audit/raw/perf-budget.json`.
 
+## 11. Seguire la migrazione dei domini con i numeri (01/10/2026)
+
+La migrazione `axsenkurtoski` → `ahsenkurtoski` non si vede da qui: alla verifica del 01/10/2026 Google aveva in indice **8 pagine del dominio vecchio e 1 sola di quello ufficiale**, nonostante il redirect sia attivo da giorni. Serviva qualcosa per seguirlo nel tempo invece di contare a mano.
+
+`npm run index:check` ([`scripts/index-check.mjs`](../scripts/index-check.mjs)) misura due cose e le registra in **`audit/indice-storico.json`**, una voce per esecuzione con il confronto con la precedente:
+
+1. **La parte tecnica** (sempre, senza chiavi): per ogni URL della sitemap, la pagina nuova risponde 200, il canonical punta al dominio ufficiale e la stessa pagina sul vecchio dominio fa un redirect **in un solo salto** verso la nuova. Al 01/10/2026: **16/16 su tutte e tre**.
+2. **L'indice** (serve una sorgente configurata): quanti URL dei due domini risultano indicizzati, con l'elenco. Sorgenti: `SERPER_API_KEY` (Google) oppure `GOOGLE_API_KEY` + `GOOGLE_CSE_ID` (Programmable Search, 100 query al giorno nel piano gratuito). **Senza sorgente il report lo dichiara e non registra uno zero**: uno zero inventato nasconderebbe il problema per settimane.
+
+Il workflow [`.github/workflows/indice.yml`](../.github/workflows/indice.yml) gira ogni **lunedì** e salva lo storico nel repository, così la migrazione si legge come una serie di numeri. In alternativa si lancia a mano dalle Actions.
+
+**Cosa non funziona, verificato.** Interrogare DuckDuckGo dall'HTML (`site:`) non è utilizzabile: risponde con una pagina di challenge (`anomaly`), non con i risultati — gli zeri che ne sarebbero usciti sarebbero indistinguibili da «nessuna pagina indicizzata».
+
 ## Verifiche eseguite (dopo le modifiche)
 
 | Controllo | Esito |
