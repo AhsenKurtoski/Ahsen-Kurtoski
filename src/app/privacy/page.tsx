@@ -12,7 +12,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Informativa privacy e cookie",
   description:
-    "Nessun cookie di tracciamento: gli unici dati che ricevo sono quelli che scrivi nel form dei contatti, e li uso solo per risponderti.",
+    "Nessun cookie di tracciamento e nessun Google Analytics: gli unici dati che ricevo sono quelli del form dei contatti, e li uso solo per risponderti.",
   alternates: { canonical: "/privacy" },
   openGraph: {
     title: "Informativa privacy e cookie",

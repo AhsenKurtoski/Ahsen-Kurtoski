@@ -1,6 +1,6 @@
 ---
-title: "SEO per le persone: come farsi trovare su Google"
-excerpt: La SEO non serve solo alle aziende: anche una persona può farsi trovare su Google. Ecco come funziona, in parole semplici.
+title: "SEO per le persone: farsi trovare su Google"
+excerpt: La SEO non serve solo alle aziende: anche una persona può farsi trovare su Google. Ecco come funziona, in parole semplici, e da dove iniziare oggi.
 date: 2026-07-28
 tags: SEO, Web
 ---

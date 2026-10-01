@@ -1,6 +1,6 @@
 ---
 title: Come ho iniziato a programmare
-excerpt: Dalla prima riga di codice ai primi progetti: il mio percorso (non lineare) nel mondo dello sviluppo web.
+excerpt: Dalla prima riga di codice ai primi progetti: il mio percorso non lineare nel mondo dello sviluppo web, con gli errori e le lezioni che mi hanno formato.
 date: 2026-08-15
 tags: Programmazione, Studio
 ---

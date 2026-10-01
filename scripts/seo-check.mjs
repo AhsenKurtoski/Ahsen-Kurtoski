@@ -125,15 +125,22 @@ for (const rel of pages) {
   );
   const { types, broken } = extractJsonLd(html);
 
+  // Soglie allineate alle lunghezze ideali del report (M2): un title oltre i
+  // ~60 caratteri viene tagliato nei risultati di Google, una description
+  // fuori dal range 140-155 spreca spazio o viene tagliata a metà frase.
   if (!title) errors(`${route}: manca il <title>`);
-  else if (title.length > 65)
+  else if (title.length > 60)
     warnings(`${route}: title di ${title.length} caratteri (Google ne mostra ~60)`);
 
   if (!description) errors(`${route}: manca la meta description`);
-  else if (description.length < 50)
-    warnings(`${route}: description corta (${description.length} caratteri)`);
-  else if (description.length > 165)
-    warnings(`${route}: description di ${description.length} caratteri, verrà tagliata`);
+  else if (description.length < 140)
+    warnings(
+      `${route}: description corta (${description.length} caratteri, l'ideale è 140-155)`,
+    );
+  else if (description.length > 155)
+    warnings(
+      `${route}: description di ${description.length} caratteri, oltre i ~155 verrà tagliata`,
+    );
 
   if (!canonical) errors(`${route}: manca il canonical`);
   if (!ogTitle) warnings(`${route}: manca og:title`);

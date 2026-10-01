@@ -42,13 +42,14 @@
 <div class="wrap">
   <h1>Audit <span>Ahsen Kurtoski</span></h1>
   <p class="sub">30 settembre 2026 · audit su repo locale + sito pubblicato (all'audit servito da <code>axsenkurtoski.vercel.app</code>, oggi 307 → <code>ahsenkurtoski.vercel.app</code>)<br>
-  <span class="note">Segue un aggiornamento a fine giornata: fix applicati, committati (c3bc58c) e deployati — i numeri "dopo" sono misurati sul dominio ufficiale.</span></p>
+  <span class="note">Segue un aggiornamento a fine giornata: fix applicati, committati (c3bc58c) e deployati — i numeri "dopo" sono misurati sul dominio ufficiale.</span><br>
+  <span class="note"><strong>Aggiornamento 01/10/2026:</strong> riscritti title/description di tutte le pagine (M2) e applicati i fix di performance 2–4 (M3): <strong>−25 KB per pagina</strong>, un componente client in meno. Le modifiche sono nel working tree, <strong>non ancora deployate</strong>. Verifica indipendente su PageSpeed Insights (deploy attuale): mobile <strong>Perf 96 · LCP 2,4 s · TBT 70 ms · CLS 0</strong>, desktop <strong>Perf 100 · LCP 0,52 s</strong>.</span></p>
 
   <div class="grid">
     <div class="card"><div class="lbl">Dominio ufficiale</div><div class="big ok">200</div><p class="note"><code>ahsenkurtoski.vercel.app</code> risponde 200 e il vecchio dominio fa 307. Durante l'audit era 404 (criticità #1, risolta).</p></div>
     <div class="card"><div class="lbl">Pagine verificate</div><div class="big">16/16</div><p class="note">16/16 a 200 sul dominio ufficiale, un solo <code>&lt;h1&gt;</code> per pagina, nessun salto di gerarchia. Audit link: 0 problemi.</p></div>
     <div class="card"><div class="lbl">Errori JavaScript</div><div class="big ok">0</div><p class="note">Console e rete pulite su tutte le pagine (il 404 della pagina 404 è atteso).</p></div>
-    <div class="card"><div class="lbl">Lighthouse home mobile</div><div class="big ok">86</div><p class="note">Dopo i fix, sul live: Perf 83–86 · A11y 100 · LCP 2,61 s · TBT 421 ms. All'audit: 71 · 96 · 3,10 s · 930 ms.</p></div>
+    <div class="card"><div class="lbl">PageSpeed Insights, home mobile</div><div class="big ok">96</div><p class="note">Sul live (01/10/2026, macchina lenta): Perf 96 · A11y 100 · LCP 2,4 s · TBT 70 ms · CLS 0. Desktop: Perf 100 · LCP 0,52 s · TBT 0. All'audit, in locale: 71 · 96 · 3,10 s · 930 ms.</p></div>
   </div>
 
   <h2>Punteggi Lighthouse — all'audit, prima dei fix (locali, Chrome 154)</h2>
@@ -82,19 +83,33 @@
     <p class="note">Le due serie non sono misurate nelle stesse condizioni (dominio, periodo e cache diversi): il confronto è indicativo, i valori da guardare sono quelli "dopo".</p>
   </div>
 
+  <h2>Verifica indipendente sul dominio live — PageSpeed Insights (01/10/2026)</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Run (deploy attuale)</th><th>Perf</th><th>A11y</th><th>SEO</th><th>LCP</th><th>TBT</th><th>CLS</th><th>Primo paint osservato</th></tr></thead>
+      <tbody>
+        <tr><td>PSI mobile (macchina lenta, benchmark 676)</td><td class="ok">96</td><td class="ok">100</td><td class="ok">100</td><td class="ok">2,40 s</td><td class="ok">70 ms</td><td class="ok">0</td><td>2.249 ms = LCP</td></tr>
+        <tr><td>PSI desktop</td><td class="ok">100</td><td class="ok">100</td><td class="ok">100</td><td class="ok">0,52 s</td><td class="ok">0 ms</td><td class="ok">0</td><td>232 ms = LCP</td></tr>
+      </tbody>
+    </table>
+    <p class="note">In <strong>16 run su 16</strong>, su quattro ambienti e sei configurazioni, l'LCP osservato coincide con il primo paint: il testo si dipinge insieme alla pagina, non c'è un ritardo proprio dell'LCP da correggere. Il sito <strong>passa le soglie Core Web Vitals</strong> in laboratorio. Google però non ha <strong>dati di campo</strong> (CrUX) per questo dominio: traffico troppo basso, quindi nessuna misura di utenti reali da confrontare.</p>
+  </div>
+
   <h2>Da correggere — priorità</h2>
   <div class="card">
     <ul class="clean">
       <li><span class="pill ok">RISOLTO</span> <strong>Dominio ufficiale 404</strong> — progetto Vercel rinominato: <code>ahsenkurtoski.vercel.app</code> → 200, vecchio dominio → 307; canonical/sitemap/robots coerenti.</li>
-      <li><span class="pill ok">RISOLTO</span> <strong>Handle social</strong> — <code>github.com/AhsenKurtoski</code> → 200 (profilo senza più "Axsen"); Instagram 200. LinkedIn risponde 999 ai bot: conferma manuale.</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>Handle social</strong> — GitHub <code>AhsenKurtoski</code> → 200. <strong>Correzione 01/10:</strong> gli handle di LinkedIn e Instagram erano ricostruiti a mano e non esistevano (LinkedIn risponde 999 e Instagram 200 a <em>qualunque</em> username, quindi i bot non potevano accorgersene): ora nel codice ci sono i profili veri, <code>linkedin.com/in/ahsen-kurtoski-397b00354</code> e <code>instagram.com/ahsenstudio</code>, e sono i 4 URL di <code>sameAs</code>.</li>
       <li><span class="pill ok">APPLICATO</span> <strong>Contraste 4,06:1</strong> su testi piccoli (16 usi di <code>text-zinc-500</code>) → ora <code>text-zinc-400</code> (~8:1).</li>
       <li><span class="pill ok">APPLICATO</span> <strong>/chi-sono: HTML non valido</strong> (li fuori da ol, dt/dd annidati) → A11y <strong>81 → 100</strong>.</li>
       <li><span class="pill ok">APPLICATO</span> <strong>H1 mancante su 14/16 pagine</strong> → ora 16/16 con un solo <code>&lt;h1&gt;</code> e nessun salto di livello; <code>heading-order</code> risolto sulle pagine elenco.</li>
       <li><span class="pill ok">APPLICATO</span> Etichetta del logo (<code>label-content-name-mismatch</code>), input form a 16 px su mobile, typing con <code>prefers-reduced-motion</code> e pausa a scheda nascosta.</li>
-      <li><span class="pill warn">MEDIUM</span> Description corte, TBT mobile 930 ms, font mono precaricato ovunque.</li>
-      <li><span class="pill ok">QUICK WIN</span> Tap target 40 px, collegamento locale Vercel stantio.</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>Title e meta description</strong> — riscritti su 16/16 pagine: title 32–60 caratteri, description 140–153 (prima 94–122 su molte pagine). Le soglie ideali sono ora imposte da <code>seo:check</code> a ogni build.</li>
+      <li><span class="pill ok">APPLICATO</span> <strong>Performance mobile</strong> — font mono non più precaricato (−23 KB dove non serve), <code>Reveal</code> senza JavaScript con animazione CSS scroll-driven: <strong>258 → 233 KB</strong> per pagina, JS 147 → 145 KB, font 52 → 29 KB. <code>browserslist</code> e <code>font-display: optional</code> provati e scartati con le misure alla mano; <code>inlineCss</code> provato con due build affiancate e <strong>adottato</strong> (LCP simulato <strong>−253 ms in 6 round su 6</strong>, +0,35 KB brotli in prima visita).</li>
+      <li><span class="pill warn">QUICK WIN</span> Tap target 40 px, collegamento locale Vercel stantio — ancora aperti.</li>
     </ul>
-    <p class="note">Le voci marcate come fatte sono committate e deployate (commit <code>c3bc58c</code>): misure sul live in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y <strong>100/100</strong> su 5 pagine, audit link 0 problemi; dati grezzi in <code>raw/after-fix/</code>, cartella locale non versionata).</p>
+    <p class="note">Le voci del 30/09 sono committate e deployate (commit <code>c3bc58c</code>): misure sul live in <a href="fixes-applied.md">fixes-applied.md</a> (Lighthouse a11y <strong>100/100</strong> su 5 pagine, audit link 0 problemi; dati grezzi in <code>raw/after-fix/</code>, cartella locale non versionata).
+  Le due voci APPLICATO del 01/10 sono invece <strong>nel working tree e non ancora deployate</strong>: sul live restano i valori precedenti finché non si committa e pusha.</p>
   </div>
 
   <h2>Report completi</h2>
@@ -129,9 +144,10 @@
   <h2>Nota di contesto</h2>
   <p class="note">Le misure di questa pagina e gli screenshot "all'audit" si riferiscono al sito così come era pubblicato la mattina del 30/09/2026 (dominio allora attivo <code>axsenkurtoski.vercel.app</code>).
   A fine giornata fix, sostituzioni e link sono stati committati (<code>c3bc58c</code>), deployati e riverificati sul dominio ufficiale con <code>npm run audit:links</code> e Lighthouse: audit link a 0 problemi, a11y 100/100, la home mobile passa da 71 a 83–86.
-  La verifica automatica in <code>.github/workflows/verifiche.yml</code> ripete typecheck, lint, build, <code>seo:check</code> e audit link a ogni push.</p>
+  La verifica automatica in <code>.github/workflows/verifiche.yml</code> ripete typecheck, lint, build, <code>seo:check</code> e audit link a ogni push.
+  Il 01/10/2026 è arrivata anche la misura indipendente che mancava (PageSpeed Insights sull'infrastruttura Google, deploy attuale): mobile Perf 96 con LCP 2,4 s e TBT 70 ms, desktop Perf 100 con LCP 0,52 s — e in tutti i run l'LCP osservato coincide con il primo paint. Nessun dato di campo CrUX: il traffico è troppo basso.</p>
 
-  <footer>Generato il 30/09/2026 · dati grezzi in <code>audit/raw/</code> (cartella locale, non versionata) · kit di misura in <code>scripts/audit-*.mjs</code></footer>
+  <footer>Generato il 30/09/2026 · aggiornato il 01/10/2026 (M2, M3 fix 2–4, verifica PageSpeed Insights) · dati grezzi in <code>audit/raw/</code> (cartella locale, non versionata) · kit di misura in <code>scripts/audit-*.mjs</code></footer>
 </div>
 </body>
 </html>

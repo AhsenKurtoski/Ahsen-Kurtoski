@@ -10,9 +10,9 @@ import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contatti",
+  title: "Contatti: scrivimi per progetti e domande",
   description:
-    "Contatta Ahsen Kurtoski: email, social e form per collaborazioni, progetti o semplici domande.",
+    "Contatta Ahsen Kurtoski per un progetto, una collaborazione o una domanda: form rapido, email diretta, social e risposte alle domande frequenti.",
   keywords: ["contattare Ahsen Kurtoski", "Ahsen Kurtoski email"],
   alternates: { canonical: "/contatti" },
   openGraph: {

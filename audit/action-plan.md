@@ -4,7 +4,9 @@ Ordine di esecuzione consigliato: **Critical subito → High questa settimana �
 Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](performance-report.md), [SEO checklist](seo-checklist.md), [CSV find & replace](find-replace-log.csv).
 
 > **Aggiornamento 30/09/2026 (fine giornata):** **C1, C2, H1, H2, H3, H4, M1, L1** e il fix 1 di M3 sono **fatti, committati e deployati** (commit `c3bc58c`). Verifiche sul sito live: audit link **0 problemi / 0 avvisi** su 16 pagine, Lighthouse a11y **100/100**.
-> Restano aperti: **H5** (solo i testi del sito dello studio), **M2** (title/description), **M3 fix 2–4**, **M4** (Search Console), **QW2** (tap target 44 px), **QW4** (header duplicati), **L4** (collegamenti locali Vercel/git). Dettagli in [fixes-applied.md](fixes-applied.md).
+> Restano aperti: **H5** (solo i testi del sito dello studio), **M3 fix 2–4**, **M4** (Search Console), **QW2** (tap target 44 px), **QW4** (header duplicati), **L4** (collegamenti locali Vercel/git). Dettagli in [fixes-applied.md](fixes-applied.md).
+>
+> **Aggiornamento 01/10/2026:** anche **M2** (title e meta description) e **M3 fix 2–4** (font mono, reveal CSS, bundle) sono **fatti e verificati** — 16/16 pagine nel range ideale di title/description, e sulla home mobile −25 KB per pagina con un componente client in meno. Modifiche nel working tree: in attesa di commit e deploy. Restano aperti **H5**, **M4**, **QW2**, **QW4**, **L4** e la sola voce estetica dell'LCP (font-display).
 
 ---
 
@@ -30,8 +32,8 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 
 ## 🟠 HIGH — questa settimana
 
-### H1 · Rinomina gli account social ad `AhsenKurtoski` (o ripristina i vecchi handle) — ✅ FATTO il 30/09/2026
-**Esito:** `github.com/AhsenKurtoski` → **200** (profilo senza più riferimenti ad "Axsen"), `instagram.com/ahsenkurtoski` → 200, `linkedin.com/in/ahsenkurtoski` → 999 (anti-bot): **da confermare a mano** aprendo il profilo da browser.
+### H1 · Rinomina gli account social ad `AhsenKurtoski` (o ripristina i vecchi handle) — ✅ CHIUSO il 01/10/2026
+**Esito:** `github.com/AhsenKurtoski` → **200** (profilo senza più riferimenti ad "Axsen"). **Correzione del 01/10/2026:** gli handle di LinkedIn e Instagram scritti il 30/09 erano ricostruiti a mano e **non esistevano** (i bot non potevano accorgersene: LinkedIn risponde 999 e Instagram 200 a qualunque username). In `src/lib/site.ts` ci sono ora i profili veri — `linkedin.com/in/ahsen-kurtoski-397b00354` e `instagram.com/ahsenstudio` — e sono i 4 URL in `sameAs`.
 
 - **Problema (come si presentava durante l'audit):** i nuovi URL nel codice non esistono ancora — verificato: `github.com/AhsenKurtoski` → **404**; LinkedIn/Instagram non verificabili da bot.
 - **Come riprodurlo:** apri i tre link dalla home (dopo il deploy).
@@ -47,7 +49,7 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 ### H3 · /chi-sono: HTML semantico (timeline e info rapide) — ✅ APPLICATO
 - **Problema:** `list`/`listitem` (div del componente Reveal fra `<ol>` e `<li>`) e `definition-list`/`dlitem` (dt/dd annidati sotto due div). A11y 81/100.
 - **Come riprodurlo:** Lighthouse su `/chi-sono`.
-- **Soluzione esatta:** snippet completi in [audit report H3](audit-report.md#h3--chi-sono-html-non-valido-nella-timeline-e-nelle-info-rapide) (invertire `<li>`/`<Reveal>`; sostituire `<dl>` con `<ul>/<li>`).
+- **Soluzione esatta:** snippet completi in [audit report](audit-report.md) (sezione H3: invertire `<li>`/`<Reveal>`; sostituire `<dl>` con `<ul>/<li>`).
 - **Impatto:** A11y 81→~100, albero di accessibilità corretto anche per i crawler AI. **Difficoltà:** Facile.
 
 ### H4 · Header: rimuovi l'`aria-label` dal logo — ✅ APPLICATO
@@ -67,23 +69,25 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 
 ### M1 · H1 su tutte le pagine — ✅ APPLICATO
 - **Problema:** 14/16 pagine senza `<h1>` (SectionHeading rende sempre h2). La pagina "Chi è Ahsen Kurtoski?" non ha H1.
-- **Soluzione esatta:** prop `as?: "h1" | "h2"` su `src/components/section-heading.tsx`; poi `as="h1"` sulla prima intestazione di `/chi-sono`, `/blog`, `/contatti`, `/privacy`, `/blog/tag/[tag]` (snippet completo in [audit report M1](audit-report.md#m1--h1-mancante-su-14-pagine-su-16)).
+- **Soluzione esatta:** prop `as?: "h1" | "h2"` su `src/components/section-heading.tsx`; poi `as="h1"` sulla prima intestazione di `/chi-sono`, `/blog`, `/contatti`, `/privacy`, `/blog/tag/[tag]` (snippet completo in [audit report](audit-report.md), sezione M1).
 - **Impatto:** SEO on-page + gerarchia titoli per screen reader. **Difficoltà:** Facile.
 
-### M2 · Title e description ottimizzati
+### M2 · Title e description ottimizzati — ✅ FATTO il 01/10/2026 (nel working tree, da committare)
 - **Problema:** 2 title >60 char; description 94–122 char (ideale 140–155).
-- **Soluzione esatta:** tabella con le proposte pagina per pagina in [audit report M2](audit-report.md#m2--meta-description-corte-94-122-char-e-2-title-oltre-60). Gli articoli si correggono nell'`excerpt` del frontmatter (`src/content/posts/*.md`).
+- **Soluzione esatta:** tabella con le proposte pagina per pagina in [audit report](audit-report.md) (sezione M2). Gli articoli si correggono nell'`excerpt` del frontmatter (`src/content/posts/*.md`).
+- **Esito:** riscritti title e description di `/blog`, `/contatti`, `/privacy`, `/chi-sono`, dei 4 articoli e dei 7 archivi tag, più `shortBio` della home; valori finali e verifiche in [fixes-applied.md §7](fixes-applied.md#7-title-e-meta-description-lunghezze-ideali). Le soglie di `seo:check` sono state portate a title ≤ 60 e description 140–155, così la voce non può regredire in silenzio. *Non ancora deployato.*
 - **Impatto:** CTR in SERP. **Difficoltà:** Facile.
 
-### M3 · Performance mobile: typing, font mono, bundle — ⚙️ PARZIALE (fix 1 applicato)
+### M3 · Performance mobile: typing, font mono, bundle — ✅ FATTO il 01/10/2026 (nel working tree, da committare)
 - **Problema:** home mobile Perf 71 (LCP 3,10 s, TBT 930 ms); 28 KB di JS inutilizzati; font mono precaricato ovunque; CSS render-blocking ~150 ms.
 - **Come riprodurlo:** `npx lighthouse` (comandi in [performance report](performance-report.md#6-come-riprodurre)).
-- **Soluzione esatta:** Fix 1–4 in [performance report §3](performance-report.md#3-cause-del-lag-e-proposte-di-fix): typing con `prefers-reduced-motion` + pausa a scheda nascosta; `preload: false` per Geist Mono; valutare `experimental.inlineCss`; `@next/bundle-analyzer` e `dynamic()` per i widget non critici.
+- **Soluzione esatta:** Fix 1–4 in [performance report §3](performance-report.md#3-cause-del-lag-e-proposte-di-fix): typing con `prefers-reduced-motion` + pausa a scheda nascosta; `preload: false` per Geist Mono; valutare `experimental.inlineCss` (fatto e adottato); `@next/bundle-analyzer` e `dynamic()` per i widget non critici.
+- **Esito:** fix 1–4 applicati e misurati — typing (già deployato), `preload: false` per il mono, `Reveal` senza JS con animazione CSS scroll-driven, bundle analizzato. `browserslist` **provato e scartato** (i polyfill legacy stanno nel framework); `inlineCss` **provato con due build affiancate e adottato** (LCP simulato −253 ms in 6 round su 6, +0,35 KB brotli in prima visita; §0d del performance report), con la motivazione scritta in `next.config.ts`. Home mobile in locale: byte 258 → 233 KB, Perf mediana 92 → 94, LCP 2,8 → 2,7 s, TBT 210 → 170 ms. Sull'LCP: i 2,6–2,8 s sono **stima della simulazione** Lighthouse, non un ritardo reale — l'LCP osservato coincide con l'FCP (0,8–1,0 s) in 11 run su 11, e l'ipotesi del cambio font è stata provata con un A/B su `font-display` e respinta. Verifica indipendente su **PageSpeed Insights** (deploy attuale): mobile **Perf 96, LCP 2,4 s, TBT 70 ms, CLS 0**, desktop **Perf 100, LCP 0,52 s**; nessun dato di campo CrUX (traffico insufficiente). Dettagli in [performance report](performance-report.md) (§0b e §0c).
 - **Impatto:** obiettivo Perf ≥85 mobile, LCP ≤2,5 s, TBT ≤200 ms. **Difficoltà:** Media.
 
 ### M4 · Google Search Console: proprietà nuova + sitemap + cambio indirizzo
 - **Problema:** nessuna proprietà attiva sul dominio corretto (il dominio non esiste ancora).
-- **Soluzione esatta:** sequenza in [SEO checklist §4](seo-checklist.md#4-google-search-console--stato-e-passi) e in `CHECKLIST-SEARCH-CONSOLE.md`.
+- **Soluzione esatta:** sequenza in [SEO checklist](seo-checklist.md) (§4, «Google Search Console») e in `CHECKLIST-SEARCH-CONSOLE.md`.
 - **Impatto:** indicizzazione reale e monitoraggio. **Difficoltà:** Facile (10 min + attesa Google).
 
 ---

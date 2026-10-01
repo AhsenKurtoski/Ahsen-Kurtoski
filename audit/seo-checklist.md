@@ -3,7 +3,7 @@
 **Data:** 30 settembre 2026 · Dati per pagina in `audit/raw/onpage.json` · Crawl in `audit/raw/link-audit.json` (cartella **locale, non versionata**: si rigenera con gli script in `scripts/audit-*.mjs`)
 Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non applicabile
 
-> **Aggiornamento 30/09/2026:** la matrice e la sezione technical qui sotto fotografano l'audit del mattino (**prima** dei fix e della rinomina del dominio). Lo stato **attuale**, verificato sul dominio ufficiale dopo il deploy, è nella [sezione 1b](#1b-stato-attuale-dopo-i-fix-verificato-sul-live): canonical coerenti, un solo `<h1>` su 16/16 pagine, robots e sitemap sul dominio giusto. Restano aperti solo title/description (M2) e la Search Console (M4).
+> **Aggiornamento 30/09/2026:** la matrice e la sezione technical qui sotto fotografano l'audit del mattino (**prima** dei fix e della rinomina del dominio). Lo stato **attuale**, verificato sul dominio ufficiale dopo il deploy, è nella [sezione 1b](#1b-stato-attuale-dopo-i-fix-verificato-sul-live): canonical coerenti, un solo `<h1>` su 16/16 pagine, robots e sitemap sul dominio giusto. Title e description sono stati riscritti il 01/10/2026 (M2, valori reali nella sezione 1b); resta aperta la Search Console (M4).
 
 ---
 
@@ -23,7 +23,7 @@ Legenda: ✅ a posto · ⚠️ migliorabile · ❌ da correggere · — non appl
 **Note operative:**
 - **Canonical ❌ ovunque** (all'audit): puntavano tutti a `https://ahsenkurtoski.vercel.app`, che allora rispondeva 404 → causa critica C1. **Risolto**: il progetto Vercel è stato rinominato, canonical e sitemap sono coerenti (vedi sezione 1b).
 - **H1 mancante su 14/16** (all'audit): fix M1 (prop `as="h1"` su `SectionHeading`) e `headingLevel` su `PostCard`. **Risolto**: 1 `<h1>` su tutte le 16 pagine.
-- **Title/description**: proposte concrete per pagina in audit report M2.
+- **Title/description**: ✅ riscritti il 01/10/2026 (M2). Range finale su 16/16 pagine: title **32–60** caratteri, description **140–153**. Le soglie ideali sono ora imposte da `seo:check` a ogni build (prima erano 65/50/165, troppo permissive).
 - Alt text: — (nessuna immagine di contenuto; le icone sono SVG decorativi o con `aria-hidden`).
 - Internal linking: ✅ ogni pagina ha breadcrumb, nav, footer e link contestuali; 17 link interni unici, tutti 200.
 
@@ -102,10 +102,10 @@ Stato attuale (30/09/2026): il dominio ufficiale **risponde 200** e il file di v
 
 | Area | ✅ | ⚠️ | ❌ |
 |---|---|---|---|
-| On-page (16 pagine) — **dopo i fix** | 14 | 2 (title/description, M2) | 0 |
+| On-page (16 pagine) — **dopo M1 e M2** | 16 | 0 | 0 |
 | Technical — **dopo i fix** | 19 | 1 (logo quadrato nel JSON-LD, opzionale) | 0 |
 | Scansionabilità Googlebot | 16/16 sul dominio ufficiale | — | — |
-| Prossimo passo | **M4 Search Console** sul dominio ormai attivo → poi M2, M3 fix 2–4 | | |
+| Prossimo passo | **M4 Search Console** sul dominio ormai attivo → poi M3 fix 2–4 | | |
 
 ### 1b. Stato attuale (dopo i fix, verificato sul live)
 
@@ -118,4 +118,4 @@ Controlli eseguiti il 30/09/2026 sul dominio ufficiale, dopo il deploy del commi
 | `<h1>` per pagina | ❌ assente su 14/16 | ✅ **1 su 16/16**, nessun salto di gerarchia (controllo aggiunto al crawler) |
 | Pagine della sitemap raggiungibili | ❌ 16/16 → 404 | ✅ 16/16 → 200 |
 | 404 reali, `http → https`, doppi slash | ✅ | ✅ (ricontrollati) |
-| Title oltre 60 char · description corte | ⚠️ 2 · molti | ⚠️ **ancora aperti** (M2: si correggono nel codice, non nel deploy) |
+| Title oltre 60 char · description corte | ⚠️ 2 · molti | ✅ **risolti** il 01/10/2026 (M2): title 32–60, description 140–153 su 16/16 — modifiche nel working tree, in attesa di commit/deploy |

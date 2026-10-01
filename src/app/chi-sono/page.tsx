@@ -11,7 +11,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: { absolute: "Chi è Ahsen Kurtoski? Biografia, percorso e competenze" },
   description:
-    "Chi è Ahsen Kurtoski: la sua storia, il suo percorso da developer e creatore digitale, le competenze e i progetti che porta avanti.",
+    "Chi è Ahsen Kurtoski: la storia, il percorso da developer e creatore digitale, le competenze tecniche e i progetti personali che porta avanti oggi.",
   keywords: [
     "Ahsen Kurtoski chi è",
     "chi è Ahsen Kurtoski",

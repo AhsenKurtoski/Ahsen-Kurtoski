@@ -8,7 +8,7 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 
 **Settimana 1 — sbloccare tutto** ✅ (tutto fatto il 30/09/2026)
 - [x] C1: rinomina progetto Vercel → `ahsenkurtoski`; verificato 200 sul nuovo + **307** dal vecchio (nel piano era previsto 308; Vercel risponde 307).
-- [x] H1: account rinominati ad `AhsenKurtoski` — GitHub 200 e Instagram 200 verificati; LinkedIn risponde 999 ai bot, **conferma manuale** ancora da fare.
+- [x] H1: chiuso il 01/10/2026. GitHub rinominato → 200; LinkedIn e Instagram **non** erano stati rinominati e gli URL nel codice erano inventati (`/in/ahsenkurtoski`, `/ahsenkurtoski`): ora ci sono i profili veri, `/in/ahsen-kurtoski-397b00354` e `/ahsenstudio`, come 4 `sameAs` nei dati strutturati. Resta la conferma manuale dal browser (i bot ricevono 999/200 su qualunque handle).
 - [x] C2: commit `c3bc58c` + push su `main`.
 - [x] Verifica post-deploy: `seo:live` («il sito è scansionabile e indicizzabile», 16/16) e `audit:links` (0 problemi, 0 avvisi) sul dominio ufficiale.
 
@@ -20,7 +20,7 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 
 **Settimane 3–4 — contenuti e on-page**
 - [x] M1: H1 su tutte le pagine (1 per pagina su 16/16, verificato dal crawler).
-- [ ] M2: title/description della tabella proposta — **aperto**.
+- [x] M2: title e description riscritti il 01/10/2026 — title 32–60 e description 140–153 su 16/16 pagine, soglie ora imposte da `seo:check` (evidenze in [fixes-applied.md §7](fixes-applied.md#7-title-e-meta-description-lunghezze-ideali)). **Nel working tree: manca commit e deploy.**
 - [ ] H5: aggiorna i testi del sito Netlify dello studio (sottodominio già rinominato e link sistemato; restano `<title>` e description).
 - [ ] Controlli: GSC Copertura (crescono gli URL del nuovo dominio), query `site:ahsenkurtoski.vercel.app`, primi `Ahsen Kurtoski` in SERP.
 
@@ -31,14 +31,14 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 ## 🗓️ Giorni 31–60 — Velocità e contenuti
 
 - [x] M3 (fix 1): typing con reduced-motion/pausa a scheda nascosta — deployato; misure dopo: home 83–86, blog 97, contatti 97.
-- [ ] M3 (fix 2–4): preload mono off, CSS render-blocking, bundle — **aperti**; obiettivo LCP ≤2,5 s stabile su home (oggi 2,45–2,65 s) e TBT ≤200 ms (oggi 393–546 ms).
-- [ ] Valutare `experimental.inlineCss` con misurazione; bundle analyzer e `dynamic()` per i widget non critici.
+- [x] M3 (fix 2–4): mono non più precaricato (−23 KB dove non serve), `Reveal` senza JS con animazione CSS scroll-driven, bundle analizzato (il resto del JS è il runtime del framework). `browserslist` provato e **scartato**; `inlineCss` provato con due build affiancate e **adottato** (LCP simulato −253 ms in 6 round su 6). Misure: home mobile 258 → **233 KB**, Perf mediana 92 → **94**, TBT mediana 210 → **170 ms** (in locale; nel working tree, da deployare). Sul LCP: i 2,6–2,8 s sono **stima della simulazione**, non un ritardo del dipinto — l'LCP osservato coincide con l'FCP (0,8–1,0 s in locale, 3,4 s su 3G reale) in 11 run su 11, e l'A/B su `font-display: optional` ha respinto l'ipotesi del cambio font. Verifica indipendente fatta su **PageSpeed Insights** (01/10/2026, deploy attuale): mobile **Perf 96, LCP 2,4 s, TBT 70 ms, CLS 0** (soglie CWV rispettate), desktop **Perf 100, LCP 0,52 s, TBT 0**; nessun dato di campo CrUX perché il traffico è troppo basso. In 16 run su 16, su quattro ambienti, l'LCP osservato coincide con il primo paint. Rilievi PSI residui, tutti di framework: CSS bloccante (300 ms stimati), 14 KiB di JS legacy, 28 KiB non usato.
+- [x] `experimental.inlineCss` valutato con misurazione e **adottato** (01/10/2026): A/B con due build affiancate e run alternati → **LCP simulato −253 ms in 6 round su 6**, TBT invariato, **+0,35 KB brotli in prima visita**, +7,4 KB per navigazione client-side (Next duplica il CSS nel payload RSC). Bundle analyzer fatto; `dynamic()` per `BackToTop`/`ReadingProgress` valutato e **non applicato** (~1 KB ciascuno e servono al primo paint).
 - [ ] 2–4 nuovi articoli (uno "pillar" tecnico, uno narrativo) seguendo il template del blog; `lastmod` e `updated` veri.
-- [ ] Ottimizzare gli `excerpt` degli articoli più vecchi (contenuto + description).
+- [x] `excerpt` e description degli articoli portati nel range ideale (01/10/2026); resta da rivedere il **corpo** dei più vecchi.
 - [ ] Bio e link al sito aggiornati ovunque (GitHub, Instagram, LinkedIn, Fiverr, firma email).
 - [ ] Primo report mensile GSC: query sul nome vs query su argomenti; pagine scansionate/indicizzate.
 
-**KPI a 60 giorni:** home+chi-sono+blog indicizzati; CWV lab "buoni" su tutte le pagine; 6–8 articoli totali; primi clic da query di marca.
+**KPI a 60 giorni:** home+chi-sono+blog indicizzati; CWV lab "buoni" su tutte le pagine (per l'LCP leggere la nota in [performance report §0b](performance-report.md): il valore dei report è simulato, il dipinto reale coincide con l'FCP); 6–8 articoli totali; primi clic da query di marca.
 
 ---
 

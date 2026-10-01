@@ -42,9 +42,10 @@ export const site = {
   roles: ["Developer", "Creator", "Student", "Tech Enthusiast"],
 
   // Bio corta (card e metadata). Compare in home, nella pagina «Chi sono» e nei
-  // risultati di Google: è la descrizione più importante del sito.
+  // risultati di Google: è la descrizione più importante del sito. La lunghezza
+  // (150 caratteri) sta nel range ideale 140-155 controllato da `seo:check`.
   shortBio:
-    "Developer e creatore digitale. Costruisco progetti web moderni, offro i miei servizi su Fiverr e condivido quello che imparo sul mio blog.",
+    "Developer e creatore digitale. Costruisco progetti web moderni, offro i miei servizi su Fiverr e condivido quello che imparo ogni giorno sul mio blog.",
 
   // Bio lunga (pagina Chi sono)
   longBio: [
@@ -59,7 +60,7 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-09-30",
+  updated: "2026-10-01",
 
   /** Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e nel JSON-LD). */
   privacyUpdated: "2026-09-18",
@@ -98,11 +99,26 @@ export const site = {
     },
   ],
 
-  // Social (usa URL completi; lascia "" per nascondere l'icona)
+  /*
+   * Social (usa URL completi; lascia "" per nascondere l'icona).
+   *
+   * Questi URL finiscono anche in `sameAs` dei dati strutturati: sono la
+   * dichiarazione ufficiale di «questo profilo è la stessa persona». Devono
+   * quindi essere quelli veri — durante l'audit il codice conteneva handle
+   * ricostruiti a mano (`/in/ahsenkurtoski`, `/ahsenkurtoski`) che non
+   * esistevano. Corretti il 01/10/2026 con gli URL pubblici reali indicati dal
+   * proprietario: LinkedIn `/in/ahsen-kurtoski-397b00354` e Instagram
+   * `/ahsenstudio`.
+   *
+   * Nota sulla verifica: LinkedIn risponde **999** e Instagram **200** a
+   * qualunque username quando la richiesta arriva da uno strumento automatico,
+   * quindi questi link non sono verificabili da qui (`scripts/audit-links.mjs`
+   * li esclude apposta): vanno controllati a mano aprendoli nel browser.
+   */
   socials: {
     github: "https://github.com/AhsenKurtoski",
-    linkedin: "https://www.linkedin.com/in/ahsenkurtoski",
-    instagram: "https://www.instagram.com/ahsenkurtoski",
+    linkedin: "https://www.linkedin.com/in/ahsen-kurtoski-397b00354",
+    instagram: "https://www.instagram.com/ahsenstudio",
     fiverr: "https://www.fiverr.com/s/RV7NzgN",
     x: "",
     youtube: "",

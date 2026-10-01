@@ -10,9 +10,9 @@ import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Blog: sviluppo web, strumenti e tutorial",
   description:
-    "Il blog di Ahsen Kurtoski: articoli su sviluppo web, design, SEO e crescita personale. Guide pratiche e appunti dal suo percorso.",
+    "Il blog di Ahsen Kurtoski: guide pratiche su sviluppo web, design, SEO e strumenti digitali, con appunti dal suo percorso quotidiano di developer.",
   keywords: [
     "Ahsen Kurtoski blog",
     "blog sviluppo web",

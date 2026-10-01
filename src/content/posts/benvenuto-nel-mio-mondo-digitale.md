@@ -1,6 +1,6 @@
 ---
 title: Benvenuto nel mio mondo digitale
-excerpt: Il primo articolo del blog: chi sono, perché ho creato questo sito e cosa troverai qui nei prossimi mesi.
+excerpt: Il primo articolo del blog: chi sono, perché ho creato questo sito e cosa troverai qui nei prossimi mesi tra progetti, idee e cose imparate.
 date: 2026-09-10
 tags: Personale, Web
 ---

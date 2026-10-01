@@ -8,16 +8,30 @@ import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site";
 import "./globals.css";
 
+/*
+ * `display: "swap"` confermato dopo un A/B con `"optional"` (01/10/2026):
+ * `optional` non migliora nulla — l'LCP **osservato** coincide con l'FCP in
+ * entrambe le configurazioni (769–1034 ms), quindi il font non entra nel
+ * percorso del primo dipinto — e costa il font di sistema alla prima visita.
+ * I 2,6–2,8 s che si leggono nei report Lighthouse sono il risultato della
+ * simulazione (Lantern), che somma il costo JS del framework davanti al
+ * dipinto. Dettagli in audit/performance-report.md, sezione 0b.
+ */
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
+// `preload: false`: il mono si usa solo per il codice e per qualche indirizzo
+// email, quindi precaricarlo su ogni pagina costava 23 KB di banda inutile e
+// una richiesta che competeva con il testo. Viene scaricato solo dove il
+// browser incontra davvero un elemento in `font-mono`.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

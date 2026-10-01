@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -9,39 +7,29 @@ type RevealProps = {
   delay?: number;
 };
 
-/** Rivela il contenuto con una piccola animazione quando entra nel viewport. */
+/**
+ * Piccola animazione di ingresso (opacità + traslazione) **senza JavaScript**.
+ *
+ * Perché non è più un componente client: la versione precedente partiva da
+ * `opacity: 0` e diventava visibile solo dopo l'idratazione e il primo
+ * IntersectionObserver, quindi il contenuto dipendeva dal JS (e con un
+ * `Reveal` attorno a tutta la pagina, l'idratazione arrivava a costare più del
+ * testo stesso). Ora l'animazione è dichiarata in `globals.css` con
+ * `animation-timeline: view()`: parte quando l'elemento entra nello schermo,
+ * come prima, ma la fa il browser da solo.
+ *
+ * Il `delay` resta per gli effetti a cascata (card a 80–90 ms l'una dall'altra).
+ * Le intestazioni di pagina — cioè il contenuto su cui si misura l'LCP — non
+ * hanno ritardo: sono in un `Reveal` con `delay` assente o direttamente fuori
+ * da un `Reveal`, quindi non aspettano nulla per dipingersi.
+ */
 export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
-      const fallback = setTimeout(() => setVisible(true), 0);
-      return () => clearTimeout(fallback);
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const style: CSSProperties | undefined = delay
+    ? { animationDelay: `${delay}ms` }
+    : undefined;
 
   return (
-    <div
-      ref={ref}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-      className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${className}`}
-    >
+    <div style={style} className={`reveal ${className}`}>
       {children}
     </div>
   );

@@ -18,7 +18,160 @@ Misure ripetute **sul dominio ufficiale** dopo il deploy, cioè sul codice che g
 
 Confronto con le misure pre-fix dello stesso periodo (home 71 → **83–86**, blog 72 → **97**, contatti 84 → **97**).
 Le due serie non sono misurate nelle stesse condizioni (dominio diverso, periodo diverso, cache diversa): il confronto è indicativo e i valori da guardare sono quelli "dopo". Il fix del typing effect è l'unico cambiamento di questo giro che riduce lavoro sul main thread, ed è coerente con il crollo del TBT, ma non ho misure isolate che ne provino da sole l'effetto.
-I fix 2–4 di M3 (font mono, CSS, bundle) **non** sono ancora applicati: la home resta sotto la soglia consigliata di LCP 2,5 s in un run su tre.
+I fix 2–4 di M3 (font mono, CSS, bundle) sono stati **applicati e misurati il 01/10/2026**: vedi la sezione 0b qui sotto. La home resta sopra la soglia consigliata di LCP 2,5 s nei report Lighthouse, ma **non perché il primo dipinto sia in ritardo**: l'LCP osservato coincide con l'FCP (0,8–1,0 s) in ogni run. I dettagli — e cosa significa per gli obiettivi di questo report — sono in [sezione 0b](#0b-fix-24-di-m3-cosa-è-stato-applicato-e-misure-primadopo-01102026).
+
+---
+
+## 0b. Fix 2–4 di M3: cosa è stato applicato e misure prima/dopo (01/10/2026)
+
+**Metodo.** Build di produzione servita in locale da `next start`, Lighthouse 13.5 con Chrome for Testing 154, preset mobile (Moto G Power, Slow 4G, CPU 4×). Confronto **like-for-like**: identico metodo prima e dopo, home ripetuta (3 run prima, 5 run dopo). I valori assoluti in locale sono più alti di quelli sul dominio Vercel (che paga la rete reale): contano le coppie, non i valori isolati.
+
+| Home mobile (locale) | Perf | LCP | TBT | Byte totali |
+|---|---|---|---|---|
+| **Prima** (solo fix 1) | 93 · 92 · 88 → **mediana 92** | 2,8 · 2,8 · 2,9 → **2,8 s** | 190 · 210 · 300 → **mediana 210 ms** | 258 KB |
+| **Dopo** (fix 2 + 4) | 95 · 94 · 94 · 90 · 90 → **mediana 94** | 2,7 · 2,7 · 2,7 · 2,8 · 2,8 → **mediana 2,7 s** | 130 · 170 · 160 · 270 · 260 → **mediana 170 ms** | **233 KB** |
+
+**Cosa è certo e cosa no.** Il TBT varia di ~±100 ms fra run identici, quindi la differenza 210 → 170 ms **non è attribuibile con certezza** e va letta come "non peggiora". I byte invece sono una misura esatta e riproducibile, e si spiegano voce per voce:
+
+| Risorsa (home) | Prima | Dopo | Perché |
+|---|---|---|---|
+| JavaScript | 147 KB in 9 file | **145 KB in 8 file** | sparisce il chunk di `Reveal` (il componente non è più client) |
+| Font | 52 KB in 2 file | **29 KB in 1 file** | il woff2 mono non viene più precaricato dove non serve |
+| **Totale** | 258 KB | **233 KB** | −25 KB esatti |
+
+Altre pagine con lo stesso metodo (run singoli, quindi indicativi):
+
+| Pagina | Byte prima | Byte dopo | Perf | LCP | TBT |
+|---|---|---|---|---|---|
+| blog | 274 KB | **248 KB** | 93 (era 88) | 2,4 s (era 3,0) | 260 ms (era 310) |
+| contatti | 244 KB | 242 KB | 90 (era 91) | 2,9 s (era 2,9) | 250 ms (era 240) |
+| articolo SEO | — | 235 KB | 94 | 2,6 s | 210 ms |
+
+**Fix 2 — il font mono non è più precaricato (`preload: false`).** Verificato con conteggi esatti: sulle pagine senza codice né indirizzi in `font-mono` la richiesta del woff2 mono (23 KB) **non parte più** (da 2 richieste di font a 1); dove il mono serve — `/contatti`, articoli con `<code>` — il file viene scaricato su richiesta e usato davvero: HTTP 200 (23.108 byte) e `document.fonts.check('16px "Geist Mono"')` → `true`. Da qui i −25 KB sulla home e i soli −2 KB su `/contatti` (dove il mono serve).
+
+**Fix 4 — il JS iniziale: cosa c'era da tagliare e cosa no.** Tre leve, con l'esito reale:
+
+| Leva | Esito |
+|---|---|
+| `browserslist` moderno (`chrome/edge/firefox >= 111`, `safari >= 16.4`) | **Provata e scartata.** Il chunk del framework resta identico byte per byte (71.688 B) e `legacy-javascript` continua a segnalare 13,8 KB: quei polyfill stanno nel codice precompilato di React/Next, non nell'app. Rimossa perché non produce effetti misurabili. |
+| `Reveal` da componente client a componente server con animazione CSS | **Applicata.** L'animazione è in `globals.css` con `animation-timeline: view()` (scroll-driven): sparisce un confine client, il chunk relativo non viene più caricato e il contenuto non dipende dal JS per essere visibile. Verificato in Chrome 154: 22 elementi `.reveal`, quelli sotto la piega restano a `opacity: 0` finché non entrano e diventano tutti visibili scorrendo; con `prefers-reduced-motion: reduce` l'animazione è disattivata (`animation: none`) e il testo è statico. |
+| `dynamic()` per `BackToTop` e `ReadingProgress` | **Non applicata.** Sono ~1 KB ciascuno e servono al primo paint: il guadagno non giustifica il rischio di cambiare comportamento. |
+
+Quel chunk da **71 KB (28 KB inutilizzati, 13,8 KB di codice legacy)** è il runtime del framework (React + Next/Turbopack): resta identico qualunque cosa si tocchi nell'app. I componenti client dell'app sono sparsi in chunk da 1–9 KB. Con questo stack il pavimento del TBT mobile è intorno ai 100–150 ms: il target di 200 ms è raggiungibile, quello di LCP 2,5 s no.
+
+**Fix 3 — `experimental.inlineCss`: adottato dopo un A/B dedicato.** Toglie l'unica richiesta che blocca il primo paint (`render-blocking-insight`). La prima decisione, presa su run singoli e non accoppiati, era stata opposta («0,1–0,2 s di LCP, punteggi sovrapposti, +17 KB a navigazione: non paga»); con build affiancate e run alternati il segno si è ribaltato. Numeri completi nella [sezione 0d](#0d-decisione-finale-su-experimentalinlinecss-adottato): **LCP simulato −253 ms in 6 round su 6**, TBT invariato, **+0,35 KB brotli in prima visita** e +7,4 KB per navigazione client-side.
+
+### L'LCP di 2,6–2,8 s è la simulazione, non il dipinto
+
+Il paragrafo della hero è l'elemento LCP ed è testo statico giì presente nell'HTML. Se il ritardo fosse reale, fra FCP e LCP ci sarebbe uno stacco: non c'è.
+
+| Configurazione | LCP simulato | **LCP osservato** | FCP osservato | LCP = FCP? |
+|---|---|---|---|---|
+| swap (adottata) | 2768 ms | **841 ms** | 841 ms | sì |
+| swap, altro run | 2827 ms | **856 ms** | 856 ms | sì |
+| `font-display: optional` | 2626 ms | **769 ms** | 769 ms | sì |
+| `font-display: optional`, altro run | 2807 ms | **1034 ms** | 1034 ms | sì |
+| configurazione finale, run 1 | 2639 ms | **1266 ms** | 1266 ms | sì |
+| configurazione finale, run 2 | 2720 ms | **820 ms** | 820 ms | sì |
+| **3G reale, pre-fix** (`home-3g`, throttling devtools) | 3420 ms | **3420 ms** | 3420 ms | sì |
+
+**In 11 run su 11 l'LCP osservato coincide con l'FCP** (l'ultima riga della tabella viene dall'audit del 30/09, prima di ogni fix, con throttling **reale** da 3G: anche lì il testo è stato dipinto insieme al primo paint, in 3,4 s di sola rete). Il testo viene dipinto quando viene dipinta la pagina, senza aspettare JavaScript né il font. I 2,6–2,8 s sono il risultato della **simulazione** (Lantern): parte dal trace osservato e ci somma il costo del lavoro sul main thread sotto CPU 4× e rete lenta, quindi attribuisce al dipinto il tempo del JavaScript del framework. È il motivo per cui il valore simulato non si muove qualunque cosa si cambi nell'app: cambiare il font, i componenti client o il CSS lascia il modello quasi identico.
+
+**Conseguenza sugli obiettivi.** Il valore simulato **dipende dalla macchina** su cui gira Lighthouse, non dal codice dell'app: qui sta 2,7–2,9 s, su PSI mobile 2,4 s (sotto la soglia) e su PSI desktop 0,5 s. Quello che non cambia è l'LCP osservato, che è sempre uguale al primo paint. Quindi la voce non si ottimizza "nel codice": si ottimizza il **primo dipinto**, cioè quanto in fretta l'HTML arriva e quanto costa farne il parse (documento 16 KB trasferiti, ~110 KB non compressi, ~145 KB di JS da parsare ed eseguire). La verifica sul dominio live è nella [sezione 0c](#0c-verifica-sul-dominio-live-pagespeed-insights-01102026).
+
+### A/B su `font-display` (ipotesi provata e respinta)
+
+L'ipotesi di partenza era che l'LCP fosse in ritardo per il cambio del font (il woff2 arriva dopo il primo paint e il testo viene ridipinto). Provata con un A/B sulla stessa build, 5 run per configurazione:
+
+| Home mobile, 5 run | Perf | LCP simulato | TBT simulato | Byte |
+|---|---|---|---|---|
+| `display: "swap"` (adottata) | 95·94·94·90·90 → **mediana 94** | 2,7·2,7·2,7·2,8·2,8 → **2,7 s** | 130·170·160·270·260 → **170 ms** | 233 KB |
+| `display: "optional"` | 83·90·96·95·90 → **mediana 90** | 2,8·2,8·2,6·2,7·2,8 → **2,8 s** | 500·270·90·150·280 → **270 ms** | 233 KB |
+
+**Non migliora niente**: l'LCP simulato non si muove e le mediane di Perf e TBT sono peggiori (il run da 83 con TBT 500 ms è rumore di macchina, ma la direzione non è a favore). Il costo invece è certo: alla prima visita il sito mostrerebbe il font di sistema. Quindi **`display: "optional"` è stato scartato** e il commento in `src/app/layout.tsx` spiega perché, così l'esperimento non viene rifatto.
+
+**Nota sul metodo, da tenere presente ovunque in questo report.** Questa macchina ha una variabilità alta: nella stessa serie di 5 run identici un run ha segnato Perf 74 con TBT 1.114 ms, il successivo Perf 96 con TBT 90 ms. Per questo le conclusioni qui sopra si appoggiano alle mediane, ai byte (misura esatta) e ai tempi osservati, non ai punteggi dei singoli run.
+
+**Stato di queste modifiche: nel working tree, non ancora deployate.**
+
+---
+
+## 0c. Verifica sul dominio live (PageSpeed Insights, 01/10/2026)
+
+Misura indipendente dalla mia macchina: PageSpeed Insights gira la stessa Lighthouse (13.5.0) dall'infrastruttura Google, **sul deploy attuale** — che non contiene le modifiche M2/M3 del working tree. Raccolta completa in `audit/raw/psi-live-evidence.json`; i report grezzi sono riapribili da [PSI mobile](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=mobile) e [PSI desktop](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fahsenkurtoski.vercel.app&form_factor=desktop).
+
+| Ambiente (home) | Macchina (`benchmarkIndex`) | Primo paint osservato | LCP osservato | LCP simulato | TBT | Perf |
+|---|---|---|---|---|---|---|
+| locale, working tree (più configurazioni) | 2.282–2.712 | 765–1.034 ms | **= FCP** | 2,72–2,91 s | 94–274 ms | 88–96 |
+| locale, URL live | 2.705–2.754 | 1.517–1.553 ms | **= FCP** | 2,41–2,70 s | 85–480 ms | 84–97 |
+| **PSI mobile, URL live** | **676** | **2.249 ms** | **= FCP** | **2,40 s** | **72 ms** | **96** |
+| **PSI desktop, URL live** | **1.073** | **232 ms** | **= FCP** | **0,52 s** | **0** | **100** |
+| 3G reale, pre-fix (throttling devtools) | 2.765 | 3.420 ms | **= FCP** | 3,42 s | 0 | 84 |
+
+**Verdetto di PSI sul live (mobile):** LCP **2,4 s** ✅, TBT **70 ms** ✅, CLS **0** ✅, Perf **96**, a11y/practice/SEO **100**. Sul desktop: Perf **100**, LCP **0,52 s**, TBT **0**. Con le soglie Core Web Vitals (LCP ≤ 2,5 s, TBT ≤ 200 ms, CLS ≤ 0,1) il sito **passa in laboratorio** su mobile e passa largamente su desktop.
+
+**Nessun dato di campo.** PSI riporta «Nessun dato» sia per l'URL sia per l'origine: il sito ha troppo poco traffico per entrare in CrUX. Quindi **non esiste** una misura di utenti reali da confrontare: la valutazione ufficiale di Google sugli utenti reali, oggi, è semplicemente "non disponibile".
+
+**Le tre cose che questa verifica ha chiarito.**
+
+1. **L'LCP non ha un ritardo proprio.** In **16 run su 16**, su quattro ambienti diversi e sei configurazioni (prima e dopo i fix, font in swap e optional, CSS inline o no), l'LCP osservato coincide con il primo paint: il testo si dipinge insieme alla pagina. Non c'è niente da "sistemare" fra FCP e LCP perché fra i due non passa tempo.
+2. **Sul live il numero mobile passa, ma di poco, e dipende dalla macchina.** PSI mobile ha girato su una macchina circa 3,5 volte più lenta della mia (`benchmarkIndex` 676 contro ~2.500) e lì la pagina resta **vuota fino a ~2,25 s** (la filmstrip lo mostra: fotogrammi da 5 KB fino a 1.717 ms, contenuto da 24 KB a 2.289 ms) pur avendo scaricato tutto entro 495 ms. Non è rete: è il costo di parse/esecuzione di ~110 KB di HTML e ~145 KB di JS su una CPU lenta. Sul desktop, con la stessa pagina e una macchina più veloce, il primo paint è a 232 ms.
+3. **I tre avvisi di PSI sono gli stessi che vedo in locale** e sono tutti a livello di framework: CSS che blocca il rendering («risparmio stimato 300 ms»), 14 KiB di JavaScript legacy, 28 KiB di JavaScript non usato. Coerente con l'analisi della sezione 0b: non sono byte dell'app.
+
+**La sola leva rimasta, con i numeri in mano.** Il CSS bloccante è l'unica voce "da app" che PSI quantifica (300 ms stimati su macchina lenta) ed è anche l'unica che si toglie con una riga di configurazione. La domanda posta qui — «in locale l'avevo scartata, ma su una macchina lenta il calcolo potrebbe cambiare segno?» — ha avuto risposta con un A/B dedicato con build affiancate: **si adotta `inlineCss`** (§0d). Il modello di PSI realizza ~250 ms dei 300 ms stimati, a fronte di +0,35 KB in prima visita.
+
+---
+
+## 0d. Decisione finale su `experimental.inlineCss`: adottato
+
+Il CSS inline è l'unica modifica al codice che toglie una richiesta **render-blocking**, cioè l'unica voce "da app" fra i tre rilievi di PSI (gli altri due, JS legacy e JS inutilizzato, stanno nel runtime del framework). La prima decisione, presa su run singoli e non accoppiati, era di scartarlo; con un metodo migliore il risultato si ribalta.
+
+**Metodo.** Due build dello stesso codice affiancate e servite insieme, che differiscono **solo** per `inlineCss` (porta 3111 con inline, 3112 senza), e run Lighthouse **alternati nella stessa sessione** (A,B e poi B,A, così l'effetto "primo run del round" non si confonde con la variante), mediana delle differenze accoppiate su 6 round. Due regimi: `simulate` (il modello **Lantern**, esattamente quello con cui PSI calcola il punteggio) e `devtools` (CPU rallentata davvero 4×, banda 1.638 kbps, latenza 150 ms — i valori del profilo mobile di PSI). Script: `audit/raw/ab-run.sh` e `audit/raw/ab-pair.mjs`.
+
+### Nel modello con cui PSI calcola il punteggio
+
+| Home mobile, 6 round accoppiati | Con inline | Senza inline | Δ (mediana accoppiata) |
+|---|---|---|---|
+| **LCP simulato** | **2.563 ms** | 2.794 ms | **−253 ms** (mediana accoppiata), favorevole in **6 round su 6** (da −143 a −327) |
+| TBT simulato | 240 ms | 312 ms | +27 ms: invariato, dentro il rumore |
+| FCP simulato | bimodale: 871–885 **o** 1.115–1.173, mediana 1.000 | 906 ms, stabile | +94 ms, ma il modello è instabile qui |
+| Perf (macchina locale) | 93 | 89 | +1 |
+| Byte totali nel modello (gzip locale) | 259 KB | 233 KB | +26 KB |
+
+Il LCP è la metrica che pesa di più nel punteggio mobile ed è l'unica che si muove: **−253 ms costanti**. Coerente con i **300 ms** che PSI stima per il CSS render-blocking sul live: due misure indipendenti che dicono la stessa cosa.
+
+### Con throttling reale (CPU 4×, latenza 150 ms)
+
+| 6 round accoppiati (FCP = LCP) | Valori |
+|---|---|
+| Con inline | 2.074 · 2.110 · 2.133 · 2.150 · 2.178 · 3.006 ms |
+| Senza inline | 1.796 · 1.886 · 3.110 · 3.118 · 3.136 · 3.119 ms |
+| **Δ mediana accoppiata** | **−531 ms** (favorevole all'inline) |
+| TBT | 0 ms con inline, 0–29 ms senza |
+| Lavoro sul main thread | 6,3–6,5 s con inline, 5,6–6,5 s senza |
+
+**Questi numeri valgono come direzione, non come valori.** Nello stesso regime la *stessa* variante oscilla di oltre un secondo (la "senza inline" ha girato due volte a ~1,8 s e quattro volte a ~3,1 s): è un artefatto di dipinto dell'ambiente headless, non dell'app. Regge il segno — anche qui a favore dell'inline — e regge un dato che invece è pulito: **il lavoro sul main thread non cambia**, quindi l'HTML più grande non costa CPU. Il waterfall spiega perché: in entrambe le varianti tutte le risorse sono scaricate entro ~1,0–1,4 s e il primo dipinto arriva dopo, quando il main thread si libera (è la stessa conclusione della §0b: l'LCP osservato coincide sempre con il primo paint).
+
+### Quanto costa in byte (misura esatta)
+
+| | Con inline | Senza inline | Differenza |
+|---|---|---|---|
+| Home, HTML non compresso | 231 KB | 111 KB + 37 KB di CSS | ≈2× |
+| **Home, prima visita (brotli, quello che serve Vercel)** | **18,9 KB** | 18,5 KB | **+0,35 KB** |
+| Home, prima visita (gzip: `next start`, host senza brotli) | 43,0 KB | 23,9 KB | +18,5 KB |
+| **Home, ricarica (CSS in cache)** | **18,9 KB** | 11,0 KB | **+8,0 KB** (gzip: +27,4 KB) |
+| **Navigazione client-side (payload RSC)** | **113 KB · 13,4 KB brotli** | 34 KB · 6,1 KB brotli | **+7,4 KB per pagina** |
+| CSS esterno | non esiste più | 37 KB, `max-age=31536000, immutable` | — |
+
+Il costo ricorrente è la voce meno intuitiva: senza inline il CSS è un file **immutabile in cache per un anno**, mentre con inline Next lo **duplica dentro il payload RSC** (verificato: nel payload compaiono `.reveal` e `font-geist`, assenti in quello senza inline) e quindi viaggia a ogni navigazione. In prima visita il costo è quasi nullo (brotli: +0,35 KB, perché la ripetizione del CSS comprime quasi a zero), ma chi legge tre o quattro pagine paga ~7 KB brotli in più a pagina: decine di millisecondi, contro i ~250 ms guadagnati sul primo dipinto.
+
+### Verdetto: adottato
+
+`experimental: { inlineCss: true }` è in `next.config.ts`, con la motivazione scritta accanto. Il bilancio è a favore: (a) il guadagno è sulla metrica che pesa di più nel punteggio ed è confermato da due metodi indipendenti (il modello di PSI e i 300 ms stimati da PSI stesso); (b) non peggiora il TBT (+27 ms di mediana accoppiata, cioè niente) né il lavoro sul main thread; (c) il costo in byte su brotli è trascurabile in prima visita e modesto per chi naviga.
+
+**Limiti dichiarati.** Questa macchina è ~3,5× più veloce di quella di PSI e non riproduce fedelmente un telefono lento: l'unico ambiente davvero rappresentativo resta PSI, quindi la conferma definitiva si avrà **dopo il deploy** (atteso: LCP mobile 2,40 → ~2,15 s, Perf 96 → ~97/98). Non esiste ancora dato di campo CrUX. La flag è **sperimentale**: se una versione futura di Next la rimuove, si torna alla richiesta CSS esterna senza altre modifiche.
+
+**L'alternativa più fine, non provata.** `optimizeCss` (critters) inlinerebbe **solo** il CSS critico lasciando il resto asincrono e cacheabile: sarebbe il meglio dei due mondi, ma richiede una dipendenza in più e non è stata misurata.
 
 ---
 
@@ -35,7 +188,7 @@ I fix 2–4 di M3 (font mono, CSS, bundle) **non** sono ancora applicati: la hom
 | articolo-seo-mobile | 84 | 96 | 100 | 100 | 2,43 s | 529 ms | 0 | 69 ms | 148 KB |
 | articolo-seo-desktop | **100** | 96 | 100 | 100 | 482 ms | 0 ms | 0 | 102 ms | 150 KB |
 
-**Core Web Vitals (mobile 4G):**
+**Core Web Vitals (mobile 4G):** — valori **simulati** (vedi la precisazione nella sezione 0b: l'LCP osservato coincide con l'FCP, quindi questi numeri dicono quanto la simulazione attribuisce al JavaScript, non quanto il testo aspetti per dipingersi).
 
 | Metrica | Valore mobile | Soglia "buono" | Esito |
 |---|---|---|---|
@@ -68,6 +221,8 @@ Punti di forza strutturali: HTML statico prerenderizzato (contenuto presente sen
 
 ## 3. Cause del LAG e proposte di fix
 
+> **Esito (01/10/2026):** cosa è stato applicato, cosa è stato scartato e i numeri prima/dopo sono nella [sezione 0b](#0b-fix-24-di-m3-cosa-è-stato-applicato-e-misure-primadopo-01102026). Questa sezione resta la diagnosi originale.
+
 ### 3.1 TBT alto su mobile: 930 ms (home), 530 ms (articoli/contatti)
 **Evidenza:** `mainthread-work-breakdown` 3,0 s; `bootup-time` 1,4 s; `max-potential-fid` 920 ms sul run home-mobile. **Il TBT peggiore è sul blog mobile: 1.244 ms** (`bootup` 1,78 s, di cui la pagina `/blog` stessa — idratazione delle card e prefetch dei link visibili — costa 1,78 s). Chunk più pesante: `_next/static/chunks/2sjvppnz5km2e.js` (73 KB trasferiti, **28 KB mai usati**).
 **Cause individuate:**
@@ -96,12 +251,12 @@ Reso statico anche in SSR (il testo attuale è già accessibile via `sr-only`).
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap", preload: false });
 ```
 
-**Fix 3 — CSS inline (sperimentale, da misurare):** Next 16 può inlinare il CSS critico:
+**Fix 3 — CSS inline: applicato (01/10/2026).** Next 16 può inlinare il CSS della pagina:
 ```ts
 // next.config.ts
 experimental: { inlineCss: true },
 ```
-Misurare prima/dopo con `npx lighthouse`; se il punteggio non migliora, rimuovere (opzione ancora instabile).
+Misurato prima/dopo con build affiancate e run alternati: **LCP simulato −253 ms (6 round su 6)**, TBT invariato, **+0,35 KB brotli in prima visita** e +7,4 KB per navigazione client-side. Tabella completa in [§0d](#0d-decisione-finale-su-experimentalinlinecss-adottato). Resta una flag sperimentale: se una versione futura di Next la rimuove, il sito torna alla richiesta CSS esterna senza altre modifiche.
 
 **Fix 4 — ridurre il JS iniziale (Media):** il chunk da 73 KB con 28 KB inutilizzati contiene i componenti client condivisi. Prossimo passo consigliato: `@next/bundle-analyzer` su una build locale per vedere dentro il chunk, e valutare:
 - `dynamic(() => import(...), { ssr: false })` per `BackToTop`, `CookieNotice`, `ReadingProgress` (non servono al primo paint);
@@ -115,7 +270,7 @@ Misurare prima/dopo con `npx lighthouse`; se il punteggio non migliora, rimuover
 
 ### 3.2 LCP 3,1 s su mobile (home), 0,5 s su desktop
 **Evidenza:** FCP 1,1 s, LCP 3,1 s: il ritardo sta fra primo paint e dipinto del contenuto principale (elemento LCP = titolo/card hero, tutto testo). Con CPU 4× il collo di bottiglia è l'esecuzione JS di idratazione+rehythm sopravvalutata; su 3G reale LCP 3,42 s (rete).
-**Fix:** i Fix 1–4 sopra + mantenere `font-display: swap` (già attivo). Dopo i fix, ricontrollare home-mobile: obiettivo **LCP ≤ 2,5 s e TBT ≤ 200 ms**.
+**Fix:** i Fix 1–4 sopra + mantenere `font-display: swap` (già attivo). Dopo i fix, ricontrollare home-mobile: obiettivo **TBT ≤ 200 ms** (centrato: mediana 170 ms). L'obiettivo **LCP ≤ 2,5 s** va invece riletto alla luce della sezione 0b: l'LCP *osservato* coincide con l'FCP anche su 3G reale, quindi il numero simulato di 2,6–2,8 s non descrive un'attesa del testo. La diagnosi "il ritardo sta fra primo paint e dipinto del contenuto principale" era quindi sbagliata: non c'è nessun ritardo fra i due.
 
 ### 3.3 Nessun problema su: CLS, TTFB, immagini, terze parti
 - CLS ~0: nessuno spostamento (ottimo; le animazioni `Reveal` usano `translate`/`opacity`, che non contano nel CLS).

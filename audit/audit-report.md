@@ -8,6 +8,8 @@
 Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler link interno (`scripts/audit-links.mjs`), Chrome for Testing headless con `scripts/audit-responsive.mjs` (console, rete, 7 viewport, interazioni), Lighthouse 13.5 locale (7 run), Googlebot UA, MCP Vercel.
 
 > **Stato al 30/09/2026 (fine giornata):** **C1** (dominio), **C2** (pubblicazione), **H1** (handle), **H2**, **H3**, **H4**, **M1**, **L1** e l'effetto typing (M3, fix 1) sono **chiusi e deployati** (commit `c3bc58c`). Misure sul sito **live**: audit link a **0 problemi / 0 avvisi** su 16 pagine, Lighthouse a11y **100/100** su home, /chi-sono, /blog, /contatti e pagine tag. Restano aperti: **H5** (solo i testi del sito dello studio), **M2** (title/description), **M3 fix 2–4** (font mono, CSS, bundle), **M4** (Search Console). Prima → dopo e verifiche in [fixes-applied.md](fixes-applied.md).
+>
+> **Aggiornamento 01/10/2026:** anche **M2** (title e meta description) e **M3 fix 2–4** (font mono, reveal CSS, bundle) sono **chiusi**: 16/16 pagine con title ≤ 60 caratteri e description fra 140 e 155 misurate sull'HTML servito, e sulla home mobile −25 KB per pagina con un componente client in meno (JS 147 → 145 KB, font 52 → 29 KB). Le soglie ideali sono ora imposte da `seo:check` a ogni build. `browserslist` è stato provato e scartato (non cambia un byte: i polyfill legacy stanno nel framework), mentre `inlineCss` è stato **adottato** dopo un A/B con due build affiancate e run alternati: LCP simulato **−253 ms in 6 round su 6**, TBT invariato, +0,35 KB brotli in prima visita (numeri in [performance-report.md](performance-report.md), §0d). Le modifiche sono nel **working tree, non ancora deployate**: sul sito live restano i valori vecchi finché non si committa e pusha (dettagli ed evidenze in [fixes-applied.md](fixes-applied.md)). Verifica indipendente su **PageSpeed Insights** (deploy attuale, 01/10/2026): mobile **Perf 96 · LCP 2,4 s · TBT 70 ms · CLS 0**, desktop **Perf 100 · LCP 0,52 s**; nessun dato di campo CrUX (traffico insufficiente). Restano aperti: **H5**, **M4**, **QW2**, **QW4** e **L4**.
 
 ---
 
@@ -97,11 +99,12 @@ npm run audit:links -- https://ahsenkurtoski.vercel.app
 ### 🟠 HIGH
 
 #### H1 — I nuovi handle `AhsenKurtoski` non esistono ancora (link rotti al deploy) — ✅ RISOLTO il 30/09/2026
-**Esito.** Gli account sono stati rinominati: `github.com/AhsenKurtoski` → **200** (e nel profilo non c'è più nessun riferimento ad "Axsen"), `instagram.com/ahsenkurtoski` → 200, `linkedin.com/in/ahsenkurtoski` → 999 (anti-bot: **conferma manuale**).
+**Esito.** GitHub: `github.com/AhsenKurtoski` → **200** (e nel profilo non c'è più nessun riferimento ad "Axsen").
+**Correzione del 01/10/2026 — i due URL social erano inventati.** LinkedIn e Instagram non si potevano verificare da qui (LinkedIn risponde **999** e Instagram **200** a *qualunque* username quando la richiesta arriva da uno strumento automatico), quindi gli handle scritti nel codice il 30/09 (`/in/ahsenkurtoski`, `/ahsenkurtoski`) erano **ricostruiti a mano e non esistevano**: per tutto il tempo in cui sono stati online, `sameAs` ha dichiarato due profili inesistenti. Con gli URL pubblici reali indicati dal proprietario, ora in `src/lib/site.ts` ci sono `https://www.linkedin.com/in/ahsen-kurtoski-397b00354` e `https://www.instagram.com/ahsenstudio`, e sono questi i 4 URL che compaiono in `sameAs` (verificati nell'HTML di build, su `Person` e `ProfessionalService`). La conferma resta manuale: apri i due profili dal browser.
 
 **Problema (come si presentava durante l'audit).** Su tua indicazione ho sostituito gli handle social con `AhsenKurtoski` (GitHub/LinkedIn/Instagram). Verifica del 30/09: `https://github.com/AhsenKurtoski` → **404**. LinkedIn (999) e Instagram (login wall) non sono verificabili da strumenti automatici.
 **Riproduzione (all'audit).** Apri i tre URL nuovi dalla home; quello GitHub dava 404.
-**Soluzione (eseguita il 30/09/2026).** Rinomina degli account (GitHub → Settings → Account → Change username; Instagram → Cambia username; LinkedIn → Modifica URL pubblico). GitHub mantiene il redirect dal vecchio username; per Instagram/LinkedIn verifica che i vecchi link continuino a funzionare, altrimenti aggiorna le bio che li contengono. Se preferisci non rinominare, ripristina i vecchi handle in `src/lib/site.ts` (righe 100–102).
+**Soluzione (eseguita il 30/09/2026, corretta il 01/10/2026).** Rinomina dell'account GitHub → `AhsenKurtoski` (eseguita, con redirect dal vecchio username). Per LinkedIn e Instagram la rinomina **non è avvenuta**: i due URL veri sono quelli forniti dal proprietario il 01/10/2026 (`/in/ahsen-kurtoski-397b00354` e `/ahsenstudio`) e sono ora nel codice — verificare che le bio dei profili linkino il sito. GitHub mantiene il redirect dal vecchio username; per Instagram/LinkedIn verifica che i vecchi link continuino a funzionare, altrimenti aggiorna le bio che li contengono. Se preferisci non rinominare, ripristina i vecchi handle in `src/lib/site.ts` (righe 100–102).
 **Impatto.** SEO/UX: link di identità (`sameAs`) rotti indeboliscono il collegamento del nome alla persona. **Difficoltà:** Facile (ma richiede l'accesso agli account).
 
 #### H2 — Contraste insufficiente su testi piccoli (4,06–4,09:1, richiesto 4,5:1) — ✅ RISOLTO e deployato
@@ -181,7 +184,8 @@ Poi, **solo per la prima intestazione di ogni pagina**: `/chi-sono` riga 59, `/b
 **Impatto.** SEO on-page + gerarchia per screen reader. **Difficoltà:** Facile.
 
 #### M2 — Meta description corte (94–122 char) e 2 title oltre 60
-**Problema.** Le description di articoli/tag/contatti sono sotto il range ottimale 140–155; i title di due articoli sono 62 e 65 caratteri (Google taglia ~60). Pagina per pagina (dati in `audit/raw/onpage.json`):
+**Stato: ✅ RISOLTO il 01/10/2026** (modifiche nel working tree, non ancora deployate).
+**Problema (all'audit).** Le description di articoli/tag/contatti erano sotto il range ottimale 140–155; i title di due articoli erano 62 e 65 caratteri (Google taglia ~60). Pagina per pagina (dati in `audit/raw/onpage.json`):
 
 | Pagina | Title attuale (char) | Proposta |
 |---|---|---|
@@ -194,9 +198,29 @@ Poi, **solo per la prima intestazione di ogni pagina**: `/chi-sono` riga 59, `/b
 Per gli articoli la description è l'`excerpt` del frontmatter (`src/content/posts/*.md`): allungala nelle card, cambia anche l'anteprima.
 **Impatto.** CTR in SERP. **Difficoltà:** Facile.
 
-#### M3 — Main thread / TBT elevato su mobile (LCP 3,1 s, TBT 930 ms) — ⚙️ PARZIALE (fix 1 fatto: typing; restano font mono, CSS, bundle)
+**Esito — valori realmente serviti** (HTML letto da `next start` sulla build di produzione, script `audit/raw/m2-served.mjs` e `audit/raw/m2-verify.mjs`):
+
+| Pagina | Title prima → dopo | Description prima → dopo |
+|---|---|---|
+| `/` | 36 → 36 | 138 → **150** (`shortBio`) |
+| `/chi-sono` | 54 → 54 | 131 → **147** |
+| `/blog` | 21 → **57** | 129 → **146** |
+| `/contatti` | 25 → **58** | 94 → **144** |
+| `/privacy` | 45 → 45 | 133 → **148** |
+| 4 articoli | 49/47/**65**/**62** → 49/47/**60**/**59** | 105/105/122/109 → **140/153/147/149** |
+| 7 archivi tag | 32–43 (invariati) | 98–109 → **141–152** |
+
+**Dove sono cambiati i testi.** `src/lib/site.ts` (`shortBio`), `src/app/blog/page.tsx`, `src/app/contatti/page.tsx`, `src/app/privacy/page.tsx`, `src/app/chi-sono/page.tsx`, `src/app/blog/tag/[tag]/page.tsx`, `src/content/posts/*.md` (quattro `excerpt` e i due title lunghi). `site.updated` passa a `2026-10-01`, così il `lastmod` della sitemap dice la data reale della modifica.
+
+**Due difetti trovati riscrivendo i tag.** La description diceva «**1 articoli** del blog…»: ora il conteggio si accorda al singolare e al plurale. E il testo è tarato perché reggano sia l'etichetta più corta (`SEO`, 3 caratteri → 141) sia la più lunga (`Programmazione`, 14 → 152), così tutte e sette le pagine tag restano nel range.
+
+**Perché non può regredire.** `scripts/seo-check.mjs` ora applica le soglie ideali a ogni build: avviso se il title supera 60 caratteri, se la description scende sotto 140 o supera 155. Prima le soglie erano 65/50/165, quindi title da 65 e description da 60 passavano senza segnalazione.
+
+#### M3 — Main thread / TBT elevato su mobile (LCP 3,1 s, TBT 930 ms) — ✅ FATTO (fix 1–4: typing, font mono, reveal CSS, bundle)
 Dettaglio nella [performance report](performance-report.md#3-cause-del-lag-e-proposte-di-fix). Sintesi: il bundle JS principale pesa 147 KB (28 KB non usati), l'effetto typing gira in continuazione anche a pagina nascosta e non rispetta `prefers-reduced-motion`; il font mono (23 KB) è precaricato su tutte le pagine anche dove non serve.
 **Impatto.** Performance mobile (Perf 71→85+), UX. **Difficoltà:** Media.
+
+**Esito (01/10/2026).** Fix 1–4 applicati, ognuno con una misura. Il mono non è più precaricato (−23 KB sulle pagine che non lo usano: home 2 → 1 richiesta di font, e resta disponibile dove serve). `Reveal` non è più un componente client: l'animazione è CSS scroll-driven, quindi niente idratazione per il contenuto e niente `opacity: 0` in attesa del JS (JS sulla home 147 → 145 KB, un file in meno). `browserslist` è stato **provato e scartato** (non cambia un byte: i polyfill legacy stanno dentro il framework), mentre `inlineCss` è stato **adottato**: con due build affiancate e run alternati accoppiati il LCP simulato scende di **253 ms in 6 round su 6**, al costo di +0,35 KB brotli in prima visita (il costo pieno, +7,4 KB, lo paga solo chi naviga fra le pagine). Sulla home mobile (misure locali, stesso metodo): byte 258 → **233 KB**, Perf mediana 92 → **94**, LCP mediana 2,8 → **2,7 s**, TBT mediana 210 → **170 ms** (variabilità ±100 ms: da leggere come "non peggiora"). Sull'LCP c'è una correzione di merito: i 2,6–2,8 s dei report Lighthouse sono **stima della simulazione**, non un ritardo del dipinto — in 11 run su 11 l'LCP osservato coincide con l'FCP (0,8–1,0 s), e la home non aspetta né JavaScript né il font. L'ipotesi "è il cambio del font" è stata provata con un A/B su `font-display: optional` (5 run per configurazione) e **respinta**: l'LCP non si muove e si perderebbe il font vero alla prima visita. Il numero simulato dipende dalla macchina, non dal codice: su **PageSpeed Insights** (macchina lenta, `benchmarkIndex` 676) il live fa **Perf 96 con LCP 2,4 s e TBT 70 ms**, quindi passa le soglie Core Web Vitals; sul desktop **Perf 100 con LCP 0,52 s**. Su Google non esiste però alcun **dato di campo** (CrUX): il sito ha troppo poco traffico. Metodo e tabella completa in [performance report §0c](performance-report.md). **Non ancora deployato.**
 
 #### M4 — Sitemap e OG sono N/A per immagini; nessuna immagine di contenuto
 

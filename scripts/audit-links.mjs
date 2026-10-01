@@ -20,7 +20,13 @@
  *     meta robots, JSON-LD valido, un solo <h1>, gerarchia dei titoli senza salti,
  *     contenuto presente nell'HTML servito;
  *  3. la stessa pagina richiesta con User-Agent Googlebot;
- *  4. tutti i link interni ed esterni trovati nell'HTML: stato e catena di redirect;
+ *  4. tutti i link interni ed esterni trovati nell'HTML: stato e catena di redirect.
+ *     I link che un bot non può verificare (LinkedIn risponde 999 e Instagram 200
+ *     a *qualunque* username, Fiverr 403) sono stampati **per intero** e ognuno
+ *     deve avere una conferma manuale registrata in CONFERMATI_A_MANO: senza
+ *     quella producono un avviso. Senza questo passaggio un handle scritto male
+ *     resta invisibile — è già successo: due profili inesistenti dichiarati in
+ *     `sameAs` per giorni (vedi CHECKLIST-PROFILI-SOCIAL.md);
  *  5. comportamenti di base: pagina inesistente → 404, variante con slash,
  *     http → https.
  *
@@ -189,6 +195,39 @@ const isManualCheck = (status, finalUrl) =>
   status === 429 ||
   /linkedin\.com|instagram\.com|fiverr\.com/.test(finalUrl ?? "");
 
+/**
+ * Link che gli strumenti automatici NON possono verificare perché il server
+ * risponde allo stesso modo per qualunque username, e che quindi qualcuno ha
+ * aperto davvero nel browser.
+ *
+ * Regola: si aggiunge una riga qui solo dopo aver aperto l'URL a mano e aver
+ * controllato che il profilo esista e sia quello giusto. Un URL assente da
+ * questa mappa non è "a posto": produce un avviso in ogni esecuzione, perché il
+ * caso peggiore non è il link morto (che si nota) ma quello *sbagliato ma
+ * plausibile* — un handle ricostruito a mano che punta a un profilo di qualcun
+ * altro o a nessuno.
+ *
+ * Checklist passo passo: CHECKLIST-PROFILI-SOCIAL.md
+ */
+/**
+ * URL di condivisione generati dal sito (bottone «condividi su…»): non sono
+ * identità da confermare — non esiste un profilo da aprire per verificarli e il
+ * parametro nell'URL cambia a ogni articolo.
+ */
+const isShareUrl = (url) =>
+  /linkedin\.com\/sharing|twitter\.com\/intent|api\.whatsapp\.com|facebook\.com\/sharer|t\.me\/share/.test(url);
+
+const CONFERMATI_A_MANO = new Map([
+  [
+    "https://www.linkedin.com/in/ahsen-kurtoski-397b00354",
+    "URL pubblico indicato dal proprietario il 01/10/2026",
+  ],
+  [
+    "https://www.instagram.com/ahsenstudio",
+    "URL pubblico indicato dal proprietario il 01/10/2026",
+  ],
+]);
+
 /* --------------------------------------------------- 1. robots + sitemap */
 
 console.log(`\n\u001b[1mAudit link — ${BASE}\u001b[0m\n`);
@@ -346,11 +385,21 @@ for (const item of external.values()) {
   item.status = res.status;
   item.finalUrl = res.finalUrl;
   item.manualCheck = manual;
+  item.confermatoAMano = manual ? (CONFERMATI_A_MANO.get(item.url) ?? null) : null;
   report.links.external.push({ ...item, from: [...item.from] });
 
   const label = new URL(item.url).host;
-  if (manual) console.log(`! ${label.padEnd(30)} HTTP ${res.status ?? res.error} — verifica manuale (anti-bot o login)`);
-  else if (res.status !== 200) {
+  if (manual) {
+    // L'URL per intero, non solo il dominio: è l'unica parte che può essere
+    // sbagliata e l'unica che un umano può controllare in due secondi.
+    console.log(`! ${label.padEnd(30)} HTTP ${res.status ?? res.error} — verifica manuale (anti-bot o login)`);
+    console.log(`    ${item.url}${item.confermatoAMano ? `  — ${item.confermatoAMano}` : ""}`);
+    if (!item.confermatoAMano && !isShareUrl(item.url)) {
+      warn(
+        `link non verificabile da bot e senza conferma manuale registrata: ${item.url} — aprirlo nel browser, poi aggiungerlo a CONFERMATI_A_MANO in scripts/audit-links.mjs (checklist: CHECKLIST-PROFILI-SOCIAL.md)`,
+      );
+    }
+  } else if (res.status !== 200) {
     problem(`link esterno non raggiungibile: ${item.url} → HTTP ${res.status ?? res.error}`, "external");
     console.log(`✗ ${label.padEnd(30)} HTTP ${res.status ?? res.error}`);
   } else console.log(`✓ ${label.padEnd(30)} 200`);
@@ -388,8 +437,19 @@ const blocking = FAIL_ON === "all" ? problems : problems.filter((p) => p.kind ==
 report.findings.blocking = blocking.map((p) => p.message);
 console.log(`\n\u001b[1mRiepilogo\u001b[0m`);
 console.log(`  pagine verificate: ${report.pages.length}`);
-console.log(`  link interni: ${report.links.internal.length} (rotti: ${report.links.internal.filter((l) => l.status !== 200).length})`);
-console.log(`  link esterni: ${report.links.external.length} (da verificare a mano: ${report.links.external.filter((l) => l.manualCheck).length})`);
+console.log(`  link interni: ${report.links.internal.length} (rotti: ${report.links.internal.filter((l) => l.status !== 200).length})`);  const manuali = report.links.external.filter((l) => l.manualCheck);
+  const condivisione = manuali.filter((l) => isShareUrl(l.url));
+  const daConfermare = manuali.filter((l) => !l.confermatoAMano && !isShareUrl(l.url));
+  const confermati = manuali.filter((l) => l.confermatoAMano);
+  console.log(`  link esterni: ${report.links.external.length} (da verificare a mano: ${manuali.length})`);
+  if (manuali.length) {
+    console.log(
+      `    confermati a mano: ${confermati.length}/${manuali.length - condivisione.length}` +
+        (condivisione.length ? ` (esclusi ${condivisione.length} URL di condivisione)` : "") +
+        (daConfermare.length ? ` — da confermare: ${daConfermare.length}` : ""),
+    );
+    for (const l of daConfermare) console.log(`    ! ${l.url}  (nessuna conferma registrata)`);
+  }
 console.log(`  problemi: ${bad} (bloccanti con --fail-on ${FAIL_ON}: ${blocking.length}), avvisi: ${report.findings.warnings.length}`);
 for (const w of report.findings.warnings) console.log(`  ! ${w}`);
 for (const e of report.findings.errors) console.log(`  ✗ ${e}`);

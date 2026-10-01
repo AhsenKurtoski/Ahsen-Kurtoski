@@ -69,6 +69,28 @@ body {
   border-radius: 6px;
 }
 
+/*
+ * Animazione d'ingresso delle sezioni: solo CSS, agganciata allo scorrimento
+ * (`animation-timeline: view()`) invece che a un componente client con
+ * IntersectionObserver. Due vantaggi concreti: nessuna idratazione per il
+ * contenuto, e nessuno stato `opacity: 0` in attesa di JavaScript — se
+ * l'animazione non è supportata (o se l'utente chiede meno movimento) il
+ * contenuto è semplicemente statico e visibile.
+ */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-up 0.7s ease-out both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 45%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+}
+
 /* Utility riutilizzabili */
 .text-gradient {
   background-image: linear-gradient(120deg, #a5a0ff, #7c6cff 40%, #00d4ff);

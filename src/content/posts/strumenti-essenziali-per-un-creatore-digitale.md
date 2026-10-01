@@ -1,6 +1,6 @@
 ---
-title: Strumenti essenziali per un creatore digitale
-excerpt: Gli strumenti che uso ogni giorno per studiare, costruire e pubblicare: editor, design, note e pubblicazione.
+title: Strumenti essenziali del creatore digitale
+excerpt: Gli strumenti che uso ogni giorno per studiare, costruire e pubblicare: editor, design, note, pubblicazione e qualche consiglio per scegliere i tuoi.
 date: 2026-06-20
 tags: Strumenti, Produttività
 ---
