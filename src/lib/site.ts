@@ -73,7 +73,7 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-10-01",
+  updated: "2026-10-02",
 
   /** Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e nel JSON-LD). */
   privacyUpdated: "2026-09-18",
@@ -91,6 +91,40 @@ export const site = {
   // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
   email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
+
+  /**
+   * Pagina «Adesso» (/adesso): cosa sto imparando e costruendo in questo
+   * periodo. È una fotografia del momento, non la biografia: aggiornala ogni
+   * tanto e cambia anche `nowUpdated`, che finisce nella sitemap e nel JSON-LD.
+   */
+  nowUpdated: "2026-10-02",
+  now: [
+    {
+      title: "Cosa sto imparando",
+      icon: "graduation-cap",
+      items: [
+        "TypeScript, per scrivere codice più sicuro",
+        "React e Next.js, per costruire progetti sempre più solidi",
+        "Le basi del design di interfacce",
+      ],
+    },
+    {
+      title: "Cosa sto costruendo",
+      icon: "code",
+      items: [
+        "Questo blog, un articolo alla volta",
+        "Piccoli esperimenti e tool che pubblico su GitHub",
+      ],
+    },
+    {
+      title: "Cosa sto leggendo e guardando",
+      icon: "sparkles",
+      items: [
+        "Documentazione e tutorial sul web",
+        "Storie di persone che costruiscono cose e le raccontano",
+      ],
+    },
+  ],
 
   /**
    * Altri siti tuoi, mostrati come link (sezione Progetti della home e footer).
@@ -209,6 +243,7 @@ export const site = {
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/chi-sono", label: "Chi sono" },
+  { href: "/adesso", label: "Adesso" },
   { href: "/blog", label: "Blog" },
   { href: "/contatti", label: "Contatti" },
 ] as const;

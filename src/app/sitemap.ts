@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${site.url}/adesso`,
+      lastModified: new Date(`${site.nowUpdated}T00:00:00Z`),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${site.url}/blog`,
       lastModified: siteUpdated,
       changeFrequency: "weekly",

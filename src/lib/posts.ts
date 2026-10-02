@@ -186,9 +186,39 @@ function estimateReadTime(text: string): string {
   return `${Math.max(1, Math.round(words / 200))} min`;
 }
 
+/* ---------- Ricerca full-text ---------- */
+
+/**
+ * Testo dell'articolo senza sintassi markdown, usato solo per la ricerca.
+ * Tengo il contenuto del codice dentro il testo (serve per cercare un termine
+ * tecnico), ma tolgo i simboli che sporcherebbero i confronti.
+ */
+function toPlainText(md: string): string {
+  return md
+    .replace(/```[\s\S]*?```/g, (block) => ` ${block.replace(/```/g, " ")} `)
+    .replace(/`([^`]+)`/g, " $1 ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, " $1 ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#>*_~|]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Minuscole + niente accenti: così «città» trova anche «citta» */
+function normalize(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 /* ---------- Caricamento articoli ---------- */
 
-function loadPosts(): Post[] {
+/** Post arricchito con il testo grezzo: serve alla ricerca, non esce dal modulo. */
+type LoadedPost = Post & { plainText: string };
+
+function loadPosts(): LoadedPost[] {
   let files: string[] = [];
   try {
     files = fs.readdirSync(postsDir).filter((f) => f.endsWith(".md"));
@@ -210,7 +240,8 @@ function loadPosts(): Post[] {
         .map((t) => t.trim())
         .filter(Boolean),
       html: markdownToHtml(body),
-    } satisfies Post;
+      plainText: toPlainText(body),
+    } satisfies LoadedPost;
   });
   return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
@@ -219,6 +250,46 @@ const posts = loadPosts();
 
 export function getAllPosts(): Post[] {
   return posts;
+}
+
+/**
+ * Cerca negli articoli (titolo, riepilogo, tag e testo completo).
+ *
+ * Ogni parola della ricerca deve comparire da qualche parte, così i risultati
+ * non si allargano a caso; poi l'ordine premia i match più significativi
+ * (titolo > tag > riepilogo > corpo) e, a parità, l'articolo più recente.
+ */
+export function searchPosts(query: string): Post[] {
+  const terms = normalize(query).split(/\s+/).filter((term) => term.length > 1);
+  if (terms.length === 0) return [];
+
+  const matches = posts.flatMap((post) => {
+    const title = normalize(post.title);
+    const excerpt = normalize(post.excerpt);
+    const tags = normalize(post.tags.join(" "));
+    const body = normalize(post.plainText);
+
+    let score = 0;
+    for (const term of terms) {
+      const inTitle = title.includes(term);
+      const inTags = tags.includes(term);
+      const inExcerpt = excerpt.includes(term);
+      const inBody = body.includes(term);
+      if (!inTitle && !inTags && !inExcerpt && !inBody) return [];
+      score +=
+        (inTitle ? 6 : 0) +
+        (inTags ? 3 : 0) +
+        (inExcerpt ? 2 : 0) +
+        (inBody ? 1 : 0);
+    }
+    // Titolo esatto: spinta in più per portare in cima l'articolo giusto
+    if (title.includes(normalize(query))) score += 8;
+    return [{ post, score }];
+  });
+
+  return matches
+    .sort((a, b) => b.score - a.score || (a.post.date < b.post.date ? 1 : -1))
+    .map(({ post }) => post);
 }
 
 export function getPostBySlug(slug: string): Post | undefined {

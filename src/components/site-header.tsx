@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navLinks, site } from "@/lib/site";
 import { Icon } from "./icons";
+import { SearchForm } from "./search-form";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -30,7 +31,7 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className="hidden items-center gap-1 md:flex"
+          className="hidden items-center gap-1 lg:flex"
           aria-label="Navigazione principale"
         >
           {navLinks.map((link) => (
@@ -50,9 +51,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <SearchForm
+            id="header-search"
+            size="sm"
+            className="hidden w-40 lg:block"
+          />
           <Link
             href="/contatti"
-            className="hidden rounded-full bg-gradient-to-r from-[#7c6cff] to-[#00d4ff] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#7c6cff]/20 transition-transform hover:scale-[1.03] md:inline-flex"
+            className="hidden rounded-full bg-gradient-to-r from-[#7c6cff] to-[#00d4ff] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#7c6cff]/20 transition-transform hover:scale-[1.03] lg:inline-flex"
           >
             Parliamone
           </Link>
@@ -62,7 +68,7 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="menu-mobile"
             aria-label={open ? "Chiudi menu" : "Apri menu"}
-            className="grid size-10 place-items-center rounded-xl border border-white/10 text-white md:hidden"
+            className="grid size-10 place-items-center rounded-xl border border-white/10 text-white lg:hidden"
           >
             <Icon name={open ? "close" : "menu"} />
           </button>
@@ -73,9 +79,10 @@ export function SiteHeader() {
         <nav
           id="menu-mobile"
           aria-label="Navigazione mobile"
-          className="border-t border-white/5 bg-[#0a0a0f]/95 md:hidden"
+          className="border-t border-white/5 bg-[#0a0a0f]/95 lg:hidden"
         >
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 px-4 py-3 sm:px-6">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-3 sm:px-6">
+            <SearchForm id="header-search-mobile" size="sm" className="mb-1" />
             {navLinks.map((link) => (
               <Link
                 key={link.href}

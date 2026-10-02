@@ -25,6 +25,7 @@ export type IconName =
   | "clock"
   | "menu"
   | "close"
+  | "search"
   | "graduation-cap";
 
 /** Icone brand (riempite con currentColor) */
@@ -175,6 +176,12 @@ const stroke: Partial<Record<IconName, ReactNode>> = {
     <>
       <path d="m6 6 12 12" />
       <path d="M18 6 6 18" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.6-3.6" />
     </>
   ),
   "graduation-cap": (

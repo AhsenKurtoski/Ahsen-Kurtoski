@@ -72,7 +72,7 @@ export default function ContattiPage() {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-start">
           <Reveal>
-            <ContactForm />
+            <ContactForm contactEmail={site.email} />
           </Reveal>
 
           <div className="flex flex-col gap-5">
@@ -98,7 +98,7 @@ export default function ContattiPage() {
                     <Icon name="mail" className="size-4" />
                     Scrivi adesso
                   </a>
-                  <CopyEmailButton />
+                  <CopyEmailButton email={site.email} />
                 </div>
               </div>
             </Reveal>

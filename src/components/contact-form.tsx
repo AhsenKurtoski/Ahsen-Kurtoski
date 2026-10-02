@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { site } from "@/lib/site";
 import { Icon } from "./icons";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -11,7 +10,12 @@ type Status = "idle" | "sending" | "success" | "error";
 const inputClass =
   "w-full rounded-xl border border-[var(--color-border)] bg-[#0e0e15] px-4 py-3 text-base text-white placeholder:text-zinc-400 transition-colors focus:border-[#7c6cff] focus:outline-none sm:text-sm";
 
-export function ContactForm() {
+/**
+ * L'email arriva come prop dal server: `process.env.CONTACT_EMAIL` non è
+ * disponibile nel bundle del browser, quindi leggerla qui direttamente
+ * mostrerebbe un indirizzo diverso da quello configurato.
+ */
+export function ContactForm({ contactEmail }: { contactEmail: string }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -45,11 +49,14 @@ export function ContactForm() {
 
       setStatus("error");
       setFeedback(
-        result?.error ?? `Invio non riuscito. Scrivimi direttamente a ${site.email}.`,
+        result?.error ??
+          `Invio non riuscito. Scrivimi direttamente a ${contactEmail}.`,
       );
     } catch {
       setStatus("error");
-      setFeedback(`Connessione non riuscita. Scrivimi direttamente a ${site.email}.`);
+      setFeedback(
+        `Connessione non riuscita. Scrivimi direttamente a ${contactEmail}.`,
+      );
     }
   }
 
@@ -154,23 +161,23 @@ export function ContactForm() {
 
       {status === "error" && (
         <a
-          href={`mailto:${site.email}`}
+          href={`mailto:${contactEmail}`}
           className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-2 text-xs text-zinc-300 transition-colors hover:text-white"
         >
           <Icon name="mail" className="size-4" />
-          Scrivi a {site.email}
+          Scrivi a {contactEmail}
         </a>
       )}
     </form>
   );
 }
 
-export function CopyEmailButton() {
+export function CopyEmailButton({ email }: { email: string }) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
     try {
-      await navigator.clipboard.writeText(site.email);
+      await navigator.clipboard.writeText(email);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
