@@ -1,6 +1,6 @@
 {
   "descrizione": "Una voce per esecuzione di `npm run index:check`. I numeri dell'indice esistono solo nelle esecuzioni che avevano una sorgente configurata: `indiceErrore` dice perché una misura manca, invece di registrare uno zero.",
-  "aggiornatoIl": "2026-10-01T16:27:51.768Z",
+  "aggiornatoIl": "2026-10-05T12:44:52.072Z",
   "esecuzioni": [
     {
       "quando": "2026-10-01T17:05:00.000Z",
@@ -31,6 +31,37 @@
       "pagine": [
         "/",
         "/chi-sono",
+        "/blog",
+        "/contatti",
+        "/privacy",
+        "/blog/benvenuto-nel-mio-mondo-digitale",
+        "/blog/come-ho-iniziato-a-programmare",
+        "/blog/seo-per-le-persone-come-farsi-trovare-su-google",
+        "/blog/strumenti-essenziali-per-un-creatore-digitale",
+        "/blog/tag/web",
+        "/blog/tag/personale",
+        "/blog/tag/produttivita",
+        "/blog/tag/programmazione",
+        "/blog/tag/seo",
+        "/blog/tag/strumenti",
+        "/blog/tag/studio"
+      ]
+    },
+    {
+      "quando": "2026-10-05T12:44:52.072Z",
+      "nota": null,
+      "migrazione": {
+        "pagine": 17,
+        "nuoveOk": 17,
+        "canonicalOk": 17,
+        "vecchieConRedirect": 17
+      },
+      "indice": null,
+      "indiceErrore": "nessuna sorgente configurata",
+      "pagine": [
+        "/",
+        "/chi-sono",
+        "/adesso",
         "/blog",
         "/contatti",
         "/privacy",
