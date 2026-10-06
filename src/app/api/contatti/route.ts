@@ -10,8 +10,26 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 /** Contatore semplice in memoria (su serverless vale per singola istanza) */
 const attempts = new Map<string, number[]>();
 
+/** Momento dell'ultima pulizia delle voci scadute: vedi `isRateLimited`. */
+let lastSweep = 0;
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
+
+  /**
+   * Pulizia periodica delle voci scadute. Senza questa passata la mappa
+   * conserva per sempre un elemento per ogni indirizzo che ha mai scritto — una
+   * perdita di memoria lenta ma reale su un'istanza che resta viva a lungo.
+   * Cancello solo le voci con l'ultima richiesta fuori dalla finestra, quindi il
+   * conteggio di chi sta scrivendo adesso non viene toccato.
+   */
+  if (now - lastSweep >= RATE.windowMs) {
+    lastSweep = now;
+    for (const [key, times] of attempts) {
+      if (now - (times.at(-1) ?? 0) >= RATE.windowMs) attempts.delete(key);
+    }
+  }
+
   const recent = (attempts.get(ip) ?? []).filter((time) => now - time < RATE.windowMs);
   recent.push(now);
   attempts.set(ip, recent);

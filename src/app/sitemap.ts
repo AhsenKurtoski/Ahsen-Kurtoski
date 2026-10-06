@@ -57,7 +57,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const postRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${site.url}/blog/${post.slug}`,
-    lastModified: new Date(`${post.date}T00:00:00Z`),
+    // `updated` (se presente) è la data dell'ultima modifica reale: usare la
+    // data di pubblicazione per un articolo corretto dopo un mese è una bugia
+    // che Google impara a ignorare.
+    lastModified: new Date(`${post.updated ?? post.date}T00:00:00Z`),
     changeFrequency: "monthly",
     priority: 0.7,
   }));

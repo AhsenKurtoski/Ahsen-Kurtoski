@@ -54,9 +54,25 @@ export default async function PostPage({ params }: PageProps) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  /**
+   * Articoli correlati: prima quelli che condividono più tag con questo
+   * articolo, poi i più recenti. La versione precedente mostrava solo gli
+   * ultimi tre pubblicati, quindi sotto un articolo sul SEO poteva comparire
+   * qualunque cosa.
+   */
   const related = getAllPosts()
     .filter((item) => item.slug !== post.slug)
-    .slice(0, 3);
+    .map((item) => ({
+      post: item,
+      sharedTags: item.tags.filter((tag) => post.tags.includes(tag)).length,
+    }))
+    .sort(
+      (a, b) =>
+        b.sharedTags - a.sharedTags ||
+        (a.post.date < b.post.date ? 1 : -1),
+    )
+    .slice(0, 3)
+    .map((entry) => entry.post);
 
   const shareUrl = `${site.url}/blog/${post.slug}`;
   const shareText = encodeURIComponent(`${post.title} — di ${site.name}`);
@@ -68,10 +84,12 @@ export default async function PostPage({ params }: PageProps) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    dateModified: post.date,
+    // Se il frontmatter dichiara `updated`, quello è il segnale giusto per
+    // Google: la data dell'ultima modifica reale, non quella di pubblicazione.
+    dateModified: post.updated ?? post.date,
     inLanguage: "it-IT",
     keywords: post.tags.join(", "),
-    articleSection: post.tags[0],
+    ...(post.tags.length > 0 ? { articleSection: post.tags[0] } : {}),
     mainEntityOfPage: { "@type": "WebPage", "@id": shareUrl },
     author: { "@type": "Person", name: site.name, url: site.url },
     publisher: { "@type": "Person", name: site.name, url: site.url },

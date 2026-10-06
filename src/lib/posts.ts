@@ -6,6 +6,8 @@ export type Post = {
   title: string;
   excerpt: string;
   date: string; // ISO yyyy-mm-dd
+  /** Data dell'ultima modifica (ISO), opzionale: sitemap e dati strutturati la usano come dateModified */
+  updated?: string;
   readTime: string;
   tags: string[];
   /** HTML pronto per la pagina articolo (generato dal markdown) */
@@ -24,6 +26,18 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * URL accettati nei contenuti: link esterni http/https, email, ancore e
+ * percorsi interni. Qualunque altro schema (javascript:, data:...) viene
+ * neutralizzato: gli articoli sono scritti a mano, ma un parser di markdown
+ * non deve poter generare link pericolosi se un giorno i contenuti arrivano
+ * da un'altra fonte.
+ */
+function safeHref(url: string): string {
+  const trimmed = url.trim();
+  return /^(https?:|mailto:|\/|#)/i.test(trimmed) ? trimmed : "#";
+}
+
 function inline(md: string): string {
   let s = escapeHtml(md);
   // inline code (prima di tutto il resto)
@@ -31,12 +45,14 @@ function inline(md: string): string {
   // immagini ![alt](src)
   s = s.replace(
     /!\[([^\]]*)\]\(([^)\s]+)\)/g,
-    '<img src="$2" alt="$1" loading="lazy" />',
+    (_match, alt: string, src: string) =>
+      `<img src="${safeHref(src)}" alt="${alt}" loading="lazy" />`,
   );
   // link [testo](url)
   s = s.replace(
     /\[([^\]]+)\]\(([^)\s]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+    (_match, text: string, href: string) =>
+      `<a href="${safeHref(href)}" target="_blank" rel="noopener noreferrer">${text}</a>`,
   );
   // grassetto e corsivo
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
@@ -234,6 +250,7 @@ function loadPosts(): LoadedPost[] {
       title: data.title ?? slug,
       excerpt: data.excerpt ?? "",
       date: data.date ?? new Date().toISOString().slice(0, 10),
+      updated: data.updated || undefined,
       readTime: data.readTime ?? estimateReadTime(body),
       tags: (data.tags ?? "")
         .split(",")

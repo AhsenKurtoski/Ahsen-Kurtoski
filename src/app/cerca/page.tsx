@@ -39,6 +39,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
 
       <Reveal className="mt-6 flex flex-col gap-8">
         <SectionHeading
+          as="h1"
           eyebrow="Ricerca"
           title="Cerca nel blog"
           description="Scrivi una parola o una frase: cerco tra titoli, argomenti e testo completo di tutti gli articoli."

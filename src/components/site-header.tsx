@@ -2,14 +2,31 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navLinks, site } from "@/lib/site";
 import { Icon } from "./icons";
 import { SearchForm } from "./search-form";
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  /**
+   * Il menu mobile è aperto solo sulla pagina in cui è stato aperto: salvo il
+   * path e lo confronto con quello corrente. Così al cambio pagina (anche con
+   * il tasto «indietro») si chiude da solo, senza setState dentro un effetto.
+   */
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  const open = menuPath === pathname;
+  const setOpen = (value: boolean) => setMenuPath(value ? pathname : null);
+
+  // Tasto Esc: chiude il menu, come si aspetta chi naviga da tastiera.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuPath(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -64,7 +81,7 @@ export function SiteHeader() {
           </Link>
           <button
             type="button"
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => setOpen(!open)}
             aria-expanded={open}
             aria-controls="menu-mobile"
             aria-label={open ? "Chiudi menu" : "Apri menu"}

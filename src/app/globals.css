@@ -112,10 +112,17 @@ body {
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
-.card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(124, 108, 255, 0.55);
-  box-shadow: 0 20px 45px -24px rgba(124, 108, 255, 0.6);
+/*
+ * L'effetto di sollevamento solo sui dispositivi con un vero puntatore: su
+ * touch `:hover` resta "appeso" dopo il tocco e la card sembra bloccata in
+ * posizione. Corretto dopo la verifica su mobile.
+ */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(124, 108, 255, 0.55);
+    box-shadow: 0 20px 45px -24px rgba(124, 108, 255, 0.6);
+  }
 }
 
 .bg-grid {
@@ -144,6 +151,8 @@ body {
 .prose-blog {
   color: var(--color-text);
   line-height: 1.8;
+  /* URL e parole lunghe non devono allargare la pagina su schermi stretti */
+  overflow-wrap: break-word;
 }
 .prose-blog > * + * {
   margin-top: 1.1em;

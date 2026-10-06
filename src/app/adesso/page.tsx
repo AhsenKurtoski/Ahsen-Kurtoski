@@ -58,6 +58,7 @@ export default function AdessoPage() {
 
       <Reveal className="mt-6 flex flex-col gap-6">
         <SectionHeading
+          as="h1"
           eyebrow="Adesso"
           title="A cosa sto lavorando adesso"
           description="La biografia racconta il percorso; questa pagina invece dice cosa sto imparando e costruendo in questo preciso momento. La aggiorno di tanto in tanto, senza fretta."

@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  /*
+   * Radice dei moduli fissata alla cartella del progetto. Senza questa voce
+   * Turbopack risale le cartelle in cerca di un lockfile e trova quello nella
+   * home dell'utente, fuori dal repo: a ogni build compare l'avviso «Next.js
+   * ignored package-lock.json ... outside the current Git repository». La
+   * cartella giusta è una sola: questa.
+   */
+  turbopack: { root: process.cwd() },
   compress: true,
   poweredByHeader: false,
   // CSS inline: il foglio di stile (37 KB, 8,8 KB gzip) viene incorporato nella

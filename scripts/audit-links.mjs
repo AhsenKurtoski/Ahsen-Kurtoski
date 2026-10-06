@@ -22,7 +22,7 @@
  *  3. la stessa pagina richiesta con User-Agent Googlebot;
  *  4. tutti i link interni ed esterni trovati nell'HTML: stato e catena di redirect.
  *     I link che un bot non può verificare (LinkedIn risponde 999 e Instagram 200
- *     a *qualunque* username, Fiverr 403) sono stampati **per intero** e ognuno
+ *     a *qualunque* username) sono stampati **per intero** e ognuno
  *     deve avere una conferma manuale registrata in CONFERMATI_A_MANO: senza
  *     quella producono un avviso. Senza questo passaggio un handle scritto male
  *     resta invisibile — è già successo: due profili inesistenti dichiarati in
@@ -193,7 +193,7 @@ const isManualCheck = (status, finalUrl) =>
   status === 999 ||
   status === 403 ||
   status === 429 ||
-  /linkedin\.com|instagram\.com|fiverr\.com/.test(finalUrl ?? "");
+  /linkedin\.com|instagram\.com/.test(finalUrl ?? "");
 
 /**
  * Link che gli strumenti automatici NON possono verificare perché il server

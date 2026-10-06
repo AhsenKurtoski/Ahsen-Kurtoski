@@ -39,7 +39,7 @@ const facts = [
   { label: "Dove vivo", value: site.location, icon: "map-pin" as const },
   {
     label: "Cosa faccio",
-    value: "Developer & Creator digitale",
+    value: "Siti web completi per attività di Feltre e Belluno",
     icon: "code" as const,
   },
   { label: "Email", value: site.email, icon: "mail" as const },

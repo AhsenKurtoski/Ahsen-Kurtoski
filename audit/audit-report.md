@@ -20,7 +20,7 @@ Metodi: build di produzione locale, `tsc --noEmit`, ESLint, `seo:check`, crawler
 | Errori JavaScript runtime | ✅ 0 | Nessun errore console o page error su tutte le pagine (l'unico "Failed to load resource 404" è la pagina 404 stessa, atteso) |
 | Richieste di rete fallite | ✅ 0 | 0 richieste fallite, 0 risposte ≥400 su tutte le pagine |
 | Link interni | ✅ 17/17 | Tutti 200, nessuna catena di redirect, nessun doppio slash |
-| Link esterni | ⚠️ 10 | GitHub/LinkedIn/Instagram/Fiverr non verificabili da bot; 1 link interno assoluto verso il dominio morto |
+| Link esterni | ⚠️ 10 | GitHub/LinkedIn/Instagram non verificabili da bot; 1 link interno assoluto verso il dominio morto |
 | Dominio & indicizzabilità | ✅ | **Risolto il 30/09/2026**: dominio ufficiale 200, vecchio dominio 307 → nuovo; canonical, sitemap e robots coerenti (all'audit puntavano a un dominio 404) |
 | Core Web Vitals | ⚠️ | LCP 3,1 s su mobile (home), TBT 930 ms; CLS ~0, TTFB 66 ms |
 | Accessibilità | ⚠️ | Contraste 4,06–4,09:1 (< 4,5) in 16 punti; 4 errori semantici su /chi-sono |

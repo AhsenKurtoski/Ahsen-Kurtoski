@@ -5,25 +5,31 @@ import { Icon } from "@/components/icons";
 import { JsonLd } from "@/components/json-ld";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
+import { ConsentPreferences } from "@/components/consent-preferences";
+import { analyticsConfigured } from "@/lib/consent";
 import { formatDate } from "@/lib/posts";
 import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Informativa privacy e cookie",
-  description:
-    "Nessun cookie di tracciamento e nessun Google Analytics: gli unici dati che ricevo sono quelli del form dei contatti, e li uso solo per risponderti.",
+  description: analyticsConfigured
+    ? "Come tratto i tuoi dati: form dei contatti, ospitalità Vercel e statistiche di visita con Google Analytics solo se le accetti. Qui trovi anche come cambiare idea."
+    : "Nessun cookie di tracciamento e nessun Google Analytics: gli unici dati che ricevo sono quelli del form dei contatti, e li uso solo per risponderti.",
   alternates: { canonical: "/privacy" },
   openGraph: {
     title: "Informativa privacy e cookie",
-    description:
-      "Nessun cookie di tracciamento: gli unici dati sono quelli che scrivi nel form, e servono solo a risponderti.",
+    description: analyticsConfigured
+      ? "Cosa raccolgo, perché, e come attivare o disattivare le statistiche di visita in ogni momento."
+      : "Nessun cookie di tracciamento: gli unici dati sono quelli che scrivi nel form, e servono solo a risponderti.",
     url: `${site.url}/privacy`,
     type: "website",
     images: [
       ogImage({
         title: "Informativa privacy",
-        subtitle: "Nessun cookie di tracciamento, solo i dati del form",
+        subtitle: analyticsConfigured
+          ? "Statistiche di visita solo con il tuo consenso"
+          : "Nessun cookie di tracciamento, solo i dati del form",
       }),
     ],
   },
@@ -77,7 +83,11 @@ export default function PrivacyPage() {
           as="h1"
           eyebrow="Privacy e cookie"
           title="Informativa privacy"
-          description="In chiaro, senza avvocatese: questo sito non ti traccia, non usa cookie di profilazione e non ha nessun database di utenti."
+          description={
+            analyticsConfigured
+              ? "In chiaro, senza avvocatese: nessun cookie di profilazione, nessun database di utenti e statistiche di visita solo se le accetti."
+              : "In chiaro, senza avvocatese: questo sito non ti traccia, non usa cookie di profilazione e non ha nessun database di utenti."
+          }
         />
         <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
           Ultimo aggiornamento: {formatDate(site.privacyUpdated)}
@@ -97,14 +107,29 @@ export default function PrivacyPage() {
             . Nient&apos;altro: niente newsletter, niente pubblicità, niente
             profilazione, niente dati venduti o ceduti a terzi per scopi commerciali.
             Se non compili il form, di te non raccolgo nulla.
+            {analyticsConfigured && (
+              <>
+                {" "}In più, <strong className="text-white">solo se accetti</strong>,
+                raccolgo statistiche di visita con Google Analytics: senza il tuo
+                consenso, da questo sito verso Google non parte nessun dato.
+              </>
+            )}
           </p>
           <ul className="mt-4 flex flex-wrap gap-2">
-            {[
-              "Nessun cookie di tracciamento",
-              "Nessun Google Analytics",
-              "Nessun pixel pubblicitario",
-              "Nessuna newsletter",
-            ].map((item) => (
+            {(analyticsConfigured
+              ? [
+                  "Analytics solo con consenso",
+                  "Nessun cookie di profilazione",
+                  "Nessun pixel pubblicitario",
+                  "Nessuna newsletter",
+                ]
+              : [
+                  "Nessun cookie di tracciamento",
+                  "Nessun Google Analytics",
+                  "Nessun pixel pubblicitario",
+                  "Nessuna newsletter",
+                ]
+            ).map((item) => (
               <li
                 key={item}
                 className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-300"
@@ -253,31 +278,101 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold tracking-tight text-white">
               Cookie e strumenti di tracciamento
             </h2>
+            {analyticsConfigured ? (
+              <>
+                <p>
+                  Questo sito <strong className="text-zinc-200">non usa
+                  cookie di profilazione</strong>: non ci sono pixel pubblicitari,
+                  non ci sono pulsanti social che ti tracciano mentre leggi e non
+                  vendo né cedo dati a nessuno.
+                </p>
+                <p>
+                  L&apos;unico strumento di misurazione è{" "}
+                  <strong className="text-zinc-200">Google Analytics 4</strong>,
+                  che va in funzione <strong className="text-zinc-200">solo se
+                  premi «Accetta»</strong> nell&apos;avviso: se rifiuti, o finché non
+                  scegli, lo script di Google non viene nemmeno caricato e nessun
+                  dato di navigazione lascia questo sito. Quando è attivo, Google
+                  imposta nel tuo browser i cookie <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">_ga</code>{" "}
+                  e{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">
+                    _ga_&lt;ID&gt;
+                  </code>{" "}
+                  (durata massima di 2 anni, impostazione predefinita di Google) e
+                  riceve la pagina che hai visitato, la provenienza e dati tecnici
+                  come browser e dispositivo. Non uso questi dati per profilarti e
+                  non li incrocio con altro.
+                </p>
+                <p>
+                  Puoi cambiare idea quando vuoi dal pannello qui sotto: se
+                  disattivi le statistiche, elimino subito i cookie di Google dal
+                  tuo browser e il tag smette di salvarne.
+                </p>
+                <p>
+                  Google Ireland Limited e Google LLC (USA) trattano questi dati
+                  come fornitori indipendenti, sulla base delle clausole
+                  contrattuali standard previste dal GDPR. Per il dettaglio:{" "}
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#00d4ff] underline decoration-dotted underline-offset-4 hover:text-white"
+                  >
+                    informativa privacy di Google
+                  </a>
+                  .
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Questo sito <strong className="text-zinc-200">non usa cookie</strong>: né
+                  tecnici, né di profilazione, né di terze parti. Non c&apos;è Google
+                  Analytics, non ci sono pixel pubblicitari, non ci sono pulsanti social che
+                  ti tracciano mentre leggi, e persino i caratteri tipografici vengono
+                  serviti da questo sito invece che da un servizio esterno.
+                </p>
+                <p>
+                  Per questo non trovi un pulsante &laquo;Rifiuta&raquo;: non c&apos;è nulla da
+                  rifiutare, e un consenso chiesto quando non serve sarebbe solo una perdita
+                  di tempo per te. L&apos;avviso che vedi alla prima visita serve a dirtelo in
+                  chiaro.
+                </p>
+              </>
+            )}
             <p>
-              Questo sito <strong className="text-zinc-200">non usa cookie</strong>: né
-              tecnici, né di profilazione, né di terze parti. Non c&apos;è Google
-              Analytics, non ci sono pixel pubblicitari, non ci sono pulsanti social che
-              ti tracciano mentre leggi, e persino i caratteri tipografici vengono
-              serviti da questo sito invece che da un servizio esterno.
+              {analyticsConfigured ? (
+                <>
+                  Due piccole preferenze vivono nel tuo browser (nello spazio{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">localStorage</code>):{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">
+                    ak-avviso-cookie
+                  </code>
+                  {" "}ricorda che hai letto l&apos;avviso, mentre{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">
+                    ak-consenso-analytics
+                  </code>
+                  {" "}conserva la tua scelta su Analytics. Non identificano nessuno,
+                  non escono dal tuo browser e non vengono mai inviate a me: puoi
+                  cancellarle svuotando i dati del sito dalle impostazioni del
+                  browser.
+                </>
+              ) : (
+                <>
+                  Una sola informazione viene salvata nel tuo browser: una piccola preferenza
+                  locale (nello spazio <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">localStorage</code>,
+                  chiave{" "}
+                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">
+                    ak-avviso-cookie
+                  </code>
+                  ) che ricorda soltanto che hai già letto l&apos;avviso, così non te lo
+                  rimostro a ogni pagina. Non identifica nessuno, non esce dal tuo browser,
+                  non viene mai inviata a me: puoi cancellarla svuotando i dati del sito dalle
+                  impostazioni del browser.
+                </>
+              )}
             </p>
-            <p>
-              Per questo non trovi un pulsante &laquo;Rifiuta&raquo;: non c&apos;è nulla da
-              rifiutare, e un consenso chiesto quando non serve sarebbe solo una perdita
-              di tempo per te. L&apos;avviso che vedi alla prima visita serve a dirtelo in
-              chiaro.
-            </p>
-            <p>
-              Una sola informazione viene salvata nel tuo browser: una piccola preferenza
-              locale (nello spazio <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">localStorage</code>,
-              chiave{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-[13px] text-zinc-200">
-                ak-avviso-cookie
-              </code>
-              ) che ricorda soltanto che hai già letto l&apos;avviso, così non te lo
-              rimostro a ogni pagina. Non identifica nessuno, non esce dal tuo browser,
-              non viene mai inviata a me: puoi cancellarla svuotando i dati del sito dalle
-              impostazioni del browser.
-            </p>
+            {analyticsConfigured && <ConsentPreferences />}
           </article>
 
           <article className="flex flex-col gap-3">

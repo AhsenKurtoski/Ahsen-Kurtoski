@@ -69,7 +69,7 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
 ## 4. Segnali di supporto (facoltativi ma utili)
 
 - [ ] Profilo Google Business / social: aggiorna i link al sito dove li hai
-      pubblicati (LinkedIn, Instagram, Fiverr, bio) così il segnale di collegamento
+      pubblicati (LinkedIn, Instagram, bio) così il segnale di collegamento
       passa al nuovo dominio.
 - [ ] I tool SEO del repo funzionano col nuovo dominio:
       ```bash

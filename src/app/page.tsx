@@ -228,6 +228,53 @@ export default function HomePage() {
         </Reveal>
       </section>
 
+      {/* ---------- SERVIZIO: SITI WEB PER ATTIVITÀ DI FELTRE E BELLUNO ---------- */}
+      <section className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6">
+        <Reveal>
+          <div className="card relative overflow-hidden p-8 sm:p-10">
+            <div
+              className="glow pointer-events-none absolute -top-28 right-0 h-56 w-[440px] max-w-full opacity-60"
+              aria-hidden
+            />
+            <div className="relative flex flex-col gap-8">
+              <SectionHeading
+                eyebrow="Siti web per attività locali"
+                title={site.localService.title}
+                description={site.localService.description}
+              />
+
+              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {site.localService.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-3 text-sm leading-relaxed text-zinc-300"
+                  >
+                    <Icon
+                      name="check"
+                      className="mt-0.5 size-4 shrink-0 text-[#00d4ff]"
+                    />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  href="/contatti"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#7c6cff] to-[#00d4ff] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7c6cff]/25 transition-transform hover:scale-[1.03]"
+                >
+                  Parliamo del tuo sito
+                  <Icon name="arrow-right" className="size-4" />
+                </Link>
+                <p className="text-sm text-zinc-400">
+                  Feltre, Belluno e dintorni
+                </p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* ---------- SKILL ---------- */}
       <section className="border-y border-white/5 bg-[#0b0b11]">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">

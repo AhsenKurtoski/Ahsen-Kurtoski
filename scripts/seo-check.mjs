@@ -230,7 +230,6 @@ const SOCIAL_DOMAINS = {
   github: ["github.com"],
   linkedin: ["linkedin.com"],
   instagram: ["instagram.com"],
-  fiverr: ["fiverr.com"],
   x: ["x.com/", "twitter.com"],
   youtube: ["youtube.com", "youtu.be"],
 };

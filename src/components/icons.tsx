@@ -4,7 +4,6 @@ export type IconName =
   | "github"
   | "linkedin"
   | "instagram"
-  | "fiverr"
   | "x"
   | "youtube"
   | "mail"
@@ -57,16 +56,6 @@ const filled: Partial<Record<IconName, ReactNode>> = {
       stroke="none"
       d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
     />
-  ),
-  // Monogramma "fi" in un riquadro: richiama il logo Fiverr senza copiarne i tratti
-  fiverr: (
-    <>
-      <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
-      <path d="M7.3 11.7h4" />
-      <path d="M9.2 17.2v-6.9c0-1.5.9-2.5 2.4-2.5h.7" />
-      <path d="M15.7 11.7v5.5" />
-      <path d="M15.7 8.8h.01" />
-    </>
   ),
   youtube: (
     <>

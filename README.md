@@ -36,10 +36,10 @@ quindi puoi usarlo anche in una pipeline di deploy.
 
 ### Privacy e cookie
 
-Il sito **non usa cookie di tracciamento** (nessun Google Analytics, nessun embed di
-terze parti, font serviti dal sito stesso), quindi non c'è nessun consenso da
-chiedere: al posto del solito muro «Accetta / Rifiuta» c'è un avviso informativo che
-sparisce con un clic e non blocca la lettura della pagina.
+Di base il sito **non usa cookie di tracciamento** (nessun embed di terze parti, font
+serviti dal sito stesso), quindi l'avviso alla prima visita è solo informativo e
+sparisce con un clic. Se attivi Google Analytics cambia tutto il meccanismo di
+consenso: vedi qui sotto.
 
 - informativa: `src/app/privacy/page.tsx` (dichiarata in `sitemap.ts`)
 - avviso a comparsa: `src/components/cookie-notice.tsx`, montato in `layout.tsx`
@@ -47,10 +47,35 @@ sparisce con un clic e non blocca la lettura della pagina.
   (`ak-avviso-cookie`), **non** con un cookie: per rivederlo basta svuotare i dati
   del sito dal browser.
 
-⚠️ Se un giorno aggiungi statistiche, un pixel pubblicitario o un embed esterno,
-**aggiorna prima l'informativa e l'avviso**: la pagina afferma nero su bianco cosa
-raccoglie il sito, e deve restare vero. Anche la data in alto (`privacyUpdated` in
-`src/lib/site.ts`) va aggiornata a quel momento.
+#### Google tag / Analytics (facoltativo)
+
+Il sito supporta **Google Analytics 4 con il consenso dell'utente**, spento per
+default. Per attivarlo:
+
+1. crea una proprietà GA4 su [analytics.google.com](https://analytics.google.com) e
+   copia l'ID di misurazione (`G-XXXXXXXXXX`);
+2. impostalo come `NEXT_PUBLIC_GA4_MEASUREMENT_ID` (in locale in `.env.local`, in
+   produzione su Vercel) e rifai il deploy;
+3. aggiorna `privacyUpdated` in `src/lib/site.ts`.
+
+Come funziona il consenso, in breve:
+
+- con un ID configurato l'avviso diventa un banner **Accetta / Rifiuta**;
+- lo script di Google (`googletagmanager.com`) **non viene caricato finché non
+  accetti**: con «Rifiuta» non parte nessuna richiesta verso Google;
+- la scelta si può cambiare in ogni momento dal pannello «Gestisci le statistiche»
+  nella pagina privacy; se disattivi, i cookie `_ga*` vengono eliminati;
+- il tag traccia anche i cambi pagina lato client (Next.js);
+- senza ID configurato gli script di Google non esistono nel bundle e la pagina
+  privacy resta quella di prima (nessun consenso da chiedere).
+
+Componenti: `src/components/google-analytics.tsx` (tag), `cookie-notice.tsx`
+(consenso) e `consent-preferences.tsx` (revoca); lo stato condiviso è in
+`src/lib/consent.ts` (chiave `ak-consenso-analytics`, in `localStorage`).
+
+⚠️ Se aggiungi altri strumenti (un pixel pubblicitario, un embed esterno che
+raccoglie dati), **aggiorna prima l'informativa e l'avviso**: la pagina afferma nero
+su bianco cosa raccoglie il sito, e deve restare vero.
 
 ### Segnalazione automatica ai motori
 

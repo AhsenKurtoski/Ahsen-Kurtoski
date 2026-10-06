@@ -108,7 +108,7 @@ Riferimenti incrociati: [audit report](audit-report.md) (bug), [performance](per
 ## 🎯 LONG-TERM (trimestre)
 
 1. **Dominio personale** (`ahsenkurtoski.com`): acquisto + Vercel Domains + 301 dal `.vercel.app`; aggiornare `NEXT_PUBLIC_SITE_URL`. Un dominio proprio rafforza identità e fiducia; il `.vercel.app` resta come redirect.
-2. **Contenuti che rispondono alle query sul nome**: la pagina `/chi-sono` è pronta; aggiungi articoli che ti citano sostanzialmente (progetti, retrospettive) e link in entrata (bio, directory dev, Fiverr, curriculum).
+2. **Contenuti che rispondono alle query sul nome**: la pagina `/chi-sono` è pronta; aggiungi articoli che ti citano sostanzialmente (progetti, retrospettive) e link in entrata (bio, directory dev, curriculum).
 3. **Misurazione**: Search Console mensile (query, copertura, CWV field data quando disponibile); niente analytics invasivi in linea con la privacy del sito.
 4. **Pipeline performance**: `npm run audit:responsive` + Lighthouse locali prima dei cambi grossi; `@next/bundle-analyzer` su ogni release.
 5. **PWA opzionale**: service worker per caching offline (solo se aggiungi valore ai lettori; richiede avviso privacy aggiornato se cambiano i dati).

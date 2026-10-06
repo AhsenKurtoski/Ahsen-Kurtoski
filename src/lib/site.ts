@@ -56,9 +56,9 @@ export const site = {
 
   // Bio corta (card e metadata). Compare in home, nella pagina «Chi sono» e nei
   // risultati di Google: è la descrizione più importante del sito. La lunghezza
-  // (150 caratteri) sta nel range ideale 140-155 controllato da `seo:check`.
+  // (154 caratteri) sta nel range ideale 140-155 controllato da `seo:check`.
   shortBio:
-    "Developer e creatore digitale. Costruisco progetti web moderni, offro i miei servizi su Fiverr e condivido quello che imparo ogni giorno sul mio blog.",
+    "Creo siti web completi per attività di Feltre e Belluno: design, testi, mobile e SEO. Condivido il codice su GitHub e racconto quello che imparo sul blog.",
 
   // Bio lunga (pagina Chi sono)
   longBio: [
@@ -73,13 +73,17 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-10-02",
+  updated: "2026-10-06",
 
-  /** Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e nel JSON-LD). */
-  privacyUpdated: "2026-09-18",
+  /**
+   * Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e
+   * nel JSON-LD). Aggiornala quando attivi Google Analytics: da quel momento
+   * l'informativa mostra anche le sezioni su statistiche e consenso.
+   */
+  privacyUpdated: "2026-10-05",
 
   // Dettagli rapidi (hero / chi sono)
-  location: "Italia",
+  location: "Feltre e Belluno, Italia",
 
   /**
    * Zone in cui lavori. Devono essere le STESSE che imposti come «Area servita»
@@ -87,7 +91,7 @@ export const site = {
    * con il profilo, e se non coincidono il collegamento tra i due è più debole.
    * Aggiungi qui le città che servi, es. ["Feltre", "Belluno", "Italia"].
    */
-  serviceAreas: ["Italia"],
+  serviceAreas: ["Feltre", "Belluno", "Italia"],
   // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
   email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
   availability: "Disponibile per nuovi progetti",
@@ -146,6 +150,27 @@ export const site = {
     },
   ],
 
+  /**
+   * Servizio principale, mostrato nella home, nei contatti e nei dati
+   * strutturati: siti web completi per le attività di Feltre e Belluno.
+   *
+   * Le voci di `features` sono cose che il cliente riceve davvero: se un giorno
+   * cambiano le condizioni (es. non includi più il dominio), aggiorna questa
+   * lista insieme al resto, così il testo del sito non promette altro.
+   */
+  localService: {
+    title: "Siti web completi per attività di Feltre e Belluno",
+    description:
+      "Realizzo il sito completo della tua attività — design, testi, versione mobile, SEO locale e messa online — con un unico interlocutore, dal primo incontro al lancio.",
+    features: [
+      "Design su misura, pensato per il tuo settore",
+      "Sito veloce e perfetto da smartphone",
+      "Testi e immagini che si fanno trovare su Google",
+      "Dominio, email e messa online inclusi",
+      "Assistenza e aggiornamenti anche dopo il lancio",
+    ],
+  },
+
   /*
    * Social (usa URL completi; lascia "" per nascondere l'icona).
    *
@@ -166,7 +191,6 @@ export const site = {
     github: "https://github.com/AhsenKurtoski",
     linkedin: "https://www.linkedin.com/in/ahsen-kurtoski-397b00354",
     instagram: "https://www.instagram.com/ahsenstudio",
-    fiverr: "https://www.fiverr.com/s/RV7NzgN",
     x: "",
     youtube: "",
   },
@@ -218,7 +242,12 @@ export const site = {
     {
       question: "Accetti collaborazioni?",
       answer:
-        "Sì: racconta cosa hai in mente nel form dei contatti e ti dico se posso essere utile. Se preferisci un ordine immediato, i miei servizi sono disponibili anche su Fiverr.",
+        "Sì: racconta cosa hai in mente nel form dei contatti e ti dico se posso essere utile. Se hai già un'idea chiara, scrivimi e ne parliamo volentieri.",
+    },
+    {
+      question: "Realizzi siti web per attività di Feltre e Belluno?",
+      answer:
+        "Sì: creo siti web completi per attività e aziende di Feltre, Belluno e dintorni, curando tutto dal design ai testi fino alla messa online. Scrivimi dal form dei contatti e ne parliamo volentieri.",
     },
     {
       question: "Posso usare i tuoi contenuti?",
@@ -237,6 +266,11 @@ export const site = {
     "Ahsen Kurtoski blog",
     "Ahsen Kurtoski progetti",
     "Ahsen Kurtoski chi sono",
+    "siti web Feltre",
+    "siti web Belluno",
+    "creazione siti web Feltre e Belluno",
+    "sito web per attività Feltre",
+    "web designer Feltre Belluno",
   ],
 } as const;
 

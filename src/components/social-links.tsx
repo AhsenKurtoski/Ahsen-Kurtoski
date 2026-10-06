@@ -5,7 +5,6 @@ const iconFor: Record<string, IconName> = {
   github: "github",
   linkedin: "linkedin",
   instagram: "instagram",
-  fiverr: "fiverr",
   x: "x",
   youtube: "youtube",
 };
@@ -15,7 +14,6 @@ const labelFor: Record<string, string> = {
   github: "GitHub",
   linkedin: "LinkedIn",
   instagram: "Instagram",
-  fiverr: "Fiverr",
   x: "X",
   youtube: "YouTube",
 };

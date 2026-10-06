@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { BackToTop } from "@/components/back-to-top";
 import { CookieNotice } from "@/components/cookie-notice";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -142,6 +143,25 @@ const businessJsonLd = {
   sameAs: Object.values(site.socials).filter((href) => href.length > 0),
 };
 
+/**
+ * Dati strutturati del servizio principale: siti web completi per le attività
+ * di Feltre e Belluno. `areaServed` riprende `serviceAreas`, così l'area
+ * dichiarata qui e quella del profilo Business restano la stessa cosa.
+ */
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: site.localService.title,
+  serviceType: "Creazione di siti web",
+  description: site.localService.description,
+  url: `${site.url}/contatti`,
+  provider: { "@type": "Person", name: site.name, url: site.url },
+  areaServed: site.serviceAreas.map((area) => ({
+    "@type": "AdministrativeArea",
+    name: area,
+  })),
+};
+
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -162,7 +182,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         {/* Dati strutturati: Google capisce chi è Ahsen Kurtoski */}
-        <JsonLd data={[personJsonLd, businessJsonLd, websiteJsonLd]} />
+        <JsonLd data={[personJsonLd, businessJsonLd, serviceJsonLd, websiteJsonLd]} />
         <a
           href="#contenuto"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#7c6cff] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
@@ -176,6 +196,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteFooter />
         <BackToTop />
         <CookieNotice />
+        {/* Google tag (GA4): si carica solo dopo il consenso, vedi il componente */}
+        <GoogleAnalytics />
       </body>
     </html>
   );

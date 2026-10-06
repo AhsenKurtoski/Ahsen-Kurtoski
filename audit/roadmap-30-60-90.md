@@ -36,7 +36,7 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 - [x] Guardia di performance in CI (01/10/2026): `npm run perf:budget` misura peso della prima visita e risorse che bloccano il rendering sull'HTML servito, e fallisce se ricompare un CSS render-blocking (provata nei due sensi: con `inlineCss` spento esce con codice 1). Nella stessa passata sono stati dichiarati i nomi alternativi — «Ahsen Kırdar», il nome del profilo Instagram — in `alternateName`.
 - [ ] 2–4 nuovi articoli (uno "pillar" tecnico, uno narrativo) seguendo il template del blog; `lastmod` e `updated` veri.
 - [x] `excerpt` e description degli articoli portati nel range ideale (01/10/2026); resta da rivedere il **corpo** dei più vecchi.
-- [ ] Bio e link al sito aggiornati ovunque (GitHub, Instagram, LinkedIn, Fiverr, firma email).
+- [ ] Bio e link al sito aggiornati ovunque (GitHub, Instagram, LinkedIn, firma email).
 - [ ] Primo report mensile GSC: query sul nome vs query su argomenti; pagine scansionate/indicizzate.
 
 **KPI a 60 giorni:** home+chi-sono+blog indicizzati; CWV lab "buoni" su tutte le pagine (per l'LCP leggere la nota in [performance report §0b](performance-report.md): il valore dei report è simulato, il dipinto reale coincide con l'FCP); 6–8 articoli totali; primi clic da query di marca.
@@ -47,7 +47,7 @@ Obiettivo del trimestre: **il sito è la fonte ufficiale e verificabile di "Ahse
 
 - [ ] Dominio personale (es. `ahsenkurtoski.com`): acquisto, configurazione, 301 permanente dal `.vercel.app`, aggiornamento `NEXT_PUBLIC_SITE_URL` + GSC (nuova proprietà o cambio indirizzo).
 - [ ] 2–4 articoli con link interni incrociati e aggiornamento dei contenuti esistenti.
-- [ ] 3–5 link in entrata "veri": profilo GitHub con sito in evidenza, Fiverr, directory sviluppatori, eventuale guest post.
+- [ ] 3–5 link in entrata "veri": profilo GitHub con sito in evidenza, directory sviluppatori, eventuale guest post.
 - [ ] Revisione completa con questo kit di script (`audit:links`, `audit:responsive`, Lighthouse) e aggiornamento dell'action plan.
 - [ ] Valutare PWA/service worker solo se porta valore reale ai lettori (e aggiornare l'informativa se cambia qualcosa sui dati).
 - [ ] Pianificare il trimestre successivo: content cluster sul nome (progetti, collaborazioni, retrospettive).

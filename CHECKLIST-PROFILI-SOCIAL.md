@@ -1,8 +1,8 @@
 # Checklist — verifica manuale dei profili social
 
 Tempo: ~10 minuti. Serve perché **nessuno strumento automatico può controllare
-questi link**: LinkedIn risponde `999` e Instagram `200` a *qualunque* username,
-Fiverr `403`. Un handle scritto male passa quindi ogni verifica automatica.
+questi link**: LinkedIn risponde `999` e Instagram `200` a *qualunque* username.
+Un handle scritto male passa quindi ogni verifica automatica.
 
 > Il caso non è teorico: durante l'audit gli handle di LinkedIn e Instagram erano
 > stati **ricostruiti a mano** (`/in/ahsenkurtoski`, `/ahsenkurtoski`) e per giorni
@@ -25,7 +25,7 @@ qualcosa di diverso, Google legge due identità separate e il collegamento si in
 | Sito | `https://ahsenkurtoski.vercel.app` |
 | Email | `cshop0784@gmail.com` |
 | Area servita | `Italia` |
-| `sameAs` | GitHub, LinkedIn, Instagram, Fiverr (4 URL) |
+| `sameAs` | GitHub, LinkedIn, Instagram (3 URL) |
 
 ## 1. LinkedIn
 
@@ -54,14 +54,11 @@ URL nel sito: `https://www.instagram.com/ahsenstudio`
 - [ ] **Bio**: link al sito (`ahsenkurtoski.vercel.app`) nel campo *Sito*.
 - [ ] **Foto profilo**: la stessa di GitHub e LinkedIn.
 
-## 3. GitHub e Fiverr (solo conferma)
+## 3. GitHub (solo conferma)
 
 - [ ] GitHub — `https://github.com/AhsenKurtoski` → risponde **200** e nel profilo
       non c'è più nessun riferimento ad «Axsen». (Questo lo controlla già
       `npm run audit:links`.)
-- [ ] Fiverr — `https://www.fiverr.com/s/RV7NzgN` → **apri il link da browser**:
-      il bot riceve `403`, quindi finché non lo confermi a mano la verifica
-      periodica lo segnala come *senza conferma registrata*.
 
 ## 4. Se un URL cambia
 
@@ -72,7 +69,7 @@ URL nel sito: `https://www.instagram.com/ahsenstudio`
    è il registro delle verifiche fatte a mano.
 4. Riesegui la verifica:
    `npm run audit:links -- https://ahsenkurtoski.vercel.app` e
-   `npm run seo:check` (che controlla che `sameAs` contenga davvero i 4 URL).
+   `npm run seo:check` (che controlla che `sameAs` contenga davvero i 3 URL).
 
 ## 5. Cosa NON può fare l'automazione
 
@@ -84,11 +81,11 @@ URL nel sito: `https://www.instagram.com/ahsenstudio`
 
 ## 6. Esito della verifica
 
-| Data | LinkedIn | Instagram | GitHub | Fiverr |
-|---|---|---|---|---|
-| 01/10/2026 | **da confermare**: l'URL apre l'authwall di LinkedIn (serve il login); l'handle non compare in nessuna ricerca pubblica (neutro) | **esiste**: il titolo della pagina è «Ahsen Kırdar ♟️ (@ahsenstudio)»; bio e link al sito non visibili senza login | 200 verificato anche da bot | **da aprire e confermare** (403 ai bot) |
+| Data | LinkedIn | Instagram | GitHub |
+|---|---|---|---|
+| 01/10/2026 | **da confermare**: l'URL apre l'authwall di LinkedIn (serve il login); l'handle non compare in nessuna ricerca pubblica (neutro) | **esiste**: il titolo della pagina è «Ahsen Kırdar ♟️ (@ahsenstudio)»; bio e link al sito non visibili senza login | 200 verificato anche da bot |
 
-`sameAs` aggiornato ai 4 URL e verificato nell'HTML di build; i due URL social sono
+`sameAs` aggiornato ai 3 URL e verificato nell'HTML di build; i due URL social sono
 registrati come confermati dal proprietario in `CONFERMATI_A_MANO`
 (`scripts/audit-links.mjs`).
 

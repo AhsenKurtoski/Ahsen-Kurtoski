@@ -78,6 +78,32 @@ export default function ContattiPage() {
           <div className="flex flex-col gap-5">
             <Reveal delay={90}>
               <div className="card flex flex-col gap-4 p-6">
+                <span className="grid size-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-[#7c6cff]">
+                  <Icon name="layers" className="size-5" />
+                </span>
+                <div>
+                  <h2 className="font-semibold text-white">
+                    {site.localService.title}
+                  </h2>
+                  <p className="mt-1 text-sm leading-relaxed text-zinc-400">
+                    {site.localService.description}
+                  </p>
+                </div>
+                <ul className="flex flex-wrap gap-2">
+                  {site.serviceAreas.map((area) => (
+                    <li
+                      key={area}
+                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-300"
+                    >
+                      {area}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div className="card flex flex-col gap-4 p-6">
                 <span className="grid size-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-[#00d4ff]">
                   <Icon name="mail" className="size-5" />
                 </span>
@@ -119,30 +145,6 @@ export default function ContattiPage() {
                   <Icon name="map-pin" className="size-4" />
                   {site.location}
                 </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={230}>
-              <div className="card flex flex-col gap-4 p-6">
-                <span className="grid size-11 place-items-center rounded-xl border border-white/10 bg-white/5 text-[#00d4ff]">
-                  <Icon name="fiverr" className="size-5" />
-                </span>
-                <div>
-                  <h2 className="font-semibold text-white">Servizi su Fiverr</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-zinc-400">
-                    Preferisci fare tutto dall&apos;app? Puoi ordinare i miei servizi
-                    direttamente su Fiverr, con pagamento protetto.
-                  </p>
-                </div>
-                <a
-                  href={site.socials.fiverr}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/10"
-                >
-                  Vedi il mio profilo
-                  <Icon name="arrow-up-right" className="size-4" />
-                </a>
               </div>
             </Reveal>
           </div>
