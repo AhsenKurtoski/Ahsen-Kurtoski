@@ -42,7 +42,13 @@ export function SiteHeader() {
             {site.initials}
           </span>
           <span className="text-sm font-semibold tracking-tight text-white sm:text-base">
-            {site.firstName} <span className="text-gradient">{site.lastName}</span>
+            {site.firstName}
+            {site.lastName ? (
+              <>
+                {" "}
+                <span className="text-gradient">{site.lastName}</span>
+              </>
+            ) : null}
           </span>
           <span className="sr-only">— torna alla home</span>
         </Link>
@@ -65,6 +71,15 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="https://ahsen-studio.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm text-zinc-400 transition-colors hover:text-white"
+          >
+            Portfolio
+            <Icon name="arrow-up-right" className="size-3.5" />
+          </a>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -115,6 +130,26 @@ export function SiteHeader() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href="https://ahsen-studio.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm text-zinc-400"
+            >
+              Portfolio
+              <Icon name="arrow-up-right" className="size-3.5" />
+            </a>
+            <a
+              href="https://ahsen-studio.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-1 rounded-xl px-3 py-2.5 text-sm text-zinc-400"
+            >
+              Portfolio
+              <Icon name="arrow-up-right" className="size-3.5" />
+            </a>
           </div>
         </nav>
       )}

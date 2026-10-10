@@ -1,5 +1,5 @@
 /**
- * Genera le icone del sito (monogramma AK con gradiente) senza dipendenze esterne:
+ * Genera le icone del sito (monogramma AS con gradiente) senza dipendenze esterne:
  *   public/favicon.ico
  *   public/apple-touch-icon.png
  *   public/icon-192.png

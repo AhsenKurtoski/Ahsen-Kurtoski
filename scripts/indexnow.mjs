@@ -261,7 +261,7 @@ async function fetchWithTimeout(url, ms = 15000) {
     return await fetch(url, {
       redirect: "follow",
       signal: controller.signal,
-      headers: { "User-Agent": "AhsenKurtoski-SEO-Check/1.0" },
+      headers: { "User-Agent": "AhsenStudio-SEO-Check/1.0" },
     });
   } finally {
     clearTimeout(timer);
@@ -421,7 +421,7 @@ const response = await fetch(ENDPOINT, {
   method: "POST",
   headers: {
     "Content-Type": "application/json; charset=utf-8",
-    "User-Agent": "AhsenKurtoski-SEO-Check/1.0",
+    "User-Agent": "AhsenStudio-SEO-Check/1.0",
   },
   body: JSON.stringify({
     host: new URL(siteUrl).host,

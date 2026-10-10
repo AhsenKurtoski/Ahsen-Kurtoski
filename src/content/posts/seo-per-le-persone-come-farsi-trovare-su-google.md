@@ -10,7 +10,7 @@ Quando cerchi il tuo nome su Google, cosa esce? Se la risposta è "niente", ques
 ## Le basi in 4 punti
 
 1. **Un sito tuo**: è il requisito numero uno. I social vanno bene, ma il sito è l'unica cosa che controlli al 100%.
-2. **Contenuti veri**: testi che rispondono davvero a quello che le persone cercano (nel mio caso: "chi è Ahsen Kurtoski?").
+2. **Contenuti veri**: testi che rispondono davvero a quello che le persone cercano (nel mio caso come faccio a comparire su Google per "Ahsen" o per "siti gratis Belluno").
 3. **Tecnica curata**: titoli, descrizioni, velocità, versione mobile. Le fondamenta contano.
 4. **Pazienza**: Google non indicizza in un giorno. Servono settimane, ma i risultati restano.
 

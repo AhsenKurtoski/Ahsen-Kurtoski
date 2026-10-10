@@ -10,15 +10,20 @@ import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contatti: scrivimi per progetti e domande",
+  title: "Contatti: sito web GRATIS a Belluno",
   description:
-    "Contatta Ahsen Kurtoski per un progetto, una collaborazione o una domanda: form rapido, email diretta, social e risposte alle domande frequenti.",
-  keywords: ["contattare Ahsen Kurtoski", "Ahsen Kurtoski email"],
+    "Contatta Ahsen per un sito web GRATIS in provincia di Belluno: Feltre, Belluno e dintorni. Form, email diretta e risposte alle domande frequenti.",
+  keywords: [
+    "contattare Ahsen",
+    "Ahsen email",
+    "richiedere sito gratis Belluno",
+    "sito web gratuito Feltre",
+  ],
   alternates: { canonical: "/contatti" },
   openGraph: {
-    title: "Contatti — Ahsen Kurtoski",
+    title: "Contatti — Siti Web Gratis Belluno",
     description:
-      "Scrivi ad Ahsen Kurtoski per collaborazioni, progetti o domande.",
+      "Scrivi ad Ahsen per un sito web GRATIS in provincia di Belluno.",
     url: `${site.url}/contatti`,
     type: "website",
     images: [
@@ -44,7 +49,12 @@ const faqJsonLd = {
 };
 
 export default function ContattiPage() {
-  const emailIsPlaceholder = site.email.includes("example.com");
+  // Il banner resta visibile finché l'email è un segnaposto: oltre a `example.com`
+  // riconosciamo anche il placeholder `INSERISCI...` e il dominio `@example`.
+  const emailIsPlaceholder =
+    site.email.includes("INSERISCI") ||
+    site.email.includes("@example") ||
+    site.email.includes("example.com");
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">

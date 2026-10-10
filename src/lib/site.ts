@@ -1,5 +1,13 @@
-/** Dominio ufficiale: usato se la variabile d'ambiente manca, è vuota o non valida. */
-const FALLBACK_URL = "https://ahsenkurtoski.vercel.app";
+/**
+ * Dominio ufficiale: usato se la variabile d'ambiente manca, è vuota o non valida.
+ *
+ * TODO_UTENTE: il dominio pubblico reale di QUESTO blog va confermato. Se lo
+ * pubblichi su Vercel/Netlify con un indirizzo diverso, imposta NEXT_PUBLIC_SITE_URL
+ * (vedi .env.example) con l'indirizzo esatto e senza barra finale: quel valore ha
+ * la precedenza su questo. Il riferimento qui sotto è l'indirizzo pubblico dichiarato
+ * nel rebranding (Ahsen Studio).
+ */
+const FALLBACK_URL = "https://ahsen-studio.netlify.app";
 
 /**
  * Legge l'URL del sito da NEXT_PUBLIC_SITE_URL senza mai far fallire il build.
@@ -33,38 +41,49 @@ export const site = {
   url: resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
 
   // Identità
-  name: "Ahsen Kurtoski",
+  // TODO_UTENTE: dal rebranding il cognome è stato rimosso, il nome è solo "Ahsen".
+  // `lastName` resta definito (stringa vuota) perché il codice lo usa nell'header e
+  // nei dati strutturati Person: se vuoi eliminarlo del tutto vanno aggiornati
+  // anche src/components/site-header.tsx e src/app/layout.tsx.
+  name: "Ahsen",
   firstName: "Ahsen",
-  lastName: "Kurtoski",
-  initials: "AK",
+  lastName: "",
+  initials: "AS",
 
   /**
    * Nomi con cui la persona è conosciuta. Finiscono in `alternateName` dei dati
    * strutturati (`Person` in `src/app/layout.tsx`) e servono a far capire a
-   * Google che profili con nomi diversi sono la stessa entità: è la voce che
-   * evita di lasciare una discrepanza non dichiarata fra sito e social.
-   *
-   * `Ahsen Kırdar` è il nome visualizzato sul profilo Instagram `ahsenstudio`
-   * (verificato il 01/10/2026: il profilo esiste ma porta quel nome, mentre il
-   * sito usa `Ahsen Kurtoski`). Se un giorno il profilo viene allineato al nome
-   * del sito, questo elemento si può togliere senza altri effetti.
+   * Google che profili con nomi diversi sono la stessa entità.
    */
-  alternateNames: ["Ahsen", "Kurtoski", "Ahsen Kırdar"],
+  alternateNames: [
+    "Ahsen",
+    "Ahsen Studio",
+    "Ahsen Sviluppatore Web",
+    "Ahsen Belluno",
+    "Ahsen Feltre",
+    "Ahsen Studente",
+  ],
 
   // Ruoli mostrati nel typing effect della hero
-  roles: ["Developer", "Creator", "Student", "Tech Enthusiast"],
+  roles: [
+    "Studente",
+    "Sviluppatore Web",
+    "Web App Developer",
+    "Software Creator",
+    "Problem Solver",
+  ],
 
   // Bio corta (card e metadata). Compare in home, nella pagina «Chi sono» e nei
   // risultati di Google: è la descrizione più importante del sito. La lunghezza
-  // (154 caratteri) sta nel range ideale 140-155 controllato da `seo:check`.
+  // sta nel range ideale 140-155 controllato da `seo:check`.
   shortBio:
-    "Creo siti web completi per attività di Feltre e Belluno: design, testi, mobile e SEO. Condivido il codice su GitHub e racconto quello che imparo sul blog.",
+    "Sono uno studente di Feltre che crea siti web, web app e software. Offro siti web GRATIS in provincia di Belluno. Portfolio su ahsen-studio.netlify.app.",
 
   // Bio lunga (pagina Chi sono)
   longBio: [
-    "Ciao, sono Ahsen Kurtoski. Sono un developer e creatore digitale: mi appassiona costruire cose per il web, dai primi schizzi su carta al deploy finale.",
-    "Ho iniziato per curiosità, restando incollato allo schermo a capire come funzionano i siti che visitavo ogni giorno. Da lì è nata una passione che mi accompagna tuttora: scrivere codice, rompere le cose, sistemarle e imparare qualcosa a ogni progetto.",
-    "Su questo sito racconto il mio percorso e scrivo articoli su sviluppo web, strumenti che uso e cose che scopro ogni giorno. Se vuoi contattarmi per una collaborazione o anche solo per scambiare due chiacchiere su tech, scrivimi!",
+    "Ciao, sono Ahsen. Sono uno studente appassionato di sviluppo web e software: mi piace costruire soluzioni digitali complete, dall'idea al codice, fino al deploy finale.",
+    "Mi sono avvicinato alla programmazione per curiosità e oggi trasformo quella passione in progetti concreti: siti web per attività locali, web app funzionali e piccoli software. Credo nella pratica: ogni riga di codice è una lezione.",
+    "Per le attività della provincia di Belluno (Feltre, Belluno e dintorni) realizzo siti web completamente GRATIS: è il mio modo per fare pratica e aiutare il territorio. Nel mio portfolio ahsen-studio.netlify.app trovi tutti i lavori.",
   ],
 
   /**
@@ -73,35 +92,52 @@ export const site = {
    * tornare a scansionare, ma solo se corrisponde alla realtà. Aggiornala
    * quando cambi bio, progetti o testi delle pagine.
    */
-  updated: "2026-10-06",
+  updated: "2026-10-09",
 
   /**
    * Data dell'ultima modifica dell'informativa privacy (finisce nella pagina e
    * nel JSON-LD). Aggiornala quando attivi Google Analytics: da quel momento
    * l'informativa mostra anche le sezioni su statistiche e consenso.
    */
-  privacyUpdated: "2026-10-05",
+  privacyUpdated: "2026-10-09",
 
   // Dettagli rapidi (hero / chi sono)
-  location: "Feltre e Belluno, Italia",
+  location: "Feltre (BL), Italia — Provincia di Belluno",
 
   /**
-   * Zone in cui lavori. Devono essere le STESSE che imposti come «Area servita»
+   * Zone in cui lavoro. Devono essere le STESSE che imposti come «Area servita»
    * nel profilo Business su Google: Google confronta i dati strutturati del sito
    * con il profilo, e se non coincidono il collegamento tra i due è più debole.
-   * Aggiungi qui le città che servi, es. ["Feltre", "Belluno", "Italia"].
    */
-  serviceAreas: ["Feltre", "Belluno", "Italia"],
+  serviceAreas: [
+    "Feltre",
+    "Belluno",
+    "Provincia di Belluno",
+    "Sedico",
+    "Mel",
+    "Santa Giustina",
+    "Ponte nelle Alpi",
+    "Borgo Valbelluna",
+    "Trichiana",
+    "Limana",
+    "Italia",
+    "Veneto",
+  ],
   // `||` (non `??`): una variabile definita ma vuota deve ricadere sul default.
-  email: process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
-  availability: "Disponibile per nuovi progetti",
+  // TODO_UTENTE: questo è un PLACEHOLDER. Sostituiscilo con la tua email reale
+  // nella variabile d'ambiente CONTACT_EMAIL (vedi .env.example). Finché resta
+  // questo testo il sito mostra un avviso nella pagina Contatti.
+  email:
+    process.env.CONTACT_EMAIL || "cshop0784@gmail.com",
+  availability:
+    "Disponibile — Siti web GRATIS in provincia di Belluno",
 
   /**
    * Pagina «Adesso» (/adesso): cosa sto imparando e costruendo in questo
    * periodo. È una fotografia del momento, non la biografia: aggiornala ogni
    * tanto e cambia anche `nowUpdated`, che finisce nella sitemap e nel JSON-LD.
    */
-  nowUpdated: "2026-10-02",
+  nowUpdated: "2026-10-09",
   now: [
     {
       title: "Cosa sto imparando",
@@ -135,39 +171,38 @@ export const site = {
    *
    * Restano VOLUTAMENTE fuori dai dati strutturati `sameAs`: dichiarare due siti
    * come identità ufficiale della stessa persona disperde il segnale con cui
-   * Google collega il nome «Ahsen Kurtoski» a un unico indirizzo. Un link
-   * normale, invece, si legge bene e non confonde.
-   *
-   * Il sito dello studio è su Netlify: il 30/09/2026 il sottodominio è stato
-   * rinominato da `axsen-studio` a `ahsen-studio` (il vecchio risponde 404).
+   * Google collega il nome «Ahsen» a un unico indirizzo. Un link normale,
+   * invece, si legge bene e non confonde.
    */
   otherSites: [
     {
-      name: "Ahsen Studio",
+      name: "Ahsen Studio — Portfolio",
       url: "https://ahsen-studio.netlify.app",
       description:
-        "Il mio studio di sviluppo web: siti, e-commerce e app su misura, curati dal design al deploy.",
+        "Il mio portfolio completo: tutti i progetti di siti web, web app e software realizzati.",
     },
   ],
 
   /**
    * Servizio principale, mostrato nella home, nei contatti e nei dati
-   * strutturati: siti web completi per le attività di Feltre e Belluno.
+   * strutturati: siti web GRATIS per le attività della provincia di Belluno.
    *
    * Le voci di `features` sono cose che il cliente riceve davvero: se un giorno
-   * cambiano le condizioni (es. non includi più il dominio), aggiorna questa
-   * lista insieme al resto, così il testo del sito non promette altro.
+   * cambiano le condizioni, aggiorna questa lista insieme al resto, così il
+   * testo del sito non promette altro.
    */
   localService: {
-    title: "Siti web completi per attività di Feltre e Belluno",
+    title: "Siti web GRATIS per attività in provincia di Belluno",
     description:
-      "Realizzo il sito completo della tua attività — design, testi, versione mobile, SEO locale e messa online — con un unico interlocutore, dal primo incontro al lancio.",
+      "Sono uno studente e realizzo siti web completamente GRATIS per attività, negozi, associazioni e liberi professionisti di Feltre, Belluno e tutta la provincia. Design moderno, mobile, SEO, messa online inclusi.",
     features: [
-      "Design su misura, pensato per il tuo settore",
-      "Sito veloce e perfetto da smartphone",
-      "Testi e immagini che si fanno trovare su Google",
-      "Dominio, email e messa online inclusi",
-      "Assistenza e aggiornamenti anche dopo il lancio",
+      "Design moderno e responsive (perfetto da smartphone)",
+      "Ottimizzazione SEO locale per farsi trovare su Google a Belluno",
+      "Velocità e prestazioni ottimizzate",
+      "Dominio .vercel.app o .netlify.app inclusi (gratuiti)",
+      "Messa online e assistenza iniziale inclusa",
+      "Nessun costo nascosto: è veramente GRATIS",
+      "Possibilità di web app e software personalizzati (su richiesta)",
     ],
   },
 
@@ -188,6 +223,9 @@ export const site = {
    * li esclude apposta): vanno controllati a mano aprendoli nel browser.
    */
   socials: {
+    // TODO_UTENTE: questi due URL contengono ancora "Kurtoski". Se rinomini
+    // l'account GitHub o aggiorni il custom URL di LinkedIn, sostituisci anche
+    // questi indirizzi con quelli nuovi.
     github: "https://github.com/AhsenKurtoski",
     linkedin: "https://www.linkedin.com/in/ahsen-kurtoski-397b00354",
     instagram: "https://www.instagram.com/ahsenstudio",
@@ -200,8 +238,11 @@ export const site = {
     { name: "HTML & CSS", level: 90 },
     { name: "JavaScript / TypeScript", level: 85 },
     { name: "React & Next.js", level: 80 },
-    { name: "Node.js", level: 70 },
+    { name: "Sviluppo Web App", level: 80 },
+    { name: "Node.js & Backend", level: 70 },
     { name: "UI/UX Design", level: 75 },
+    { name: "Sviluppo Software", level: 75 },
+    { name: "SEO & Google", level: 80 },
     { name: "Git & GitHub", level: 80 },
   ],
 
@@ -209,68 +250,114 @@ export const site = {
   timeline: [
     {
       year: "Oggi",
-      title: "Developer & Creator",
+      title: "Studente & Sviluppatore",
       description:
-        "Costruisco progetti web moderni e documento il percorso su questo blog.",
+        "Studio, costruisco siti web, web app e software. Offro siti GRATIS alle attività della provincia di Belluno.",
     },
     {
       year: "2024",
-      title: "Primi progetti online",
+      title: "Primi progetti pubblici",
       description:
-        "Pubblicati i primi siti e app: HTML, CSS, JavaScript e tanto codice sperimentale.",
+        "Pubblicati i primi siti e applicazioni web. Portfolio online su ahsen-studio.netlify.app.",
     },
     {
       year: "2023",
-      title: "Inizio del viaggio",
+      title: "Prima riga di codice",
       description:
-        "Prima riga di codice scritta per curiosità. Da lì in poi non mi sono più fermato.",
+        "Inizio del viaggio nello sviluppo web: da semplice curiosità a passione a tutti gli effetti.",
     },
   ],
 
   // Domande frequenti (usate nella pagina Contatti e nei dati strutturati FAQPage)
   faqs: [
     {
-      question: "Chi è Ahsen Kurtoski?",
+      question: "Chi è Ahsen?",
       answer:
-        "Ahsen Kurtoski è un developer e creatore digitale: costruisce progetti web moderni, si occupa di UI/UX e SEO e racconta il suo percorso sul blog di questo sito.",
+        "Ahsen è uno studente di Feltre (provincia di Belluno) che sviluppa siti web, web app e software. Realizza siti web completamente GRATIS per attività del territorio bellunese.",
     },
     {
-      question: "Rispondi a tutti i messaggi?",
+      question: "Come faccio a richiedere un sito web GRATIS a Ahsen?",
       answer:
-        "Sì, leggo tutto e rispondo appena posso. Se non ricevi risposta entro qualche giorno, ricorda di scrivermi di nuovo.",
+        "Se hai un'attività, un negozio, un'associazione o sei un libero professionista in provincia di Belluno (Feltre, Belluno e dintorni), scrivi tramite il form dei contatti o direttamente via email. Il servizio è completamente gratuito: nessun costo, nessun vincolo.",
     },
     {
-      question: "Accetti collaborazioni?",
+      question: "Cosa include il sito web GRATIS offerto da Ahsen?",
       answer:
-        "Sì: racconta cosa hai in mente nel form dei contatti e ti dico se posso essere utile. Se hai già un'idea chiara, scrivimi e ne parliamo volentieri.",
+        "Ogni sito include: design moderno e responsive per mobile, ottimizzazione SEO locale per Google, velocità e prestazioni curate, messa online su dominio gratuito, assistenza iniziale. Sono inclusi anche testi e immagini se necessario.",
     },
     {
-      question: "Realizzi siti web per attività di Feltre e Belluno?",
+      question: "Che tipo di progetti realizza Ahsen?",
       answer:
-        "Sì: creo siti web completi per attività e aziende di Feltre, Belluno e dintorni, curando tutto dal design ai testi fino alla messa online. Scrivimi dal form dei contatti e ne parliamo volentieri.",
+        "Siti vetrina per attività, landing page, portfolio personali, blog, piccoli e-commerce, web app su misura e piccoli software desktop o web. La priorità sono i siti web GRATIS per la provincia di Belluno.",
     },
     {
-      question: "Posso usare i tuoi contenuti?",
+      question: "Con quali tecnologie lavora Ahsen?",
       answer:
-        "Puoi citarli linkando la fonte. Per qualunque altro uso, scrivimi e ne parliamo volentieri.",
+        "HTML, CSS, JavaScript, TypeScript, React, Next.js, Node.js. Per i siti usa Next.js con Tailwind CSS. Portfolio completo su ahsen-studio.netlify.app.",
+    },
+    {
+      question: "Dove trovo tutti i lavori e i progetti di Ahsen?",
+      answer:
+        "Sul portfolio ufficiale ahsen-studio.netlify.app trovi tutti i progetti completati, gli esperimenti e i lavori in corso: siti web, web app e software.",
     },
   ],
 
-  // SEO
+  /*
+   * SEO: parole chiave in 5 categorie (identità, servizio GRATIS, servizi
+   * generici, web app e software, ruolo studente). Finiscono nel meta keywords
+   * e aiutano a coprire le ricerche più probabili.
+   */
   keywords: [
-    "Ahsen Kurtoski",
-    "Ahsen Kurtoski chi è",
-    "chi è Ahsen Kurtoski",
-    "Ahsen Kurtoski sito ufficiale",
-    "Ahsen Kurtoski developer",
-    "Ahsen Kurtoski blog",
-    "Ahsen Kurtoski progetti",
-    "Ahsen Kurtoski chi sono",
-    "siti web Feltre",
-    "siti web Belluno",
-    "creazione siti web Feltre e Belluno",
+    // 1. Identità
+    "Ahsen",
+    "Ahsen chi è",
+    "chi è Ahsen",
+    "Ahsen sito ufficiale",
+    "Ahsen sviluppatore web",
+    "Ahsen Belluno",
+    "Ahsen Feltre",
+    "Ahsen Studio",
+    "Ahsen portfolio",
+    "ahsen-studio.netlify.app",
+    // 2. Servizio GRATIS (le più importanti)
+    "siti web gratis Belluno",
+    "siti web gratis provincia di Belluno",
+    "sito web gratuito Feltre",
+    "creare sito gratis Belluno",
     "sito web per attività Feltre",
-    "web designer Feltre Belluno",
+    "sito web per attività Belluno",
+    "sito gratuito per negozio Belluno",
+    "sito vetrina gratis Veneto",
+    "sviluppatore web Belluno",
+    "sviluppatore web Feltre",
+    "sito web gratis per associazione Belluno",
+    "sito gratis per libero professionista Feltre",
+    // 3. Servizi generici
+    "sviluppo siti web Belluno",
+    "realizzazione siti web provincia Belluno",
+    "web developer Belluno",
+    "web designer Feltre",
+    "creazione siti web Veneto",
+    "siti web responsive Belluno",
+    "SEO locale Belluno",
+    "ottimizzazione SEO Google Belluno",
+    "sito web veloce Belluno",
+    // 4. Web app e software
+    "sviluppo web app Belluno",
+    "sviluppo software Feltre",
+    "programmatore Belluno",
+    "studente sviluppatore Belluno",
+    "web app personalizzata provincia Belluno",
+    "software su misura Veneto",
+    // 5. Ruolo studente
+    "studente programmatore Belluno",
+    "ragazzo sviluppatore Feltre",
+    "servizi digitali gratis provincia Belluno",
+    "sviluppatore freelance Belluno",
+    "aiuto attività locali Belluno",
+    "presenza online gratis Belluno",
+    "Google Maps attività Belluno",
+    "Next.js developer Veneto",
   ],
 } as const;
 

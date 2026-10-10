@@ -17,7 +17,7 @@ Il sito è il posto dove una persona curiosa trova le risposte che si sta chiede
 
 - cosa fai esattamente e per chi;
 - dove sei e in quali zone lavori;
-- quanto costa, o almeno come si arriva a un preventivo;
+- quanto costa — e se è un servizio per la provincia di Belluno, spesso è GRATUITO; per progetti più complessi ne parliamo insieme senza impegno;
 - come contattarti adesso, con un tocco.
 
 ## Cosa c'è dentro un sito "completo"
@@ -52,10 +52,22 @@ Non serve un mese di riunioni. Nella maggior parte dei casi il percorso è più 
 
 Da qui in poi il sito resta tuo e continua a lavorare anche quando tu non hai tempo di aggiornarlo.
 
+## 🎁 Siti web GRATIS per la provincia di Belluno
+
+> Sono uno studente e voglio aiutare il territorio: **per attività, negozi, associazioni e liberi professionisti di Feltre, Belluno e tutta la provincia realizzo siti web completamente GRATIS**.
+>
+> Cosa includo nel servizio:
+> - Design moderno e ottimizzato per telefono
+> - SEO locale così Google ti trova quando qualcuno cerca il tuo servizio a Belluno
+> - Messa online e dominio gratuito (.vercel.app o .netlify.app)
+> - Assistenza iniziale per impostare tutto
+>
+> Nessun costo nascosto, nessun abbonamento: è un servizio che offro per fare pratica e aiutare chi ha bisogno di una presenza online senza spendere. Portfolio completo dei miei lavori su [ahsen-studio.netlify.app](https://ahsen-studio.netlify.app).
+
 ## Da dove si parte
 
-Si parte da una conversazione, non da un preventivo astratto. Raccontami cosa fa la tua attività e cosa vorresti migliorare: se un sito può esserti utile, te lo dico in modo schietto; se non puoi ancora permettertelo, te lo dico lo stesso e ti indico cosa fare prima.
+Si parte da una conversazione, non da etichette di prezzo. Per le attività in provincia di Belluno realizzo siti web completamente GRATIS: raccontami la tua attività e vediamo insieme cosa costruire. Nessun costo, nessun vincolo.
 
 > Un sito non è una spesa una volta e per sempre: è il posto dove, la prossima volta che qualcuno cerca quello che fai, ti trova.
 
-Se hai un'attività a **Feltre, Belluno** o dintorni e vuoi capire come potrebbe diventare il tuo sito, [scrivimi dal form dei contatti](/contatti): ne parliamo senza impegno.
+Se hai un'attività a **Feltre, Belluno** o dintorni e vuoi capire come potrebbe diventare il tuo sito, [scrivimi dal form dei contatti](/contatti) o dai un'occhiata al mio [portfolio](https://ahsen-studio.netlify.app): ne parliamo senza impegno.

@@ -11,7 +11,7 @@ import { getAllPosts, searchPosts } from "@/lib/posts";
 export const metadata: Metadata = {
   title: "Cerca nel blog",
   description:
-    "Cerca tra tutti gli articoli del blog di Ahsen Kurtoski: titoli, argomenti e testo completo.",
+    "Cerca tra tutti gli articoli del blog di Ahsen: titoli, argomenti e testo completo.",
   alternates: { canonical: "/cerca" },
   // Una pagina di risultati è contenuto variabile e sottile: la mostro a chi la
   // usa, ma non chiedo a Google di indicizzarla.

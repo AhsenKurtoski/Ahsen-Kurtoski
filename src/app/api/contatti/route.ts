@@ -52,6 +52,7 @@ export async function POST(request: Request) {
   const email = typeof data.email === "string" ? data.email.trim() : "";
   const message = typeof data.message === "string" ? data.message.trim() : "";
   const honeypot = typeof data.website === "string" ? data.website.trim() : "";
+  const freeSite = data.freeSite === true;
 
   // Campo nascosto compilato = bot: rispondiamo ok senza inviare nulla
   if (honeypot) {
@@ -111,7 +112,9 @@ export async function POST(request: Request) {
         email,
         _replyto: email,
         message,
-        _subject: `Nuovo messaggio dal sito — ${name}`,
+        _subject: freeSite
+          ? `[RICHIESTA SITO GRATIS BELLUNO] Nuovo messaggio da ${name}`
+          : `Nuovo messaggio dal sito — ${name}`,
         _template: "table",
         _captcha: "false",
       }),

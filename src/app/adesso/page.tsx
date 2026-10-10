@@ -12,15 +12,15 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Adesso",
   description:
-    "Cosa sta imparando e costruendo Ahsen Kurtoski proprio adesso: le cose su cui sta lavorando in questo periodo, non il riassunto della sua vita.",
+    "Cosa sta imparando e costruendo Ahsen proprio adesso: progetti, tecnologie e siti web GRATIS per la provincia di Belluno, aggiornati nel tempo.",
   keywords: [
-    "Ahsen Kurtoski adesso",
-    "Ahsen Kurtoski cosa sta imparando",
-    "now page Ahsen Kurtoski",
+    "Ahsen adesso",
+    "Ahsen cosa sta imparando",
+    "now page Ahsen",
   ],
   alternates: { canonical: "/adesso" },
   openGraph: {
-    title: "Adesso — Ahsen Kurtoski",
+    title: "Adesso — Ahsen Studio",
     description:
       "Cosa sto imparando e costruendo in questo periodo, aggiornato di tanto in tanto.",
     url: `${site.url}/adesso`,
@@ -64,7 +64,7 @@ export default function AdessoPage() {
           description="La biografia racconta il percorso; questa pagina invece dice cosa sto imparando e costruendo in questo preciso momento. La aggiorno di tanto in tanto, senza fretta."
         />
 
-        <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+        <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
           Ultimo aggiornamento: {formatDate(site.nowUpdated)}
         </p>
       </Reveal>

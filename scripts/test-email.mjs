@@ -51,7 +51,7 @@ const response = await fetch(
       _replyto: to,
       message:
         "Se ricevi questo messaggio, il form di contatto del sito è configurato correttamente.",
-      _subject: "Prova dal sito di Ahsen Kurtoski",
+      _subject: "Prova dal sito Ahsen Studio",
       _template: "table",
       _captcha: "false",
     }),

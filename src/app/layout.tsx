@@ -38,14 +38,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Developer & Creator`,
-    template: `%s · ${site.name}`,
+    default: "Ahsen Studio — Studente · Sviluppatore Web · Siti Belluno",
+    template: "%s · Ahsen Studio",
   },
   description: site.shortBio,
   keywords: [...site.keywords],
   authors: [{ name: site.name, url: site.url }],
-  creator: site.name,
-  publisher: site.name,
+  creator: "Ahsen Studio",
+  publisher: "Ahsen Studio",
   category: "technology",
   alternates: {
     // Indirizzo assoluto senza barra finale: identico alla voce della sitemap.
@@ -64,13 +64,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     url: site.url,
-    siteName: site.name,
-    title: `${site.name} — Developer & Creator`,
+    siteName: "Ahsen Studio",
+    title:
+      "Ahsen Studio — Studente, Sviluppatore Web, Siti Web Gratis a Belluno",
     description: site.shortBio,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Developer & Creator`,
+    title: "Ahsen Studio — Siti Web Gratis Provincia di Belluno",
     description: site.shortBio,
   },
   robots: {
@@ -99,19 +100,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/** Dati strutturati: Google capisce chi è Ahsen Kurtoski */
+/** Dati strutturati: Google capisce chi è Ahsen */
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: site.name,
   givenName: site.firstName,
-  familyName: site.lastName,
+  // `lastName` è una stringa vuota dal rebranding: con `||` il campo sparisce
+  // del tutto dal JSON-LD invece di restare vuoto (per Google è un dato nullo).
+  ...(site.lastName ? { familyName: site.lastName } : {}),
   alternateName: site.alternateNames,
   url: site.url,
   email: `mailto:${site.email}`,
-  jobTitle: "Developer & Creatore Digitale",
+  jobTitle: "Studente · Sviluppatore Web · Web App · Software",
   description: site.shortBio,
-  knowsAbout: site.skills.map((skill) => skill.name),
+  knowsAbout: [
+    ...site.skills.map((skill) => skill.name),
+    "Sviluppo Web",
+    "Siti Web",
+    "Web App",
+    "Software",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "SEO Locale Belluno",
+    "Provincia di Belluno",
+    "UI UX Design",
+  ],
   address: { "@type": "PostalAddress", addressCountry: "IT" },
   sameAs: Object.values(site.socials).filter((href) => href.length > 0),
 };
@@ -152,7 +167,7 @@ const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
   name: site.localService.title,
-  serviceType: "Creazione di siti web",
+  serviceType: "Creazione siti web GRATIS + Web App + Software",
   description: site.localService.description,
   url: `${site.url}/contatti`,
   provider: { "@type": "Person", name: site.name, url: site.url },
@@ -181,7 +196,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        {/* Dati strutturati: Google capisce chi è Ahsen Kurtoski */}
+        {/* Dati strutturati: Google capisce chi è Ahsen */}
         <JsonLd data={[personJsonLd, businessJsonLd, serviceJsonLd, websiteJsonLd]} />
         <a
           href="#contenuto"

@@ -84,6 +84,15 @@ export function SiteFooter() {
             <Icon name="map-pin" className="size-4" />
             {site.location}
           </p>
+          <a
+            href="https://ahsen-studio.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
+          >
+            <Icon name="globe" className="size-4" />
+            Portfolio online → ahsen-studio.netlify.app
+          </a>
           <p className="inline-flex items-center gap-2 text-sm text-[#00d4ff]">
             <span className="relative flex size-2">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#00d4ff] opacity-75" />
@@ -98,7 +107,8 @@ export function SiteFooter() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>
-              © {year} {site.name}. Tutti i diritti riservati.
+              © {year} {site.name} · Siti web GRATIS in provincia di Belluno.
+              Tutti i diritti riservati.
             </span>
             <Link
               href="/privacy"

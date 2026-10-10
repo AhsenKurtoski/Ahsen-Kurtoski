@@ -29,7 +29,7 @@ export async function generateMetadata({
     // Il conteggio va accordato al singolare/plurale, e la lunghezza del testo
     // dipende dal tag (etichette da 3 a 14 caratteri): il range 140-155 è
     // verificato da `seo:check` a ogni build.
-    description: `${posts.length} articol${posts.length === 1 ? "o" : "i"} del blog di ${site.name} sul tema ${label}: guide pratiche, appunti e riflessioni dal percorso di un developer che impara costruendo.`,
+    description: `${posts.length} articol${posts.length === 1 ? "o" : "i"} del blog di ${site.name} sul tema ${label}: guide, appunti e tutorial pratici dal percorso di uno studente sviluppatore che impara costruendo.`,
     keywords: [label, `${label} articoli`, `blog ${label}`, site.name],
     alternates: { canonical: `/blog/tag/${tag}` },
     openGraph: {

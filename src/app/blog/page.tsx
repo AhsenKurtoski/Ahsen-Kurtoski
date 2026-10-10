@@ -12,22 +12,22 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Blog: sviluppo web, strumenti e tutorial",
   description:
-    "Il blog di Ahsen Kurtoski: guide pratiche su sviluppo web, design, SEO e strumenti digitali, con appunti dal suo percorso quotidiano di developer.",
+    "Il blog di Ahsen: guide pratiche su sviluppo web, design, SEO e strumenti digitali, con appunti dal suo percorso quotidiano di studente e sviluppatore.",
   keywords: [
-    "Ahsen Kurtoski blog",
+    "Ahsen blog",
     "blog sviluppo web",
     "articoli programmazione",
   ],
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Blog — Ahsen Kurtoski",
+    title: "Blog — Ahsen Studio",
     description:
-      "Articoli su sviluppo web, design, SEO e crescita personale, scritti da Ahsen Kurtoski.",
+      "Articoli su sviluppo web, design, SEO e crescita personale, scritti da Ahsen.",
     url: `${site.url}/blog`,
     type: "website",
     images: [
       ogImage({
-        title: "Il blog di Ahsen Kurtoski",
+        title: "Il blog di Ahsen",
         subtitle: "Sviluppo web, design, SEO e crescita personale",
       }),
     ],
@@ -46,7 +46,7 @@ export default function BlogPage() {
         <SectionHeading
           as="h1"
           eyebrow="Blog"
-          title="Il blog di Ahsen Kurtoski"
+          title="Il blog di Ahsen"
           description="Scrivo di sviluppo web, design, SEO e di tutto quello che imparo costruendo cose. Nuovi articoli in arrivo, torna presto!"
         />
 

@@ -32,7 +32,7 @@ export function SearchForm({
       </label>
       <Icon
         name="search"
-        className={`pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-500 transition-colors group-focus-within:text-[#00d4ff]`}
+        className={`pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-400 transition-colors group-focus-within:text-[#00d4ff]`}
       />
       <input
         id={id}
@@ -41,7 +41,7 @@ export function SearchForm({
         defaultValue={defaultValue}
         placeholder={compact ? "Cerca…" : "Cerca un articolo…"}
         autoComplete="off"
-        className={`w-full rounded-full border border-white/10 bg-white/5 text-white placeholder:text-zinc-500 transition-colors focus:border-[#7c6cff] focus:bg-white/10 focus:outline-none ${
+        className={`w-full rounded-full border border-white/10 bg-white/5 text-white placeholder:text-zinc-400 transition-colors focus:border-[#7c6cff] focus:bg-white/10 focus:outline-none ${
           compact ? "py-1.5 pl-9 pr-3 text-xs" : "py-3 pl-11 pr-4 text-sm"
         }`}
       />

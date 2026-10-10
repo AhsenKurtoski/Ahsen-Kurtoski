@@ -17,6 +17,13 @@ const projects: {
   href: string;
 }[] = [
   {
+    title: site.otherSites[0].name,
+    description: site.otherSites[0].description,
+    tags: ["Portfolio", "Siti web"],
+    icon: "globe",
+    href: site.otherSites[0].url,
+  },
+  {
     title: "Questo sito",
     description:
       "Il sito che stai guardando: Next.js, Tailwind CSS e tanta attenzione per SEO e performance.",
@@ -40,13 +47,6 @@ const projects: {
     icon: "sparkles",
     href: "/blog",
   },
-  {
-    title: site.otherSites[0].name,
-    description: site.otherSites[0].description,
-    tags: ["Studio", "Siti web"],
-    icon: "globe",
-    href: site.otherSites[0].url,
-  },
 ];
 
 const services: { title: string; description: string; icon: IconName }[] = [
@@ -67,6 +67,18 @@ const services: { title: string; description: string; icon: IconName }[] = [
     description:
       "Testi e articoli che si fanno trovare su Google e raccontano storie vere.",
     icon: "zap",
+  },
+  {
+    title: "Web App",
+    description:
+      "Applicazioni web su misura con React e Next.js: strumenti che semplificano il lavoro quotidiano.",
+    icon: "layers",
+  },
+  {
+    title: "Software",
+    description:
+      "Piccoli software desktop e web, costruiti sulle reali esigenze di chi li usa.",
+    icon: "code",
   },
 ];
 
@@ -94,7 +106,7 @@ export default function HomePage() {
             </span>
 
             <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Ciao, sono <span className="text-gradient">Ahsen Kurtoski</span>
+              Ciao, sono <span className="text-gradient">Ahsen</span>
             </h1>
 
             <p className="text-lg text-zinc-300 sm:text-xl">
@@ -140,7 +152,9 @@ export default function HomePage() {
                   <p className="font-semibold tracking-tight text-white">
                     {site.name}
                   </p>
-                  <p className="text-sm text-zinc-400">Developer & Creator</p>
+                  <p className="text-sm text-zinc-400">
+                    Studente · Sviluppatore Web · Software
+                  </p>
                 </div>
               </div>
 
@@ -156,6 +170,21 @@ export default function HomePage() {
                       className="font-medium text-[#00d4ff] transition-colors hover:text-white"
                     >
                       {site.url.replace(/^https?:\/\//, "")}
+                    </a>
+                  </span>
+                </li>
+                <li className="flex items-center gap-2.5 text-zinc-300">
+                  <Icon name="globe" className="size-4 text-[#00d4ff]" />
+                  <span>
+                    Portfolio:{" "}
+                    <a
+                      href="https://ahsen-studio.netlify.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-[#00d4ff] transition-colors hover:text-white"
+                    >
+                      ahsen-studio.netlify.app
+                      <Icon name="arrow-up-right" className="ml-0.5 inline size-3" />
                     </a>
                   </span>
                 </li>
@@ -193,7 +222,7 @@ export default function HomePage() {
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <Reveal className="flex flex-col gap-10">
           <SectionHeading
-            eyebrow="Chi è Ahsen Kurtoski"
+            eyebrow="Chi è Ahsen?"
             title="Una persona, tanti progetti"
             description={site.longBio[0]}
           />
@@ -238,7 +267,7 @@ export default function HomePage() {
             />
             <div className="relative flex flex-col gap-8">
               <SectionHeading
-                eyebrow="Siti web per attività locali"
+                eyebrow="🎁 Servizio GRATIS per il territorio"
                 title={site.localService.title}
                 description={site.localService.description}
               />
@@ -269,6 +298,15 @@ export default function HomePage() {
                 <p className="text-sm text-zinc-400">
                   Feltre, Belluno e dintorni
                 </p>
+                <a
+                  href="https://ahsen-studio.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-[#00d4ff] transition-colors hover:text-white"
+                >
+                  Guarda progetti già realizzati → ahsen-studio.netlify.app
+                  <Icon name="arrow-up-right" className="size-4" />
+                </a>
               </div>
             </div>
           </div>
@@ -414,26 +452,30 @@ export default function HomePage() {
             />
             <div className="relative flex flex-col items-center gap-4">
               <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Vuoi parlare con me?
+                Hai un&apos;attività a Belluno o Feltre?
               </h2>
               <p className="max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-                Per collaborazioni, domande o anche solo per scambiare due
-                chiacchiere su tech: scrivimi, rispondo sempre.
+                Ti realizzo un sito web GRATIS. Scrivimi: raccontami la tua
+                attività e vediamo insieme cosa costruire. Nessun costo, nessun
+                vincolo.
               </p>
               <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href={`mailto:${site.email}`}
+                <Link
+                  href="/contatti"
                   className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#7c6cff] to-[#00d4ff] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7c6cff]/25 transition-transform hover:scale-[1.03]"
                 >
                   <Icon name="mail" className="size-4" />
-                  Scrivimi una email
-                </a>
-                <Link
-                  href="/contatti"
+                  Richiedi il tuo sito GRATIS
+                </Link>
+                <a
+                  href="https://ahsen-studio.netlify.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
                 >
-                  Vai ai contatti
-                </Link>
+                  Scopri tutti i progetti → ahsen-studio.netlify.app
+                  <Icon name="arrow-up-right" className="size-4" />
+                </a>
               </div>
             </div>
           </div>

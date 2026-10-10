@@ -8,7 +8,7 @@
  *
  * Esce con codice 1 se trova problemi bloccanti.
  */
-const UA = "AhsenKurtoski-SEO-Check/1.0 (+audit)";
+const UA = "AhsenStudio-SEO-Check/1.0 (+audit)";
 
 const rawUrl = process.argv[2] ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
 const siteUrl = rawUrl.replace(/\/+$/, "");
@@ -16,7 +16,7 @@ const siteUrl = rawUrl.replace(/\/+$/, "");
 if (!/^https?:\/\//.test(siteUrl)) {
   console.error(
     "\n✗ Indica l'indirizzo del sito pubblicato, ad esempio:\n" +
-      "  npm run seo:live -- https://ahsen-kurtoski.vercel.app\n",
+      "  npm run seo:live -- https://ahsen-studio.netlify.app\n",
   );
   process.exit(1);
 }

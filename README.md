@@ -1,6 +1,24 @@
-# Ahsen Kurtoski — Sito personale
+# Ahsen Studio — Portfolio + Blog Personale
 
-Sito personale ufficiale di **Ahsen Kurtoski**: chi sono, competenze, progetti e blog.
+Sito ufficiale di **Ahsen** — Studente, sviluppatore di siti web, web app e
+software. Offro siti **GRATIS** in provincia di Belluno.
+
+## Cosa trovi nel sito
+
+- **Home** — chi sono, il servizio gratis per il territorio, competenze, progetti e ultimi articoli;
+- **Chi sono** — biografia, percorso, competenze e fatti veloci;
+- **Adesso** — cosa sto imparando e costruendo in questo periodo;
+- **Blog** — guide e appunti su sviluppo web, SEO e programmazione;
+- **Contatti** — form, email diretta e domande frequenti.
+
+## 🎁 Richiedi un sito web GRATIS in provincia di Belluno
+
+Se hai un'attività, un negozio, un'associazione o sei un libero professionista a
+Feltre, Belluno o dintorni, realizzo il tuo sito web **completamente GRATIS**:
+design moderno, versione mobile, SEO locale e messa online inclusi.
+
+Portfolio completo dei miei lavori: **https://ahsen-studio.netlify.app**
+
 Costruito con Next.js + Tailwind CSS, ottimizzato per farsi trovare su Google
 (SEO completa, dati strutturati, sitemap, Open Graph).
 
@@ -125,7 +143,7 @@ Qui c'è tutto quello che riguarda te:
 - `alternateNames` — nomi alternativi con cui sei conosciuto (finiscono in `alternateName` dei dati strutturati: servono a collegare profili che usano nomi diversi)
 - `roles` — i ruoli che appaiono con l'effetto typing nella home
 - `shortBio` / `longBio` — biografia breve e completa
-- `email` — **⚠️ sostituisci `ahsen@example.com` con la tua email vera**
+- `email` — `process.env.CONTACT_EMAIL` con fallback `cshop0784@gmail.com`
 - `location`, `availability`
 - `socials` — GitHub, LinkedIn, Instagram, X, YouTube (lascia `""` per nascondere un'icona)
 - `skills` — competenze e percentuali
@@ -173,7 +191,7 @@ per aggiornare tutte le immagini in una volta. Se preferisci una tua foto,
 caricala in `public/` e indicala nelle `metadata` di `src/app/layout.tsx`.
 
 Le icone del sito sono in `public/` (`icon.svg`, `favicon.ico`, `icon-192.png`,
-`icon-512.png`, `apple-touch-icon.png`) e mostrano il monogramma AK con gradiente.
+`icon-512.png`, `apple-touch-icon.png`) e mostrano il monogramma AS con gradiente.
 Per rigenerarle dopo aver cambiato colori o iniziali:
 
 ```bash

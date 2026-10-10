@@ -9,38 +9,52 @@ import { ogImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "Chi è Ahsen Kurtoski? Biografia, percorso e competenze" },
+  title: {
+    absolute: "Chi è Ahsen? — Studente, Sviluppatore Web | Portfolio",
+  },
   description:
-    "Chi è Ahsen Kurtoski: la storia, il percorso da developer e creatore digitale, le competenze tecniche e i progetti personali che porta avanti oggi.",
+    "Chi è Ahsen: studente di Feltre (Belluno), sviluppatore di siti web, web app e software. Siti GRATIS in provincia di Belluno. Portfolio e progetti.",
   keywords: [
-    "Ahsen Kurtoski chi è",
-    "chi è Ahsen Kurtoski",
-    "Ahsen Kurtoski biografia",
-    "Ahsen Kurtoski developer",
+    "Ahsen chi è",
+    "chi è Ahsen",
+    "Ahsen biografia",
+    "Ahsen sviluppatore Belluno",
+    "studente sviluppatore Feltre",
   ],
   alternates: { canonical: "/chi-sono" },
   openGraph: {
-    title: "Chi sono — Ahsen Kurtoski",
+    title: "Chi è Ahsen? — Studente e Sviluppatore Web",
     description:
-      "La storia, il percorso e le competenze di Ahsen Kurtoski, developer e creatore digitale.",
+      "Chi è Ahsen: studente di Feltre (Belluno), sviluppatore di siti web, web app e software. Siti web GRATIS in provincia di Belluno.",
     url: `${site.url}/chi-sono`,
     type: "profile",
     images: [
       ogImage({
-        title: "Chi è Ahsen Kurtoski",
-        subtitle: "Biografia, percorso e competenze",
+        title: "Chi è Ahsen?",
+        subtitle: "Studente, sviluppatore web e software",
       }),
     ],
   },
 };
 
 const facts = [
-  { label: "Nome completo", value: site.name, icon: "sparkles" as const },
-  { label: "Dove vivo", value: site.location, icon: "map-pin" as const },
+  { label: "Nome", value: site.name, icon: "sparkles" as const },
+  { label: "Zona", value: site.location, icon: "map-pin" as const },
   {
-    label: "Cosa faccio",
-    value: "Siti web completi per attività di Feltre e Belluno",
-    icon: "code" as const,
+    label: "Ruolo",
+    value: "Studente · Sviluppatore Web · Software",
+    icon: "graduation-cap" as const,
+  },
+  {
+    label: "Servizio principale",
+    value: "Siti web GRATIS provincia di Belluno",
+    icon: "sparkles" as const,
+  },
+  {
+    label: "Portfolio",
+    value: "ahsen-studio.netlify.app",
+    icon: "globe" as const,
+    href: "https://ahsen-studio.netlify.app",
   },
   { label: "Email", value: site.email, icon: "mail" as const },
 ];
@@ -59,7 +73,7 @@ export default function ChiSonoPage() {
               <SectionHeading
                 as="h1"
                 eyebrow="Biografia"
-                title="Chi è Ahsen Kurtoski?"
+                title="Chi è Ahsen?"
                 description="Il riassunto ufficiale, in poche righe: chi sono, cosa faccio e dove sto andando."
               />
 

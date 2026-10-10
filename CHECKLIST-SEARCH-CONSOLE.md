@@ -1,4 +1,4 @@
-# Checklist — Google Search Console sul nuovo dominio `ahsenkurtoski.vercel.app`
+# Checklist — Google Search Console sul dominio ufficiale `ahsen-studio.netlify.app`
 
 Obiettivo: spostare l'indicizzazione da `axsenkurtoski.vercel.app` a
 `ahsenkurtoski.vercel.app` senza perdere posizioni. Tempo totale: ~20 minuti,
@@ -26,12 +26,12 @@ più l'attesa di Google (da pochi giorni a 2-3 settimane).
 Questi prerequisiti sono stati controllati sul dominio ufficiale, quindi puoi
 partire direttamente dal §1.
 
-- [x] **File di verifica Google** — <https://ahsenkurtoski.vercel.app/google2783a9147b2337cb.html>
+- [x] **File di verifica Google** — <https://ahsen-studio.netlify.app/google2783a9147b2337cb.html>
       risponde **200** e contiene `google-site-verification: google2783a9147b2337cb.html`.
-- [x] **robots.txt** — `Allow: /` e `Sitemap: https://ahsenkurtoski.vercel.app/sitemap.xml`.
+- [x] **robots.txt** — `Allow: /` e `Sitemap: https://ahsen-studio.netlify.app/sitemap.xml`.
 - [x] **sitemap.xml** — **16 URL**, tutti con `<lastmod>`.
-- [x] **Dominio** — `ahsenkurtoski.vercel.app` **200**; `axsenkurtoski.vercel.app` **307** verso il nuovo.
-- [x] **Scansionabilità e link** — `npm run audit:links -- https://ahsenkurtoski.vercel.app`: 16 pagine, **0 problemi**.
+- [x] **Dominio** — `ahsen-studio.netlify.app` **200**.
+- [x] **Scansionabilità e link** — `npm run audit:links -- https://ahsen-studio.netlify.app`: 16 pagine, **0 problemi**.
 - [x] **Chiave IndexNow** — `78ad937f3d090064954460ece76cbeba.txt` risponde 200 (la usa il workflow a ogni push).
 
 Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
@@ -41,7 +41,7 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
 
 - [ ] Apri <https://search.google.com/search-console> (stesso account Google di prima).
 - [ ] Menu in alto a sinistra → **Aggiungi proprietà** → tipo **Prefisso URL**.
-- [ ] Inserisci esattamente: `https://ahsenkurtoski.vercel.app/`
+- [ ] Inserisci esattamente: `https://ahsen-studio.netlify.app/`
       (https + nessuno spazio + slash finale).
 - [ ] Come metodo di verifica scegli **File HTML**: Google propone il nome file
       `google2783a9147b2337cb.html` — **è già online nel sito**, non devi
@@ -53,10 +53,10 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
 ## 2. Sitemap e indicizzazione
 
 - [ ] Nella nuova proprietà: menu **Sitemap** → aggiungi `sitemap.xml`
-      (l'URL completo diventa `https://ahsenkurtoski.vercel.app/sitemap.xml`) → **Invia**.
+      (l'URL completo diventa `https://ahsen-studio.netlify.app/sitemap.xml`) → **Invia**.
 - [ ] Strumento **Controllo URL** (barra in alto): incolla
-      `https://ahsenkurtoski.vercel.app/` → **Richiedi indicizzazione**.
-- [ ] Ripeti per `/chi-sono`: è la pagina che risponde alla ricerca «chi è Ahsen Kurtoski».
+      `https://ahsen-studio.netlify.app/` → **Richiedi indicizzazione**.
+- [ ] Ripeti per `/chi-sono`: è la pagina che risponde alla ricerca «chi è Ahsen».
 - [ ] Facoltativo ma utile: ripeti anche per gli articoli del blog (li trovi nella sitemap).
 
 ## 3. Cambio indirizzo (opzionale, accelera la migrazione)
@@ -73,8 +73,8 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
       passa al nuovo dominio.
 - [ ] I tool SEO del repo funzionano col nuovo dominio:
       ```bash
-      npm run seo:live -- https://ahsenkurtoski.vercel.app
-      npm run indexnow -- https://ahsenkurtoski.vercel.app
+      npm run seo:live -- https://ahsen-studio.netlify.app
+      npm run indexnow -- https://ahsen-studio.netlify.app
       ```
 - [ ] Il workflow GitHub (IndexNow) segnala già automaticamente le pagine cambiate
       a Bing/DuckDuckGo/Yandex a ogni push su main: non serve nulla.
@@ -92,8 +92,8 @@ Resta la parte che richiede il tuo accesso a Google: verificare la proprietà
 | Quando | Cosa controllare |
 | --- | --- |
 | +2-3 giorni | Controllo URL sulla home: «URL è su Google» deve comparire per il nuovo dominio |
-| +1 settimana | Rapporti → **Pagine**: crescono gli URL `ahsenkurtoski.vercel.app`, calano quelli vecchi |
-| +2-3 settimane | Ricerca Google: `Ahsen Kurtoski` e `site:ahsenkurtoski.vercel.app` mostrano il nuovo dominio |
+| +1 settimana | Rapporti → **Pagine**: crescono gli URL `ahsen-studio.netlify.app` |
+| +2-3 settimane | Ricerca Google: `Ahsen Studio` e `site:ahsen-studio.netlify.app` mostrano il nuovo dominio |
 | +1 mese | Se la vecchia proprietà non ha più imprescrizioni e il traffico è migrato, puoi ignorarla |
 
 **I numeri al posto dell'occhio.** `npm run index:check` misura due cose: la parte
@@ -111,6 +111,6 @@ sul dominio vecchio e salire su quello nuovo.
 
 ---
 
-Stato del codice: già pronto — `src/lib/site.ts` usa `ahsenkurtoski.vercel.app`
+Stato del codice: già pronto — `src/lib/site.ts` usa `ahsen-studio.netlify.app`
 come dominio di riferimento, sitemap/canonical/robots la usano, il file di
 verifica Google è in `public/` e la documentazione (README, GUIDE) è aggiornata.

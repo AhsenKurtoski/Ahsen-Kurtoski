@@ -20,11 +20,11 @@ qualcosa di diverso, Google legge due identità separate e il collegamento si in
 
 | Campo | Valore nel sito |
 |---|---|
-| Nome | `Ahsen Kurtoski` |
-| Ruolo (`jobTitle`) | `Developer & Creatore Digitale` |
-| Sito | `https://ahsenkurtoski.vercel.app` |
-| Email | `cshop0784@gmail.com` |
-| Area servita | `Italia` |
+| Nome | `Ahsen` |
+| Ruolo (`jobTitle`) | `Studente · Sviluppatore Web · Web App · Software` |
+| Sito | `https://ahsen-studio.netlify.app` |
+| Email | impostata via `CONTACT_EMAIL` |
+| Area servita | `Feltre, Belluno, Provincia di Belluno e dintorni` |
 | `sameAs` | GitHub, LinkedIn, Instagram (3 URL) |
 
 ## 1. LinkedIn
@@ -34,12 +34,12 @@ URL nel sito: `https://www.linkedin.com/in/ahsen-kurtoski-397b00354`
 - [ ] **Apri l'URL** da browser (non da strumento automatico): deve mostrare il
       *tuo* profilo, non una pagina «profilo non trovato» e non il profilo di
       un'altra persona.
-- [ ] **Nome** visualizzato = `Ahsen Kurtoski` (senza «Axsen»).
-- [ ] **Headline** coerente col ruolo del sito (es. *Developer & Creatore Digitale*).
+- [ ] **Nome** visualizzato = `Ahsen` (senza cognome).
+- [ ] **Headline** coerente col ruolo del sito (es. *Studente · Sviluppatore Web*).
 - [ ] **Foto** la stessa usata su GitHub: la coerenza dell'immagine è uno dei
       segnali che Google usa per unire i profili in un'unica persona.
 - [ ] **Sito web** nel profilo: sezione *Contatti* → link a
-      `https://ahsenkurtoski.vercel.app` (il link in entrata dal profilo al sito
+      `https://ahsen-studio.netlify.app` (il link in entrata dal profilo al sito
       vale più del solo `sameAs`).
 - [ ] **URL pubblico** in *Modifica URL pubblico*: se lo cambi, prendi il valore
       esatto e aggiorna `src/lib/site.ts` (vedi §4).
@@ -49,9 +49,9 @@ URL nel sito: `https://www.linkedin.com/in/ahsen-kurtoski-397b00354`
 URL nel sito: `https://www.instagram.com/ahsenstudio`
 
 - [ ] **Apri l'URL** da browser: il profilo deve esistere ed essere il tuo.
-- [ ] **Nome** visualizzato (`Ahsen Kurtoski`) e **username** coerenti con quello
+- [ ] **Nome** visualizzato (`Ahsen`) e **username** coerenti con quello
       che c'è nel sito.
-- [ ] **Bio**: link al sito (`ahsenkurtoski.vercel.app`) nel campo *Sito*.
+- [ ] **Bio**: link al sito (`ahsen-studio.netlify.app`) nel campo *Sito*.
 - [ ] **Foto profilo**: la stessa di GitHub e LinkedIn.
 
 ## 3. GitHub (solo conferma)
@@ -68,7 +68,7 @@ URL nel sito: `https://www.instagram.com/ahsenstudio`
 3. Aggiungilo a `CONFERMATI_A_MANO` in `scripts/audit-links.mjs` con la data:
    è il registro delle verifiche fatte a mano.
 4. Riesegui la verifica:
-   `npm run audit:links -- https://ahsenkurtoski.vercel.app` e
+   `npm run audit:links -- https://ahsen-studio.netlify.app` e
    `npm run seo:check` (che controlla che `sameAs` contenga davvero i 3 URL).
 
 ## 5. Cosa NON può fare l'automazione
@@ -110,4 +110,4 @@ Due strade, entrambe legittime:
    né il nome pubblico del sito né il profilo Instagram.
 
 In ogni caso, dopo una modifica: aggiornare la tabella qui sopra e rieseguire
-`npm run audit:links -- https://ahsenkurtoski.vercel.app`.
+`npm run audit:links -- https://ahsen-studio.netlify.app`.

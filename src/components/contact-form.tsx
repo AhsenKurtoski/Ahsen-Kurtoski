@@ -19,6 +19,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [freeSite, setFreeSite] = useState(false);
   const [website, setWebsite] = useState(""); // esca per i bot
   const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
@@ -32,7 +33,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
       const response = await fetch("/api/contatti", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message, website }),
+        body: JSON.stringify({ name, email, message, website, freeSite }),
       });
       const result = (await response.json().catch(() => null)) as
         | { ok?: boolean; error?: string }
@@ -40,10 +41,13 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
 
       if (response.ok && result?.ok) {
         setStatus("success");
-        setFeedback("Messaggio inviato! Ti rispondo il prima possibile.");
+        setFeedback(
+          "Messaggio inviato! Ti rispondo il prima possibile. Nel frattempo puoi vedere i miei progetti su ahsen-studio.netlify.app.",
+        );
         setName("");
         setEmail("");
         setMessage("");
+        setFreeSite(false);
         return;
       }
 
@@ -122,6 +126,20 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           placeholder="Raccontami il tuo progetto o la tua domanda..."
           className={`${inputClass} resize-y`}
         />
+      </label>
+
+      <label className="flex cursor-pointer items-start gap-3 text-sm">
+        <input
+          type="checkbox"
+          name="freeSite"
+          checked={freeSite}
+          onChange={(event) => setFreeSite(event.target.checked)}
+          className="mt-0.5 size-4 shrink-0 accent-[#00d4ff]"
+        />
+        <span className="text-zinc-300">
+          ☑️ Sto richiedendo un sito GRATIS per la mia attività in provincia di
+          Belluno
+        </span>
       </label>
 
       <button

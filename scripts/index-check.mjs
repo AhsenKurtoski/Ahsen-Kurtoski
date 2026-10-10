@@ -42,8 +42,9 @@ import path from "node:path";
 
 const args = process.argv.slice(2);
 const NOTA = args.includes("--nota") ? args[args.indexOf("--nota") + 1] : null;
-const NUOVO = "https://ahsenkurtoski.vercel.app";
-const VECCHIO = "https://axsenkurtoski.vercel.app";
+const NUOVO = "https://ahsen-studio.netlify.app";
+// Storico migrazione dai vecchi domini (per i redirect dello storico indice)
+const VECCHIO = "https://ahsenkurtoski.vercel.app";
 
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36";
