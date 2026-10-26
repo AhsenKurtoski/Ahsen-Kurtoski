@@ -10,7 +10,7 @@ repository named exactly AhsenKurtoski. Keep this file as a draft until then.
 
 **Student Developer · Web Applications · AI & Automation**
 
-I build websites, web apps, and software tools that turn ideas into practical digital products. My work spans frontend experiences, full-stack applications, API integrations, and AI-assisted workflows.
+I'm a 14-year-old student developer based in Feltre, Belluno, Italy. I build websites, web apps, and software tools that turn ideas into practical digital products. My work spans frontend experiences, full-stack applications, API integrations, and AI-assisted workflows.
 
 [Portfolio](https://ahsen-studio.netlify.app/) · [Personal Website](https://ahsenkurtoski.vercel.app/) · [Repositories](https://github.com/AhsenKurtoski?tab=repositories)
 
@@ -20,7 +20,7 @@ I build websites, web apps, and software tools that turn ideas into practical di
 
 ## About me
 
-- Student developer based in Italy, with Macedonian roots.
+- 14-year-old student developer based in Feltre, Belluno, Italy, with Macedonian roots.
 - Building web experiences and software projects for real-world use cases, including websites for local businesses.
 - Interested in product engineering, AI integrations, automation, developer tools, and open-source software.
 - I learn by building, testing, documenting, and improving projects through iteration.
@@ -54,6 +54,14 @@ A web application exploring e-commerce workflows, product research, AI-assisted 
 ### [Prenota Diretto](https://github.com/AhsenKurtoski/prenota-diretto)
 A project in the online booking space. Refer to the repository for its current implementation and documentation.
 
+### Business websites
+
+- [Istanbul Turkish Grill Kebap Pizza — Caerano](https://istanbulkebabcaerano.netlify.app/)
+- [Istanbul City Royal Kebab — Feltre](https://istanbulcityroyalkebab.netlify.app/)
+- [Locanda del Re](https://locandadelre.netlify.app/)
+
+These are published website links from my web-development work; their features and availability may change as the sites are updated.
+
 ### [Ahsen Studio](https://ahsen-studio.netlify.app/)
 My portfolio and web-development presence, featuring selected work, services, and contact options.
 
@@ -83,6 +91,7 @@ My portfolio and web-development presence, featuring selected work, services, an
 - **Personal website:** https://ahsenkurtoski.vercel.app/
 - **GitHub:** https://github.com/AhsenKurtoski
 - **WebsiteBuilder demo:** https://website-mocha-one-59.vercel.app/it
+- **Business website — Locanda del Re:** https://locandadelre.netlify.app/
 
 For installation instructions, environment variables, feature details, and current limitations, read the README inside each project repository.
 
