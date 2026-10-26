@@ -1,94 +1,90 @@
 <!--
-Profile README draft for AhsenKurtoski.
-GitHub only displays this automatically when README.md is in a PUBLIC repository
-whose name exactly matches the username: AhsenKurtoski.
+PROFILE README — prepared for the GitHub account AhsenKurtoski.
+To display automatically, put this content in README.md at the root of a PUBLIC
+repository named exactly AhsenKurtoski. Keep this file as a draft until then.
 -->
 
 <div align="center">
 
 # Ahsen Kurtoski
 
-### Student Developer · Full-Stack Web Apps · AI-Powered Products
+**Student Developer · Web Applications · AI & Automation**
 
-I design and build practical digital products: modern websites, web applications, automation tools, and AI-assisted software. I focus on turning ideas into usable products with clear interfaces, thoughtful architecture, and documentation that helps other developers understand the project.
+I build websites, web apps, and software tools that turn ideas into practical digital products. My work spans frontend experiences, full-stack applications, API integrations, and AI-assisted workflows.
 
-[Portfolio](https://ahsen-studio.netlify.app/) · [Personal Website](https://ahsenkurtoski.vercel.app/) · [GitHub Projects](https://github.com/AhsenKurtoski?tab=repositories)
+[Portfolio](https://ahsen-studio.netlify.app/) · [Personal Website](https://ahsenkurtoski.vercel.app/) · [Repositories](https://github.com/AhsenKurtoski?tab=repositories)
 
 </div>
 
 ---
 
-## About
+## About me
 
-- Building websites, full-stack applications, and tools for real-world workflows.
-- Interested in product development, developer tools, AI integrations, automation, and open-source software.
-- Learning by shipping projects, improving existing systems, documenting decisions, and iterating from feedback.
-- Based in Italy; connected to Macedonian roots and interested in building useful technology for people and businesses.
+- Student developer based in Italy, with Macedonian roots.
+- Building web experiences and software projects for real-world use cases, including websites for local businesses.
+- Interested in product engineering, AI integrations, automation, developer tools, and open-source software.
+- I learn by building, testing, documenting, and improving projects through iteration.
 
-My approach is practical: understand the problem, build a working version, test the important flows, document how it works, and keep improving it.
+I aim to make projects useful and understandable: clear setup instructions, sensible structure, honest documentation, and an interface that works across screen sizes.
 
 ## Featured projects
 
 ### [Lead Machine](https://github.com/AhsenKurtoski/lead-machine)
-An open-source, self-hosted lead-generation workspace designed for freelancers and small agencies. Its repository documents business discovery, lead organisation, scoring, contact workflows, and quote creation, with a local-first approach.
+An open-source, self-hosted lead-generation workspace for freelancers and small agencies. The project brings business discovery, lead organisation, prioritisation, contact workflows, and quote creation into one local-first application.
 
-**Focus:** Next.js · TypeScript · Prisma · SQLite · Tailwind CSS
+**Technologies:** Next.js · TypeScript · Prisma · SQLite · Tailwind CSS
 
 ### [Atelier — AI Website Builder](https://github.com/AhsenKurtoski/WebSite-Builder-Pro-)
-A local-first website-building project that turns a brief into a structured website, provides a visual editing workflow, and supports static export. The project emphasises a consistent rendering path between preview and exported output.
+A local-first website builder project that turns a brief into a structured site, supports visual editing, and exports static websites. Its design focuses on keeping the editor preview and exported output consistent.
 
-**Focus:** Next.js · TypeScript · UI engineering · Website generation
+**Technologies:** Next.js · TypeScript · React · UI engineering
 
-[Open the live WebsiteBuilder project](https://website-mocha-one-59.vercel.app/it)
+[Live WebsiteBuilder demo](https://website-mocha-one-59.vercel.app/it)
 
 ### [Atlas AI](https://github.com/AhsenKurtoski/atlas-ai)
-An AI-assisted family-oriented application with a mobile frontend and Python API backend. The repository documents conversational AI, user profiles, tasks, budgeting tools, scheduled automations, and optional external service integrations.
+An AI-assisted, family-oriented application with a mobile frontend and Python API backend. The repository covers conversational AI, profiles, tasks, budgeting tools, scheduled automations, and optional external integrations.
 
-**Focus:** Python · FastAPI · React Native · Expo · API integration
+**Technologies:** Python · FastAPI · React Native · Expo
 
 ### [AhsenDS](https://github.com/AhsenKurtoski/axsends)
-A project exploring e-commerce workflows, product research, AI-assisted content generation, and automation in a self-hosted web application.
+A web application exploring e-commerce workflows, product research, AI-assisted content, and automation.
 
-**Focus:** Next.js · TypeScript · Supabase · AI integrations
+**Technologies:** Next.js · TypeScript · Supabase · AI API integrations
 
 ### [Prenota Diretto](https://github.com/AhsenKurtoski/prenota-diretto)
-A project in the online booking space. See the repository for the current implementation, setup instructions, and project status.
+A project in the online booking space. Refer to the repository for its current implementation and documentation.
 
 ### [Ahsen Studio](https://ahsen-studio.netlify.app/)
-My portfolio and web-development presence, bringing together selected work, services, and ways to get in touch.
+My portfolio and web-development presence, featuring selected work, services, and contact options.
 
----
+## Technologies I've used
 
-## Technology
+**Web development:** HTML · CSS · JavaScript · TypeScript · React · Next.js · Tailwind CSS
 
-The tools I have worked with across projects include:
+**Backend and data:** Python · FastAPI · REST APIs · Prisma · SQLite · Supabase
 
-**Web:** HTML · CSS · JavaScript · TypeScript · React · Next.js · Tailwind CSS
+**Mobile:** React Native · Expo
 
-**Backend & data:** Python · FastAPI · REST APIs · Prisma · SQLite · Supabase
+**AI and automation:** LLM API integrations · AI-assisted workflows · scheduled jobs · third-party API integrations
 
-**Mobile & product:** React Native · Expo · responsive UI · accessibility-minded design
+*This list reflects tools used across projects; it is not a claim of equal expertise in every technology. Check each repository for its actual stack and requirements.*
 
-**AI & automation:** LLM API integrations · AI-assisted workflows · scheduled jobs · external API integration
+## Principles
 
-*This is a project-based overview, not a claim of equal expertise in every technology. Individual repositories contain the relevant implementation details.*
+- **Build for a real need:** focus on useful workflows, not features for their own sake.
+- **Keep it understandable:** document setup, configuration, and limitations.
+- **Test important paths:** validate core flows and handle errors thoughtfully.
+- **Respect users:** aim for responsive, accessible, and clear interfaces.
+- **Keep improving:** use feedback and iteration to make projects better.
 
-## What I value
+## Links
 
-- **Useful software:** solve a real problem instead of adding features without a purpose.
-- **Clarity:** readable structure, understandable setup steps, and honest documentation.
-- **Reliability:** validate important flows, handle errors, and explain configuration requirements.
-- **Accessible interfaces:** responsive layouts, clear navigation, and considerate interaction design.
-- **Continuous improvement:** learn from testing, feedback, and code review.
+- **Portfolio:** https://ahsen-studio.netlify.app/
+- **Personal website:** https://ahsenkurtoski.vercel.app/
+- **GitHub:** https://github.com/AhsenKurtoski
+- **WebsiteBuilder demo:** https://website-mocha-one-59.vercel.app/it
 
-## Explore my work
-
-- **Portfolio:** [ahsen-studio.netlify.app](https://ahsen-studio.netlify.app/)
-- **Personal website:** [ahsenkurtoski.vercel.app](https://ahsenkurtoski.vercel.app/)
-- **Public repositories:** [github.com/AhsenKurtoski](https://github.com/AhsenKurtoski?tab=repositories)
-- **WebsiteBuilder demo:** [website-mocha-one-59.vercel.app/it](https://website-mocha-one-59.vercel.app/it)
-
-For technical details, installation instructions, supported features, and current limitations, please check each project's own README.
+For installation instructions, environment variables, feature details, and current limitations, read the README inside each project repository.
 
 ---
 
